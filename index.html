@@ -2,7 +2,7 @@
 <html lang="uz">
 <head>
   <meta charset="utf-8">
-  <title>Каталог</title>
+  <title>Menu</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <style>
@@ -15,7 +15,36 @@
 
     h1 {
       font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #666;
       margin-bottom: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tab {
+      flex-shrink: 0;
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #e0e0e0;
+    }
+
+    .tab.active {
+      background: #222;
+      color: #fff;
+      font-weight: 600;
     }
 
     .card {
@@ -34,13 +63,19 @@
     }
 
     .title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       margin-bottom: 4px;
     }
 
+    .desc {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
     .price {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #e53935;
     }
@@ -53,19 +88,24 @@
     }
 
     .qty-btn {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 999px;
       border: none;
       font-size: 18px;
       line-height: 1;
       cursor: pointer;
+      background: #f0f0f0;
     }
 
     .qty {
-      font-size: 16px;
+      font-size: 15px;
       min-width: 24px;
       text-align: center;
+    }
+
+    .cards-container {
+      padding-bottom: 90px; /* место для нижней панели */
     }
 
     .bottom {
@@ -91,54 +131,31 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
+      background: #222;
+      color: #fff;
     }
 
     .btn-order:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: default;
     }
   </style>
 </head>
 <body>
 
-  <h1> Каталог</h1>
+  <h1>Каталог</h1>
+  <div class="subtitle">Выберите категорию и товара</div>
 
-  <!-- ТОВАРЫ -->
-  <div class="card" data-id="1" data-name="Триггер спрейер (650 штук)" data-price="617500">
-    <div class="info">
-      <div class="title">Триггер спрейер (650 штук)</div>
-      <div class="price">617 500 сум </div>
-    </div>
-    <div class="qty-box">
-      <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
-      <div class="qty" id="qty-1">0</div>
-      <button class="qty-btn" onclick="changeQty(1,1)">+</button>
-    </div>
+  <!-- ВКЛАДКИ-КАТЕГОРИИ -->
+  <div class="tabs">
+    <button class="tab active" data-cat="detergents">🧼 Моющие средства</button>
+    <button class="tab" data-cat="plastic">🧴 Пластмассовые изделии</button>
+    <button class="tab" data-cat="chemicals">⚗️ Химикаты</button>
+    <button class="tab" data-cat="fragrances">🌸 Отдушки</button>
   </div>
 
-  <div class="card" data-id="2" data-name="Дозатор (1000 шт)" data-price="750000">
-    <div class="info">
-      <div class="title">Дозатор (1000 шт)</div>
-      <div class="price"> 750 000 сум </div>
-    </div>
-    <div class="qty-box">
-      <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
-      <div class="qty" id="qty-2">0</div>
-      <button class="qty-btn" onclick="changeQty(2,1)">+</button>
-    </div>
-  </div>
-
-  <div class="card" data-id="3" data-name="ПЭ Флакон (100 шт)" data-price="3200000">
-    <div class="info">
-      <div class="title">ПЭ Флакон (100 шт)</div>
-      <div class="price">3 200 000 сум</div>
-    </div>
-    <div class="qty-box">
-      <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
-      <div class="qty" id="qty-3">0</div>
-      <button class="qty-btn" onclick="changeQty(3,1)">+</button>
-    </div>
-  </div>
+  <!-- КАРТОЧКИ ТОВАРОВ -->
+  <div id="cards" class="cards-container"></div>
 
   <!-- НИЖНЯЯ ПАНЕЛЬ -->
   <div class="bottom">
@@ -151,22 +168,158 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    const items = {
-      1: { id:1, name:"Триггер спрейер (650 штук)", price:617500, qty:0 },
-      2: { id:2, name:"Дозатор (1000 шт)",          price:750000, qty:0 },
-      3: { id:3, name:"ПЭ Флакон (100 шт)",         price:3200000, qty:0 }
-    };
+    // ==== ТОВАРЫ ПО КАТЕГОРИЯМ ====
+    // Можешь менять названия / цены / описания как хочешь
+    const items = [
+      // Моющие средства
+      {
+        id: 1,
+        category: "detergents",
+        name: "Гель для стирки ENEAR 1L",
+        desc: "Для цветного и белого белья",
+        price: 45000
+      },
+      {
+        id: 2,
+        category: "detergents",
+        name: "Средство для посуды Nalan 500ml",
+        desc: "Эффективно удаляет жир",
+        price: 22000
+      },
+      {
+        id: 3,
+        category: "detergents",
+        name: "Порошок универсальный 3kg",
+        desc: "Для ручной и машинной стирки",
+        price: 65000
+      },
+
+      // Пластмассовые изделии
+      {
+        id: 10,
+        category: "plastic",
+        name: "Пластиковое ведро 10L",
+        desc: "Удобная ручка, прочный пластик",
+        price: 30000
+      },
+      {
+        id: 11,
+        category: "plastic",
+        name: "Контейнер для хранения 5L",
+        desc: "Для дома и производства",
+        price: 26000
+      },
+
+      // Химикаты
+      {
+        id: 20,
+        category: "chemicals",
+        name: "Фосфат технический",
+        desc: "Для моющих формул",
+        price: 80000
+      },
+      {
+        id: 21,
+        category: "chemicals",
+        name: "ПАВ концентрат",
+        desc: "Основа для моющих средств",
+        price: 120000
+      },
+
+      // Отдушки
+      {
+        id: 30,
+        category: "fragrances",
+        name: "Отдушка 'Fresh Cotton'",
+        desc: "Для геля и порошка",
+        price: 50000
+      },
+      {
+        id: 31,
+        category: "fragrances",
+        name: "Отдушка 'Citrus Clean'",
+        desc: "Яркий свежий аромат",
+        price: 52000
+      }
+    ];
+
+    // Кол-во по id товара
+    const quantities = {};
+    items.forEach(i => quantities[i.id] = 0);
+
+    let currentCategory = "detergents";
+
+    const cardsContainer = document.getElementById("cards");
+    const totalText = document.getElementById("total-text");
+    const orderBtn = document.getElementById("order-btn");
+
+    // Рендер карточек для активной категории
+    function renderCards() {
+      cardsContainer.innerHTML = "";
+
+      const filtered = items.filter(i => i.category === currentCategory);
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const info = document.createElement("div");
+        info.className = "info";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = item.name;
+
+        const desc = document.createElement("div");
+        desc.className = "desc";
+        desc.textContent = item.desc;
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = item.price + " so'm";
+
+        info.appendChild(title);
+        info.appendChild(desc);
+        info.appendChild(price);
+
+        const qtyBox = document.createElement("div");
+        qtyBox.className = "qty-box";
+
+        const btnMinus = document.createElement("button");
+        btnMinus.className = "qty-btn";
+        btnMinus.textContent = "−";
+        btnMinus.onclick = () => changeQty(item.id, -1);
+
+        const qty = document.createElement("div");
+        qty.className = "qty";
+        qty.id = "qty-" + item.id;
+        qty.textContent = quantities[item.id];
+
+        const btnPlus = document.createElement("button");
+        btnPlus.className = "qty-btn";
+        btnPlus.textContent = "+";
+        btnPlus.onclick = () => changeQty(item.id, 1);
+
+        qtyBox.appendChild(btnMinus);
+        qtyBox.appendChild(qty);
+        qtyBox.appendChild(btnPlus);
+
+        card.appendChild(info);
+        card.appendChild(qtyBox);
+
+        cardsContainer.appendChild(card);
+      });
+    }
 
     function updateTotal() {
       let total = 0;
       let count = 0;
-      Object.values(items).forEach(i => {
-        total += i.price * i.qty;
-        count += i.qty;
-      });
 
-      const totalText = document.getElementById("total-text");
-      const orderBtn = document.getElementById("order-btn");
+      items.forEach(i => {
+        const q = quantities[i.id] || 0;
+        total += i.price * q;
+        count += q;
+      });
 
       if (count === 0) {
         totalText.textContent = "Savatcha bo‘sh";
@@ -180,16 +333,31 @@
     }
 
     function changeQty(id, delta) {
-      const item = items[id];
-      if (!item) return;
-      item.qty = Math.max(0, item.qty + delta);
-      document.getElementById("qty-" + id).textContent = item.qty;
+      quantities[id] = Math.max(0, (quantities[id] || 0) + delta);
+      const qtyEl = document.getElementById("qty-" + id);
+      if (qtyEl) {
+        qtyEl.textContent = quantities[id];
+      }
       updateTotal();
     }
 
+    // Переключение вкладок
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        currentCategory = tab.getAttribute("data-cat");
+        renderCards();
+      });
+    });
+
     function sendOrder() {
-      const chosen = Object.values(items).filter(i => i.qty > 0);
+      const chosen = items
+        .map(i => ({ ...i, qty: quantities[i.id] || 0 }))
+        .filter(i => i.qty > 0);
+
       if (!chosen.length) return;
+
       const total = updateTotal();
 
       const payload = {
@@ -197,7 +365,8 @@
           id: i.id,
           name: i.name,
           price: i.price,
-          qty: i.qty
+          qty: i.qty,
+          category: i.category
         })),
         total: total
       };
@@ -205,10 +374,13 @@
       tg.sendData(JSON.stringify(payload));
       tg.close();
     }
+
+    // Делаем функцию доступной глобально
+    window.sendOrder = sendOrder;
+
+    // Первый рендер
+    renderCards();
+    updateTotal();
   </script>
 </body>
 </html>
-
-
-
-

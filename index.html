@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <title>Menu</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f4f4f4;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info {
+      max-width: 65%;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .price {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e53935;
+    }
+
+    .qty-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: none;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .qty {
+      font-size: 16px;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .bottom {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: #ffffff;
+      box-shadow: 0 -2px 8px rgba(0,0,0,.08);
+    }
+
+    .total {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .btn-order {
+      width: 100%;
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-order:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍔 Menu</h1>
+
+  <!-- ТОВАРЫ -->
+  <div class="card" data-id="1" data-name="Tungi Toshkent boksi" data-price="70000">
+    <div class="info">
+      <div class="title">Tungi Toshkent boksi</div>
+      <div class="price">70000 so'm</div>
+    </div>
+    <div class="qty-box">
+      <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
+      <div class="qty" id="qty-1">0</div>
+      <button class="qty-btn" onclick="changeQty(1,1)">+</button>
+    </div>
+  </div>
+
+  <div class="card" data-id="2" data-name="Lavash seti" data-price="65000">
+    <div class="info">
+      <div class="title">Lavash seti</div>
+      <div class="price">65000 so'm</div>
+    </div>
+    <div class="qty-box">
+      <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
+      <div class="qty" id="qty-2">0</div>
+      <button class="qty-btn" onclick="changeQty(2,1)">+</button>
+    </div>
+  </div>
+
+  <div class="card" data-id="3" data-name="Cheeseburger" data-price="35000">
+    <div class="info">
+      <div class="title">Cheeseburger</div>
+      <div class="price">35000 so'm</div>
+    </div>
+    <div class="qty-box">
+      <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
+      <div class="qty" id="qty-3">0</div>
+      <button class="qty-btn" onclick="changeQty(3,1)">+</button>
+    </div>
+  </div>
+
+  <!-- НИЖНЯЯ ПАНЕЛЬ -->
+  <div class="bottom">
+    <div class="total" id="total-text">Savatcha bo‘sh</div>
+    <button class="btn-order" id="order-btn" onclick="sendOrder()" disabled>Buyurtma berish</button>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const items = {
+      1: { id:1, name:"Tungi Toshkent boksi", price:70000, qty:0 },
+      2: { id:2, name:"Lavash seti",          price:65000, qty:0 },
+      3: { id:3, name:"Cheeseburger",         price:35000, qty:0 }
+    };
+
+    function updateTotal() {
+      let total = 0;
+      let count = 0;
+      Object.values(items).forEach(i => {
+        total += i.price * i.qty;
+        count += i.qty;
+      });
+
+      const totalText = document.getElementById("total-text");
+      const orderBtn = document.getElementById("order-btn");
+
+      if (count === 0) {
+        totalText.textContent = "Savatcha bo‘sh";
+        orderBtn.disabled = true;
+      } else {
+        totalText.textContent = `Jami: ${total} so'm (${count} ta pozitsiya)`;
+        orderBtn.disabled = false;
+      }
+
+      return total;
+    }
+
+    function changeQty(id, delta) {
+      const item = items[id];
+      if (!item) return;
+      item.qty = Math.max(0, item.qty + delta);
+      document.getElementById("qty-" + id).textContent = item.qty;
+      updateTotal();
+    }
+
+    function sendOrder() {
+      const chosen = Object.values(items).filter(i => i.qty > 0);
+      if (!chosen.length) return;
+      const total = updateTotal();
+
+      const payload = {
+        items: chosen.map(i => ({
+          id: i.id,
+          name: i.name,
+          price: i.price,
+          qty: i.qty
+        })),
+        total: total
+      };
+
+      tg.sendData(JSON.stringify(payload));
+      tg.close();
+    }
+  </script>
+</body>
+</html>

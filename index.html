@@ -1,386 +1,705 @@
 <!doctype html>
 <html lang="uz">
 <head>
-  <meta charset="utf-8">
-  <title>Menu</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
+  <meta charset="utf-8" />
+  <title>Каталог — Telegram Order Automation</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body {
-      margin: 0;
-      padding: 16px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f4f4;
+    :root{
+      --bg:#f4f5f7;
+      --card:#fff;
+      --muted:#6b7280;
+      --accent:#111827;
+      --accent-2:#e53935;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      padding:16px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    h1 {
-      font-size: 22px;
-      margin-bottom: 8px;
+    /* header */
+    .header{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      flex:0 0 auto;
+    }
+    h1{font-size:20px; margin:0}
+    .subtitle{font-size:13px; color:var(--muted); margin-top:2px}
+
+    /* controls row */
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin:12px 0;
+      flex-wrap:wrap;
+    }
+    .tabs{display:flex; gap:8px; overflow:auto}
+    .tab{
+      padding:8px 12px;
+      border-radius:999px;
+      background:#e7e9ee;
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .tab.active{background:var(--accent); color:#fff; font-weight:600}
+
+    .search-wrap{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:1 1 320px;
+      min-width:180px;
+    }
+    .search{
+      width:100%;
+      background:#fff;
+      border-radius:999px;
+      padding:8px 12px;
+      border:1px solid #e6e7eb;
+      outline:none;
     }
 
-    .subtitle {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 12px;
+    .filters{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .filter-chip{
+      padding:6px 10px;
+      background:#fff;
+      border:1px solid #e6e7eb;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .filter-chip.active{background:var(--accent); color:#fff;}
+
+    .sort{
+      padding:8px;
+      border-radius:10px;
+      border:1px solid #e6e7eb;
+      background:#fff;
     }
 
-    .tabs {
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      margin-bottom: 12px;
+    /* grid */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+      gap:12px;
     }
 
-    .tab {
-      flex-shrink: 0;
-      border-radius: 999px;
-      border: none;
-      padding: 8px 14px;
-      font-size: 14px;
-      cursor: pointer;
-      background: #e0e0e0;
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:12px;
+      box-shadow:0 6px 18px rgba(12,15,20,0.06);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .thumb{
+      width:100%;
+      height:140px;
+      border-radius:10px;
+      object-fit:cover;
+      background:#f0f0f0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--muted);
+      font-size:13px;
+      overflow:hidden;
+    }
+    .title{font-weight:600; font-size:14px}
+    .desc{font-size:12px; color:var(--muted);}
+    .price-row{display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .price{font-weight:700; color:var(--accent-2)}
+    .controls-row{display:flex; justify-content:space-between; align-items:center; gap:8px}
+
+    /* qty */
+    .qty-box{display:flex; align-items:center; gap:8px}
+    .qty-btn{
+      width:32px; height:32px; border-radius:8px; border:none; background:#f2f3f5; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; font-size:18px;
+    }
+    .qty-value{min-width:28px; text-align:center; font-weight:600;}
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
     }
 
-    .tab.active {
-      background: #222;
-      color: #fff;
-      font-weight: 600;
+    /* bottom cart */
+    .bottom{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+      background:rgba(255,255,255,0.98);
+      box-shadow:0 -6px 20px rgba(0,0,0,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
+    .cart-summary{display:flex; align-items:center; gap:16px}
+    .cart-info{font-size:14px}
+    .cart-actions{display:flex; gap:8px}
 
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* modals */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:60;
     }
+    .modal{width:95%; max-width:800px; background:#fff; border-radius:14px; padding:16px; box-shadow:0 8px 30px rgba(0,0,0,0.2); max-height:90vh; overflow:auto}
+    .modal-header{display:flex; justify-content:space-between; align-items:center; gap:12px}
+    .gallery{display:flex; gap:8px; margin-top:10px}
+    .gallery img{height:110px; width:110px; object-fit:cover; border-radius:8px; cursor:pointer}
+    .big-img{width:100%; height:320px; object-fit:cover; border-radius:10px; background:#f0f0f0}
+    .specs{margin-top:8px; font-size:13px; color:var(--muted)}
+    .modal-footer{display:flex; gap:8px; margin-top:12px; justify-content:flex-end}
 
-    .info {
-      max-width: 65%;
-    }
-
-    .title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .desc {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 4px;
-    }
-
-    .price {
-      font-size: 14px;
-      font-weight: 700;
-      color: #e53935;
-    }
-
-    .qty-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .qty-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      border: none;
-      font-size: 18px;
-      line-height: 1;
-      cursor: pointer;
-      background: #f0f0f0;
-    }
-
-    .qty {
-      font-size: 15px;
-      min-width: 24px;
-      text-align: center;
-    }
-
-    .cards-container {
-      padding-bottom: 90px; /* место для нижней панели */
-    }
-
-    .bottom {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-      background: #ffffff;
-      box-shadow: 0 -2px 8px rgba(0,0,0,.08);
-    }
-
-    .total {
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-
-    .btn-order {
-      width: 100%;
-      padding: 12px;
-      border-radius: 14px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      background: #222;
-      color: #fff;
-    }
-
-    .btn-order:disabled {
-      opacity: 0.4;
-      cursor: default;
+    /* empty / helpers */
+    .empty{padding:36px; text-align:center; color:var(--muted); border-radius:10px; background:#fff}
+    .badge{background:#111; color:#fff; padding:4px 8px; border-radius:999px; font-size:12px}
+    @media (max-width:520px){
+      .thumb{height:120px}
+      .gallery img{height:80px; width:80px}
+      .big-img{height:220px}
     }
   </style>
 </head>
 <body>
 
-  <h1>Каталог</h1>
-  <div class="subtitle">Выберите категорию и товара</div>
+  <div class="header">
+    <div class="brand">
+      <h1>Каталог</h1>
+      <div class="subtitle">Выберите категорию, товар и оформите заказ</div>
+    </div>
 
-  <!-- ВКЛАДКИ-КАТЕГОРИИ -->
-  <div class="tabs">
-    <button class="tab active" data-cat="detergents">🧼 Моющие средства</button>
-    <button class="tab" data-cat="plastic">🧴 Пластмассовые изделии</button>
-    <button class="tab" data-cat="chemicals">⚗️ Химикаты</button>
-    <button class="tab" data-cat="fragrances">🌸 Отдушки</button>
+    <div style="flex:1"></div>
+
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <div style="font-size:12px;color:var(--muted)">Telegram Order Automation</div>
+      <div style="font-size:12px;color:var(--muted)">kafolatplast.uz</div>
+    </div>
   </div>
 
-  <!-- КАРТОЧКИ ТОВАРОВ -->
-  <div id="cards" class="cards-container"></div>
+  <div class="controls">
+    <div class="tabs" id="categoryTabs"></div>
 
-  <!-- НИЖНЯЯ ПАНЕЛЬ -->
+    <div class="search-wrap">
+      <input id="searchInput" class="search" placeholder="Быстрый поиск по товарам..." />
+    </div>
+
+    <select id="sortSelect" class="sort" title="Сортировка">
+      <option value="default">Сортировка</option>
+      <option value="price_asc">Цена: по возрастанию</option>
+      <option value="price_desc">Цена: по убыванию</option>
+      <option value="name_asc">Название: A→Z</option>
+      <option value="name_desc">Название: Z→A</option>
+    </select>
+  </div>
+
+  <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center; flex-wrap:wrap;">
+    <div class="filters" id="extraFilters">
+      <!-- extra filters can be added here -->
+    </div>
+    <div style="flex:1"></div>
+    <div style="font-size:13px;color:var(--muted)">Нажмите на карточку — для подробной информации</div>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <div id="empty" style="display:none" class="empty">Корзина пуста. Выберите товары в каталоге.</div>
+
+  <!-- bottom cart panel -->
   <div class="bottom">
-    <div class="total" id="total-text">Savatcha bo‘sh</div>
-    <button class="btn-order" id="order-btn" onclick="sendOrder()" disabled>Buyurtma berish</button>
+    <div class="cart-summary">
+      <div class="cart-info">
+        <div id="cartCount">0 товара</div>
+        <div id="cartTotal" style="font-weight:700">Jami: 0 so'm</div>
+      </div>
+      <div class="cart-actions">
+        <button id="openCartBtn" class="btn-primary" style="background:#fff;color:var(--accent);border:1px solid #e6e7eb">Корзина</button>
+        <button id="clearCartBtn" class="btn-primary" style="background:#f3f4f6;color:var(--accent);border:1px solid #e6e7eb">Очистить</button>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button id="checkoutBtn" class="btn-primary" disabled>Оформить заказ</button>
+      <div id="badge" class="badge" style="display:none">Готово</div>
+    </div>
   </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    const tg = window.Telegram.WebApp;
+  <!-- modal backdrop -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div id="modal" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div>
+          <div id="modalTitle" style="font-weight:700"></div>
+          <div id="modalPrice" style="color:var(--accent-2);margin-top:6px;font-weight:700"></div>
+        </div>
+        <div>
+          <button id="closeModal" class="qty-btn">✕</button>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+        <img id="modalBig" class="big-img" src="" alt="image" />
+
+        <div style="flex:1; min-width:220px;">
+          <div id="modalDesc" class="specs"></div>
+
+          <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
+            <div class="qty-box">
+              <button id="modalMinus" class="qty-btn">−</button>
+              <div id="modalQty" class="qty-value">0</div>
+              <button id="modalPlus" class="qty-btn">+</button>
+            </div>
+            <button id="modalAdd" class="btn-primary">Добавить в корзину</button>
+          </div>
+
+          <div id="modalGallery" class="gallery"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
+
+  <!-- cart modal -->
+  <div id="cartBackdrop" class="modal-backdrop">
+    <div class="modal" style="max-width:640px">
+      <div class="modal-header">
+        <div style="font-weight:700">Корзина</div>
+        <div><button id="closeCart" class="qty-btn">✕</button></div>
+      </div>
+
+      <div id="cartItems" style="margin-top:10px"></div>
+
+      <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:700" id="cartSummaryText">Итого: 0 so'm</div>
+        <div style="display:flex; gap:8px;">
+          <button id="cartCancel" class="btn-primary" style="background:#fff;color:var(--accent);border:1px solid #e6e7eb">Продолжить покупки</button>
+          <button id="cartSend" class="btn-primary">Отправить заказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+  // Telegram WebApp
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
     tg.expand();
+  }
 
-    // ==== ТОВАРЫ ПО КАТЕГОРИЯМ ====
-    // Можешь менять названия / цены / описания как хочешь
-    const items = [
-      // Моющие средства
-      {
-        id: 1,
-        category: "detergents",
-        name: "Гель для стирки ENEAR 1L",
-        desc: "Для цветного и белого белья",
-        price: 45000
-      },
-      {
-        id: 2,
-        category: "detergents",
-        name: "Средство для посуды Nalan 500ml",
-        desc: "Эффективно удаляет жир",
-        price: 22000
-      },
-      {
-        id: 3,
-        category: "detergents",
-        name: "Порошок универсальный 3kg",
-        desc: "Для ручной и машинной стирки",
-        price: 65000
-      },
+  // --- Данные товаров (замени images на реальные ссылки) ---
+  const items = [
+    { id:1, category:"detergents", name:"Гель для стирки ENEAR 3L", desc:"Для цветного и белого белья", price:45000, images:["images/1a.jpg","images/1b.jpg"] },
+    { id:2, category:"detergents", name:"Кондиционер для белья Kafolat 1440ml", desc:"Для цветного и белого белья", price:22000, images:["images/2a.jpg","images/2b.jpg"] },
+    { id:3, category:"detergents", name:"Гель для стирки ручной", desc:"Для ручной  стирки", price:65000, images:["images/3a.jpg","images/3b.jpg"] },
+    { id:10, category:"plastic", name:"Пластиковое ведро 10L", desc:"Удобная ручка, прочный пластик", price:30000, images:["images/10a.jpg"] },
+    { id:11, category:"plastic", name:"Контейнер для хранения 5L", desc:"Для дома и производства", price:26000, images:["images/11a.jpg"] },
+    { id:20, category:"chemicals", name:"Фосфат технический", desc:"Для моющих формул", price:80000, images:["images/20a.jpg"] },
+    { id:21, category:"chemicals", name:"ПАВ концентрат", desc:"Основа для моющих средств", price:120000, images:["images/21a.jpg"] },
+    { id:30, category:"fragrances", name:"Отдушка 'Fresh Cotton'", desc:"Для геля и порошка", price:50000, images:["images/30a.jpg"] },
+    { id:31, category:"fragrances", name:"Отдушка 'Citrus Clean'", desc:"Яркий свежий аромат", price:52000, images:["images/31a.jpg"] }
+  ];
 
-      // Пластмассовые изделии
-      {
-        id: 10,
-        category: "plastic",
-        name: "Пластиковое ведро 10L",
-        desc: "Удобная ручка, прочный пластик",
-        price: 30000
-      },
-      {
-        id: 11,
-        category: "plastic",
-        name: "Контейнер для хранения 5L",
-        desc: "Для дома и производства",
-        price: 26000
-      },
+  // fallback images (если не хватает)
+  const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#9ca3af">No image</text></svg>'
+  );
 
-      // Химикаты
-      {
-        id: 20,
-        category: "chemicals",
-        name: "Фосфат технический",
-        desc: "Для моющих формул",
-        price: 80000
-      },
-      {
-        id: 21,
-        category: "chemicals",
-        name: "ПАВ концентрат",
-        desc: "Основа для моющих средств",
-        price: 120000
-      },
+  // --- State: cart and ui ---
+  const STORAGE_KEY = "tg_shop_v1";
+  let state = {
+    cart: {},           // {id: qty}
+    category: "detergents",
+    search: "",
+    sort: "default"
+  };
 
-      // Отдушки
-      {
-        id: 30,
-        category: "fragrances",
-        name: "Отдушка 'Fresh Cotton'",
-        desc: "Для геля и порошка",
-        price: 50000
-      },
-      {
-        id: 31,
-        category: "fragrances",
-        name: "Отдушка 'Citrus Clean'",
-        desc: "Яркий свежий аромат",
-        price: 52000
+  // load state from storage
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) {
+        const parsed = JSON.parse(raw);
+        state = Object.assign(state, parsed);
       }
-    ];
+    }catch(e){ console.warn("loadState error", e) }
+  }
+  function saveState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
 
-    // Кол-во по id товара
-    const quantities = {};
-    items.forEach(i => quantities[i.id] = 0);
-
-    let currentCategory = "detergents";
-
-    const cardsContainer = document.getElementById("cards");
-    const totalText = document.getElementById("total-text");
-    const orderBtn = document.getElementById("order-btn");
-
-    // Рендер карточек для активной категории
-    function renderCards() {
-      cardsContainer.innerHTML = "";
-
-      const filtered = items.filter(i => i.category === currentCategory);
-
-      filtered.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const info = document.createElement("div");
-        info.className = "info";
-
-        const title = document.createElement("div");
-        title.className = "title";
-        title.textContent = item.name;
-
-        const desc = document.createElement("div");
-        desc.className = "desc";
-        desc.textContent = item.desc;
-
-        const price = document.createElement("div");
-        price.className = "price";
-        price.textContent = item.price + " so'm";
-
-        info.appendChild(title);
-        info.appendChild(desc);
-        info.appendChild(price);
-
-        const qtyBox = document.createElement("div");
-        qtyBox.className = "qty-box";
-
-        const btnMinus = document.createElement("button");
-        btnMinus.className = "qty-btn";
-        btnMinus.textContent = "−";
-        btnMinus.onclick = () => changeQty(item.id, -1);
-
-        const qty = document.createElement("div");
-        qty.className = "qty";
-        qty.id = "qty-" + item.id;
-        qty.textContent = quantities[item.id];
-
-        const btnPlus = document.createElement("button");
-        btnPlus.className = "qty-btn";
-        btnPlus.textContent = "+";
-        btnPlus.onclick = () => changeQty(item.id, 1);
-
-        qtyBox.appendChild(btnMinus);
-        qtyBox.appendChild(qty);
-        qtyBox.appendChild(btnPlus);
-
-        card.appendChild(info);
-        card.appendChild(qtyBox);
-
-        cardsContainer.appendChild(card);
-      });
+  // helpers
+  function formatPrice(n){ return n.toLocaleString("ru-RU") + " so'm"; }
+  function calcCart(){
+    let total=0, count=0;
+    for(const idStr in state.cart){
+      const id = Number(idStr);
+      const qty = state.cart[id];
+      const it = items.find(x=>x.id===id);
+      if(it){ total += it.price * qty; count += qty; }
     }
+    return {total, count};
+  }
 
-    function updateTotal() {
-      let total = 0;
-      let count = 0;
+  // UI refs
+  const grid = document.getElementById("grid");
+  const categoryTabs = document.getElementById("categoryTabs");
+  const searchInput = document.getElementById("searchInput");
+  const sortSelect = document.getElementById("sortSelect");
+  const cartCountEl = document.getElementById("cartCount");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const clearCartBtn = document.getElementById("clearCartBtn");
+  const openCartBtn = document.getElementById("openCartBtn");
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBig = document.getElementById("modalBig");
+  const modalDesc = document.getElementById("modalDesc");
+  const modalQty = document.getElementById("modalQty");
+  const modalMinus = document.getElementById("modalMinus");
+  const modalPlus = document.getElementById("modalPlus");
+  const modalAdd = document.getElementById("modalAdd");
+  const modalGallery = document.getElementById("modalGallery");
+  const closeModal = document.getElementById("closeModal");
+  const cartBackdrop = document.getElementById("cartBackdrop");
+  const cartItemsEl = document.getElementById("cartItems");
+  const closeCart = document.getElementById("closeCart");
+  const cartCancel = document.getElementById("cartCancel");
+  const cartSend = document.getElementById("cartSend");
+  const cartSummaryText = document.getElementById("cartSummaryText");
+  const emptyBlock = document.getElementById("empty");
 
-      items.forEach(i => {
-        const q = quantities[i.id] || 0;
-        total += i.price * q;
-        count += q;
+  loadState();
+
+  // --- categories from items
+  const categories = Array.from(new Set(items.map(i=>i.category)));
+  const categoryNames = {
+    detergents: "Моющие средства",
+    plastic: "Пластмассовые изделия",
+    chemicals: "Химикаты",
+    fragrances: "Отдушки"
+  };
+
+  // render category tabs
+  function renderTabs(){
+    categoryTabs.innerHTML="";
+    categories.forEach(cat=>{
+      const btn = document.createElement("button");
+      btn.className = "tab" + (cat===state.category ? " active":"");
+      btn.textContent = (categoryNames[cat] || cat);
+      btn.dataset.cat = cat;
+      btn.addEventListener("click", ()=> {
+        state.category = cat;
+        saveState();
+        renderTabs(); renderGrid();
       });
-
-      if (count === 0) {
-        totalText.textContent = "Savatcha bo‘sh";
-        orderBtn.disabled = true;
-      } else {
-        totalText.textContent = `Jami: ${total} so'm (${count} ta pozitsiya)`;
-        orderBtn.disabled = false;
-      }
-
-      return total;
-    }
-
-    function changeQty(id, delta) {
-      quantities[id] = Math.max(0, (quantities[id] || 0) + delta);
-      const qtyEl = document.getElementById("qty-" + id);
-      if (qtyEl) {
-        qtyEl.textContent = quantities[id];
-      }
-      updateTotal();
-    }
-
-    // Переключение вкладок
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-        currentCategory = tab.getAttribute("data-cat");
-        renderCards();
-      });
+      categoryTabs.appendChild(btn);
     });
+  }
 
-    function sendOrder() {
-      const chosen = items
-        .map(i => ({ ...i, qty: quantities[i.id] || 0 }))
-        .filter(i => i.qty > 0);
+  // debounce helper
+  function debounce(fn, delay){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); } }
 
-      if (!chosen.length) return;
+  // render grid according to filters
+  function renderGrid(){
+    // build filtered list
+    let list = items.slice();
 
-      const total = updateTotal();
+    // category
+    list = list.filter(i => i.category === state.category);
 
-      const payload = {
-        items: chosen.map(i => ({
-          id: i.id,
-          name: i.name,
-          price: i.price,
-          qty: i.qty,
-          category: i.category
-        })),
-        total: total
+    // search
+    const q = (state.search || "").trim().toLowerCase();
+    if(q){
+      list = list.filter(i => {
+        return i.name.toLowerCase().includes(q) || (i.desc||"").toLowerCase().includes(q);
+      });
+    }
+
+    // sort
+    if(state.sort === "price_asc") list.sort((a,b)=>a.price-b.price);
+    else if(state.sort === "price_desc") list.sort((a,b)=>b.price-a.price);
+    else if(state.sort === "name_asc") list.sort((a,b)=>a.name.localeCompare(b.name));
+    else if(state.sort === "name_desc") list.sort((a,b)=>b.name.localeCompare(a.name));
+
+    grid.innerHTML = "";
+    if(list.length === 0){
+      grid.innerHTML = "<div class='empty'>Товаров не найдено.</div>";
+      return;
+    }
+
+    list.forEach(it => {
+      const card = document.createElement("div");
+      card.className="card";
+      card.onclick = (e)=> {
+        // don't open modal if clicked qty buttons
+        if(e.target.closest(".qty-btn") || e.target.closest(".btn-primary")) return;
+        openProductModal(it.id);
       };
 
-      tg.sendData(JSON.stringify(payload));
-      tg.close();
+      const thumb = document.createElement("div");
+      thumb.className="thumb";
+      // try to set image
+      const img = document.createElement("img");
+      img.src = (it.images && it.images.length) ? it.images[0] : placeholder;
+      img.alt = it.name;
+      img.style.width="100%";
+      img.style.height="100%";
+      img.style.objectFit="cover";
+      thumb.appendChild(img);
+
+      const title = document.createElement("div"); title.className="title"; title.textContent = it.name;
+      const desc = document.createElement("div"); desc.className="desc"; desc.textContent = it.desc;
+      const priceRow = document.createElement("div"); priceRow.className="price-row";
+      const price = document.createElement("div"); price.className="price"; price.textContent = formatPrice(it.price);
+      priceRow.appendChild(price);
+
+      const controlsRow = document.createElement("div"); controlsRow.className="controls-row";
+      // qty control (small)
+      const qtyBox = document.createElement("div"); qtyBox.className="qty-box";
+      const minus = document.createElement("button"); minus.className="qty-btn"; minus.textContent="−";
+      const qval = document.createElement("div"); qval.className="qty-value"; qval.textContent = state.cart[it.id] || 0;
+      const plus = document.createElement("button"); plus.className="qty-btn"; plus.textContent="+";
+      minus.onclick = (ev)=>{ ev.stopPropagation(); changeQty(it.id, -1); qval.textContent = state.cart[it.id] || 0; };
+      plus.onclick = (ev)=>{ ev.stopPropagation(); changeQty(it.id, +1); qval.textContent = state.cart[it.id] || 0; };
+      qtyBox.appendChild(minus); qtyBox.appendChild(qval); qtyBox.appendChild(plus);
+
+      // add to cart button (small)
+      const addBtn = document.createElement("button"); addBtn.className="btn-primary"; addBtn.style.padding="6px 8px"; addBtn.textContent="В корзину";
+      addBtn.onclick = (ev)=>{ ev.stopPropagation(); changeQty(it.id, 1); qval.textContent = state.cart[it.id] || 0; };
+
+      controlsRow.appendChild(qtyBox);
+      controlsRow.appendChild(addBtn);
+
+      card.appendChild(thumb);
+      card.appendChild(title);
+      card.appendChild(desc);
+      card.appendChild(priceRow);
+      card.appendChild(controlsRow);
+
+      grid.appendChild(card);
+    });
+
+    refreshCartUI();
+  }
+
+  // change qty helper
+  function changeQty(id, delta){
+    const cur = state.cart[id] || 0;
+    const next = Math.max(0, cur + delta);
+    if(next === 0) delete state.cart[id]; else state.cart[id] = next;
+    saveState();
+    renderGrid(); renderCartList();
+  }
+
+  // refresh cart UI (bottom)
+  function refreshCartUI(){
+    const {total, count} = calcCart();
+    cartCountEl.textContent = `${count} товара`;
+    cartTotalEl.textContent = `Jami: ${total.toLocaleString("ru-RU")} so'm`;
+    checkoutBtn.disabled = count === 0;
+    emptyBlock.style.display = count === 0 ? "block" : "none";
+  }
+
+  // modal: open product
+  let currentModalProduct = null;
+  function openProductModal(id){
+    const it = items.find(x=>x.id===id);
+    if(!it) return;
+    currentModalProduct = it;
+    modalTitle.textContent = it.name;
+    modalPrice.textContent = formatPrice(it.price);
+    modalDesc.textContent = it.desc;
+    modalBig.src = (it.images && it.images.length) ? it.images[0] : placeholder;
+    modalQty.textContent = state.cart[it.id] || 0;
+
+    // gallery
+    modalGallery.innerHTML = "";
+    const imgs = it.images && it.images.length ? it.images : [placeholder];
+    imgs.forEach(src=>{
+      const im = document.createElement("img");
+      im.src = src;
+      im.onclick = ()=> { modalBig.src = src; };
+      modalGallery.appendChild(im);
+    });
+
+    modalBackdrop.style.display = "flex";
+  }
+
+  closeModal.addEventListener("click", ()=>{ modalBackdrop.style.display = "none"; });
+  modalBackdrop.addEventListener("click", (e)=>{ if(e.target === modalBackdrop) modalBackdrop.style.display = "none"; });
+
+  modalPlus.addEventListener("click", ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, 1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
+  modalMinus.addEventListener("click", ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, -1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
+  modalAdd.addEventListener("click", ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, 1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
+
+  // cart modal actions
+  openCartBtn.addEventListener("click", ()=>{ cartBackdrop.style.display="flex"; renderCartList(); });
+  closeCart.addEventListener("click", ()=>{ cartBackdrop.style.display="none"; });
+  cartCancel.addEventListener("click", ()=>{ cartBackdrop.style.display="none"; });
+
+  clearCartBtn.addEventListener("click", ()=>{
+    if(!confirm("Очистить корзину?")) return;
+    state.cart = {}; saveState(); renderGrid(); renderCartList();
+  });
+
+  // render cart list inside modal
+  function renderCartList(){
+    cartItemsEl.innerHTML = "";
+    const ids = Object.keys(state.cart).map(x=>Number(x));
+    if(ids.length === 0){
+      cartItemsEl.innerHTML = "<div class='empty'>Корзина пуста</div>";
+      cartSummaryText.textContent = "Итого: 0 so'm";
+      refreshCartUI();
+      return;
+    }
+    ids.forEach(id=>{
+      const it = items.find(x=>x.id===id);
+      const qty = state.cart[id];
+      const row = document.createElement("div");
+      row.style.display="flex"; row.style.alignItems="center"; row.style.justifyContent="space-between"; row.style.gap="8px";
+      row.style.padding="8px 0"; row.style.borderBottom="1px dashed #eee";
+
+      const left = document.createElement("div");
+      left.style.display="flex"; left.style.gap="8px"; left.style.alignItems="center";
+      const img = document.createElement("img"); img.src = (it.images && it.images.length)?it.images[0]:placeholder; img.style.width="68px"; img.style.height="48px"; img.style.objectFit="cover"; img.style.borderRadius="8px";
+      const info = document.createElement("div");
+      const name = document.createElement("div"); name.textContent = it.name; name.style.fontWeight="600"; name.style.fontSize="13px";
+      const pr = document.createElement("div"); pr.textContent = formatPrice(it.price) + " × " + qty; pr.style.color="var(--muted)"; pr.style.fontSize="12px";
+      info.appendChild(name); info.appendChild(pr);
+      left.appendChild(img); left.appendChild(info);
+
+      const right = document.createElement("div");
+      right.style.display="flex"; right.style.flexDirection="column"; right.style.alignItems="flex-end";
+      const qtyBox = document.createElement("div"); qtyBox.className="qty-box";
+      const minus = document.createElement("button"); minus.className="qty-btn"; minus.textContent="−";
+      const val = document.createElement("div"); val.className="qty-value"; val.textContent = qty;
+      const plus = document.createElement("button"); plus.className="qty-btn"; plus.textContent="+";
+      minus.onclick = ()=>{ changeQty(id, -1); renderCartList(); };
+      plus.onclick = ()=>{ changeQty(id, 1); renderCartList(); };
+      qtyBox.appendChild(minus); qtyBox.appendChild(val); qtyBox.appendChild(plus);
+
+      const sub = document.createElement("div"); sub.textContent = formatPrice(it.price * qty); sub.style.fontWeight="700"; sub.style.marginTop="8px";
+
+      right.appendChild(qtyBox);
+      right.appendChild(sub);
+
+      row.appendChild(left);
+      row.appendChild(right);
+
+      cartItemsEl.appendChild(row);
+    });
+
+    const {total} = calcCart();
+    cartSummaryText.textContent = "Итого: " + total.toLocaleString("ru-RU") + " so'm";
+    refreshCartUI();
+  }
+
+  // send order (in cart modal)
+  cartSend.addEventListener("click", ()=>{
+    const chosen = items
+      .map(i => ({ ...i, qty: state.cart[i.id] || 0 }))
+      .filter(i => i.qty > 0);
+
+    if(chosen.length === 0){
+      alert("Корзина пуста");
+      return;
     }
 
-    // Делаем функцию доступной глобально
-    window.sendOrder = sendOrder;
+    const total = calcCart().total;
 
-    // Первый рендер
-    renderCards();
-    updateTotal();
-  </script>
+    const payload = {
+      items: chosen.map(i => ({
+        id: i.id,
+        name: i.name,
+        price: i.price,
+        qty: i.qty,
+        category: i.category
+      })),
+      total
+    };
+
+    try{
+      if(tg && tg.sendData){
+        tg.sendData(JSON.stringify(payload));
+        tg.close();
+      }else{
+        // fallback: download JSON file
+        const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = "order.json"; document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+        alert("Данные сохранены локально (order.json). В Telegram WebApp используйте кнопку оформления.");
+      }
+    }catch(e){
+      console.error(e);
+      alert("Ошибка при отправке заказа.");
+    }
+  });
+
+  // checkout button (bottom)
+  checkoutBtn.addEventListener("click", ()=>{ openCartBtn.click(); });
+
+  // sort / search handlers
+  sortSelect.addEventListener("change", ()=>{
+    state.sort = sortSelect.value;
+    saveState(); renderGrid();
+  });
+
+  const onSearch = debounce((e)=>{
+    state.search = e.target.value;
+    saveState(); renderGrid();
+  }, 300);
+  searchInput.addEventListener("input", onSearch);
+
+  // render initial values
+  function restoreUI(){
+    searchInput.value = state.search || "";
+    sortSelect.value = state.sort || "default";
+    renderTabs();
+    renderGrid();
+  }
+  restoreUI();
+
+  // expose some debug for console
+  window.TG_STATE = state;
+  window.TG_ITEMS = items;
+
+  // ensure save on unload
+  window.addEventListener("beforeunload", saveState);
+  window.addEventListener("pagehide", saveState);
+
+</script>
 </body>
 </html>

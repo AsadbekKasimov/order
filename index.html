@@ -42,11 +42,67 @@
     .search{width:100%; background:#fff; border-radius:999px; padding:10px 14px; border:1px solid #eee; font-size:15px}
     .address{font-size:12px; color:var(--muted)}
 
-    /* chips */
-    .chips{display:flex; gap:10px; overflow:auto; padding:10px 0; margin-bottom:8px}
-    .chip{min-width:84px; flex:0 0 auto; background:#fff; border-radius:12px; padding:10px; text-align:center; box-shadow:0 6px 18px rgba(12,15,20,0.03); cursor:pointer}
-    .chip img{height:36px; width:36px; object-fit:contain; display:block; margin:0 auto 6px}
-    .chip.active{background:var(--brand); color:#fff}
+    /* chips - исправленные стили */
+    .chips {
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      padding:10px 4px;
+      margin-bottom:8px;
+      align-items:center;
+    }
+
+    .chip {
+      min-width:84px;
+      flex:0 0 auto;
+      background:#fff;
+      border-radius:12px;
+      padding:10px;
+      text-align:center;
+      box-shadow:0 6px 18px rgba(12,15,20,0.03);
+      cursor:pointer;
+
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+
+      /* фиксированная высота, предотвращающая прыжки */
+      min-height:64px;
+      height:64px;
+
+      /* Плавный переход фона и трансформации */
+      transition: background-color .18s ease, transform .18s ease, color .18s ease;
+      will-change: background-color, transform;
+    }
+
+    .chip img {
+      height:36px;
+      width:36px;
+      object-fit:contain;
+      display:block;
+      margin-bottom:6px;
+      flex:0 0 auto;
+    }
+
+    .chip .chip-label {
+      font-weight:600;
+      font-size:13px;
+      line-height:1;
+      white-space:nowrap;
+      color:inherit;
+    }
+
+    .chip.active {
+      background:var(--brand);
+      color:#fff;
+      transform:translateY(-4px);
+    }
+
+    .chip.active .chip-label {
+      color:#fff;
+      /* не меняем font-weight чтобы не вызвать изменение размера */
+    }
 
     /* banner */
     .banner{display:flex; gap:12px; align-items:center; padding:14px; border-radius:14px; background:linear-gradient(90deg,var(--brand),#ff7b7b); color:#fff; margin-bottom:14px}
@@ -361,7 +417,8 @@
       categories.forEach(cat=>{
         const el = document.createElement('div');
         el.className = 'chip' + (state.category === cat ? ' active' : '');
-        el.innerHTML = `<img src="images/chip-${cat}.png" alt="${cat}" onerror="this.style.display='none'"><div style="font-weight:700;font-size:13px">${categoryNames[cat]}</div>`;
+        // используем chip-label внутри
+        el.innerHTML = `<img src="images/chip-${cat}.png" alt="${cat}" onerror="this.style.display='none'"><div class="chip-label">${categoryNames[cat]}</div>`;
         el.addEventListener('click', ()=>{ state.category = cat; saveState(); renderCategoryChips(); renderGrid(); });
         categoryTabs.appendChild(el);
       });
@@ -437,7 +494,7 @@
           const saleTag = document.createElement('div');
           saleTag.style.position='absolute'; saleTag.style.left='12px'; saleTag.style.top='12px';
           saleTag.style.background = 'var(--brand)'; saleTag.style.color='#fff'; saleTag.style.padding='6px 8px'; saleTag.style.borderRadius='999px';
-          saleTag.style.fontWeight='700'; saleTag.textContent = 'АКЦИЯ';
+          saleTag.style.fontWeight='700'; saleTag.style.fontSize='12px'; saleTag.textContent = 'АКЦИЯ';
           thumb.appendChild(saleTag);
         }
 
@@ -572,8 +629,6 @@
       state.cart = {}; saveState(); renderGrid(); renderCartList();
     });
 
-    cartSend.addEventListener('click', ()=>{ sendOrder(); });
-
     checkoutBtn.addEventListener('click', ()=>{ openCartQuick.click(); });
 
     /**************** search & sort ****************/
@@ -582,31 +637,88 @@
     sortSelect.value = state.sort || 'default';
     sortSelect.addEventListener('change', ()=>{ state.sort = sortSelect.value; saveState(); renderGrid(); });
 
-    /**************** order sending ****************/
-    function sendOrder(){
-      const chosen = items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: state.cart[i.id] || 0, category: i.category })).filter(x => x.qty > 0);
-      if(chosen.length === 0){ alert('Корзина пуста'); return; }
-      const payload = { items: chosen, total: calcCart().total, createdAt: new Date().toISOString() };
+    /**************** Telegram WebApp helpers & sendOrder ****************/
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    try{ if(tg && typeof tg.ready === 'function') tg.ready(); } catch(e){ console.warn('tg.ready failed', e); }
 
-      try{
-        if(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.sendData){
-          window.Telegram.WebApp.sendData(JSON.stringify(payload));
-          // не закрываем автоматически — оставляем на ваше усмотрение:
-          // window.Telegram.WebApp.close();
-          alert('Заказ отправлен через Telegram WebApp.');
+    let _sendingOrder = false;
+
+    function _buildPayload(){
+      const chosen = items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: state.cart[i.id] || 0, category: i.category }))
+                         .filter(x => x.qty > 0);
+      const { total } = calcCart();
+      return {
+        items: chosen,
+        total,
+        createdAt: new Date().toISOString(),
+        source: "webapp",
+        webappVersion: "v3"
+      };
+    }
+
+    function sendOrder(){
+      if(_sendingOrder){
+        console.warn("Order already sending");
+        return;
+      }
+
+      const payload = _buildPayload();
+
+      // валидация
+      if(!Array.isArray(payload.items) || payload.items.length === 0){
+        alert('Корзина пуста');
+        return;
+      }
+      if(!payload.total || payload.total <= 0){
+        alert('Некорректная сумма заказа');
+        return;
+      }
+
+      console.info('[WebApp] payload to send:', payload);
+
+      // блокируем кнопку
+      _sendingOrder = true;
+      cartSend.disabled = true;
+      const oldText = cartSend.textContent;
+      cartSend.textContent = "Отправляем...";
+
+      try {
+        if (tg && typeof tg.sendData === "function") {
+          tg.sendData(JSON.stringify(payload));
+          console.info('[WebApp] tg.sendData called.');
+
+          // Даем Telegram обработать отправку, затем закрываем вебап
+          setTimeout(()=>{
+            try{ if(tg.close) tg.close(); } catch(e){ console.warn('tg.close failed', e); }
+          }, 700);
+
+          // визуальная финализация
+          cartSend.textContent = "Отправлено";
         } else {
+          // fallback: сохранить локально как json (для теста вне Telegram)
           const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url; a.download = 'order.json'; document.body.appendChild(a); a.click(); a.remove();
           URL.revokeObjectURL(url);
-          alert('Заказ сохранён локально (order.json).');
+          alert('Заказ сохранён локально (order.json). Откройте WebApp в Telegram для отправки боту.');
+          console.warn('[WebApp] tg.sendData not available (not in Telegram).');
+          // разблокируем кнопку, чтобы можно было повторить
+          _sendingOrder = false;
+          cartSend.disabled = false;
+          cartSend.textContent = oldText;
         }
-      }catch(e){
-        console.error(e);
-        alert('Ошибка при отправке заказа.');
+      } catch (err) {
+        console.error('[WebApp] sendData error:', err);
+        alert('Ошибка при отправке заказа. Проверьте подключение и попробуйте ещё раз.');
+        _sendingOrder = false;
+        cartSend.disabled = false;
+        cartSend.textContent = oldText;
       }
     }
+
+    // повесим обработчик на кнопку (вдобавок к существующему)
+    cartSend.addEventListener('click', sendOrder);
 
     /**************** init ****************/
     function restoreUI(){
@@ -614,6 +726,10 @@
       loadFilterInputs();
       renderGrid();
       renderCartList();
+
+      // safety: обновляем состояние кнопки
+      const { count } = calcCart();
+      cartSend.disabled = count === 0;
     }
     restoreUI();
     window.addEventListener('beforeunload', saveState);

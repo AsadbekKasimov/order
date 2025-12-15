@@ -338,28 +338,37 @@
 
   <script>
     /*****************************************************************
-     * Данные: авто-генерируем минимум 50 товаров на категорию.
-     * Замените itemsData на реальный каталог (CSV/JSON) когда будет готов.
-     *****************************************************************/
-    const categories = ["detergents","plastic","chemicals","fragrances"];
-    const categoryNames = { detergents:"Моющие средства", plastic:"Пластмасса", chemicals:"Химикаты", fragrances:"Отдушки" };
+ * ТОВАРЫ ИЗ GOOGLE SHEETS (через bot.py)
+ *****************************************************************/
+const categories = ["detergents","plastic","chemicals","fragrances"];
+const categoryNames = {
+  detergents: "Моющие средства",
+  plastic: "Пластмасса",
+  chemicals: "Химикаты",
+  fragrances: "Отдушки"
+};
 
-    // создаём товары (50 шт для каждой категории) — замените на реальные данные
-    const items = [];
-    let idCounter = 1000;
-    categories.forEach(cat=>{
-      for(let i=1;i<=50;i++){
-        items.push({
-          id: idCounter++,
-          category: cat,
-          name: `${categoryNames[cat]} — ${i}`,
-          desc: `Краткое описание товара ${i} в категории ${categoryNames[cat]}. Ключевые преимущества.`,
-          price: Math.round((5000 + Math.random()*150000)/1000)*1000,
-          images: [`images/${cat}-${i}.jpg`],
-          sale: Math.random() < 0.2 // 20% товаров акционные
-        });
-      }
-    });
+let items = [];
+
+async function loadProducts() {
+  try {
+    const response = await fetch("http://ВАШ_IP_ИЛИ_ДОМЕН:8080/api/products");
+    items = await response.json();
+
+    // стандартная инициализация интерфейса
+    renderCategoryChips();
+    loadFilterInputs();
+    renderGrid();
+    renderCartList();
+  } catch (error) {
+    console.error("Ошибка загрузки товаров:", error);
+    document.getElementById("empty").style.display = "block";
+  }
+}
+
+// загружаем товары при запуске WebApp
+loadProducts();
+
 
     const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
       '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#9ca3af">Нет изображения</text></svg>'
@@ -737,3 +746,4 @@
   </script>
 </body>
 </html>
+

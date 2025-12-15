@@ -343,7 +343,9 @@ let items = [];
 
 async function loadProducts() {
   try {
-   const response = await fetch("https://semibiologically-consistorian-percy.ngrok-free.dev/api/products");
+const response = await fetch(
+  "https://semibiologically-consistorian-percy.ngrok-free.dev/api/products"
+);
 
  items = await response.json();
 
@@ -757,6 +759,7 @@ window.addEventListener('pagehide', saveState);
   </script>
 </body>
 </html>
+
 
 
 

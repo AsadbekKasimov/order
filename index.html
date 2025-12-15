@@ -352,7 +352,7 @@ let items = [];
 
 async function loadProducts() {
   try {
-    const response = await fetch("http://ВАШ_IP_ИЛИ_ДОМЕН:8080/api/products");
+    const response = await fetch("http://127.0.0.1:5000/api/products");
     items = await response.json();
 
     // стандартная инициализация интерфейса
@@ -729,21 +729,29 @@ loadProducts();
     // повесим обработчик на кнопку (вдобавок к существующему)
     cartSend.addEventListener('click', sendOrder);
 
-    /**************** init ****************/
-    function restoreUI(){
-      renderCategoryChips();
-      loadFilterInputs();
-      renderGrid();
-      renderCartList();
+  /**************** init ****************/
+function restoreUI(){
+  renderCategoryChips();
+  loadFilterInputs();
+  renderGrid();
+  renderCartList();
 
-      // safety: обновляем состояние кнопки
-      const { count } = calcCart();
-      cartSend.disabled = count === 0;
-    }
-    restoreUI();
-    window.addEventListener('beforeunload', saveState);
-    window.addEventListener('pagehide', saveState);
+  // safety: обновляем состояние кнопки
+  const { count } = calcCart();
+  cartSend.disabled = count === 0;
+}
+
+// ❌ НЕ вызываем сразу
+// restoreUI();
+
+// ✅ сначала загружаем товары из API
+loadProducts();
+
+window.addEventListener('beforeunload', saveState);
+window.addEventListener('pagehide', saveState);
+
   </script>
 </body>
 </html>
+
 

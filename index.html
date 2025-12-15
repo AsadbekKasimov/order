@@ -353,7 +353,11 @@ const response = await fetch(
 );
 
 
- items = await response.json();
+
+if (!items.find(i => i.category === state.category)) {
+  state.category = items[0]?.category || state.category;
+}
+
 
 // === строим категории из API ===
 categories = [...new Set(items.map(i => i.category))];
@@ -378,8 +382,7 @@ renderCartList();
   }
 }
 
-// загружаем товары при запуске WebApp
-loadProducts();
+
 
 
     const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
@@ -765,6 +768,7 @@ window.addEventListener('pagehide', saveState);
   </script>
 </body>
 </html>
+
 
 
 

@@ -337,53 +337,29 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <script>
-let categories = [];
-let categoryNames = {};
-let items = [];
+    /*****************************************************************
+     * Данные: авто-генерируем минимум 50 товаров на категорию.
+     * Замените itemsData на реальный каталог (CSV/JSON) когда будет готов.
+     *****************************************************************/
+    const categories = ["detergents","plastic","chemicals","fragrances"];
+    const categoryNames = { detergents:"Моющие средства", plastic:"Пластмасса", chemicals:"Химикаты", fragrances:"Отдушки" };
 
-async function loadProducts() {
-  try {
-const response = await fetch(
-  "https://semibiologically-consistorian-percy.ngrok-free.dev/api/products",
-  {
-    headers: {
-      "ngrok-skip-browser-warning": "true"
-    }
-  }
-);
-
-
-
-if (!items.find(i => i.category === state.category)) {
-  state.category = items[0]?.category || state.category;
-}
-
-
-// === строим категории из API ===
-categories = [...new Set(items.map(i => i.category))];
-categories.forEach(c => {
-  categoryNames[c] = c;
-});
-
-// 🔴 КРИТИЧЕСКИ ВАЖНО
-state.category = categories.length ? categories[0] : null;
-
-// стандартная инициализация интерфейса
-renderCategoryChips();
-loadFilterInputs();
-renderGrid();
-renderCartList();
-
-
-    
-  } catch (error) {
-    console.error("Ошибка загрузки товаров:", error);
-    document.getElementById("empty").style.display = "block";
-  }
-}
-
-
-
+    // создаём товары (50 шт для каждой категории) — замените на реальные данные
+    const items = [];
+    let idCounter = 1000;
+    categories.forEach(cat=>{
+      for(let i=1;i<=50;i++){
+        items.push({
+          id: idCounter++,
+          category: cat,
+          name: `${categoryNames[cat]} — ${i}`,
+          desc: `Краткое описание товара ${i} в категории ${categoryNames[cat]}. Ключевые преимущества.`,
+          price: Math.round((5000 + Math.random()*150000)/1000)*1000,
+          images: [`images/${cat}-${i}.jpg`],
+          sale: Math.random() < 0.2 // 20% товаров акционные
+        });
+      }
+    });
 
     const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
       '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#9ca3af">Нет изображения</text></svg>'
@@ -391,7 +367,7 @@ renderCartList();
 
     /*************** состояние и storage *****************/
     const STORAGE_KEY = "tg_shop_v3_kafolat";
-    let state = { cart:{}, category: null, search:"", sort:"default", filters: { saleOnly:false, priceMin:null, priceMax:null } };
+    let state = { cart:{}, category: categories[0], search:"", sort:"default", filters: { saleOnly:false, priceMin:null, priceMax:null } };
     try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }catch(e){ console.warn(e); }
 
     function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
@@ -744,36 +720,20 @@ renderCartList();
     // повесим обработчик на кнопку (вдобавок к существующему)
     cartSend.addEventListener('click', sendOrder);
 
-  /**************** init ****************/
-function restoreUI(){
-  renderCategoryChips();
-  loadFilterInputs();
-  renderGrid();
-  renderCartList();
+    /**************** init ****************/
+    function restoreUI(){
+      renderCategoryChips();
+      loadFilterInputs();
+      renderGrid();
+      renderCartList();
 
-  // safety: обновляем состояние кнопки
-  const { count } = calcCart();
-  cartSend.disabled = count === 0;
-}
-
-// ❌ НЕ вызываем сразу
-// restoreUI();
-
-// ✅ сначала загружаем товары из API
-loadProducts();
-
-window.addEventListener('beforeunload', saveState);
-window.addEventListener('pagehide', saveState);
-
+      // safety: обновляем состояние кнопки
+      const { count } = calcCart();
+      cartSend.disabled = count === 0;
+    }
+    restoreUI();
+    window.addEventListener('beforeunload', saveState);
+    window.addEventListener('pagehide', saveState);
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-

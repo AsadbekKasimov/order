@@ -112,7 +112,7 @@
 
     /* controls row: filters, sort */
     .controls{
-      display:flex;
+      display:none !important;
       gap:10px;
       align-items:center;
       margin-bottom:12px;
@@ -181,6 +181,7 @@
 
     /* bottom nav */
     .bottom-nav{
+      display: none !important;
       position:fixed; left:12px; right:12px; bottom:12px; height:64px; background:#fff; border-radius:20px; display:flex; justify-content:space-around; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.08);
       padding:8px 18px; gap:12px; z-index:80
     }
@@ -344,22 +345,255 @@
     const categories = ["detergents","plastic","chemicals","fragrances"];
     const categoryNames = { detergents:"Моющие средства", plastic:"Пластмасса", chemicals:"Химикаты", fragrances:"Отдушки" };
 
-    // создаём товары (50 шт для каждой категории) — замените на реальные данные
-    const items = [];
-    let idCounter = 1000;
-    categories.forEach(cat=>{
-      for(let i=1;i<=50;i++){
-        items.push({
-          id: idCounter++,
-          category: cat,
-          name: `${categoryNames[cat]} — ${i}`,
-          desc: `Краткое описание товара ${i} в категории ${categoryNames[cat]}. Ключевые преимущества.`,
-          price: Math.round((5000 + Math.random()*150000)/1000)*1000,
-          images: [`images/${cat}-${i}.jpg`],
-          sale: Math.random() < 0.2 // 20% товаров акционные
-        });
-      }
-    });
+
+ const items = [
+{ id:1001, category:"detergents", name:"Гель для стирки ENEAR 1L", desc:"Краткое описание товара", price:45000, images:["images/detergents-1.jpg"], sale:false },
+{ id:1002, category:"detergents", name:"Гель для стирки ENEAR 2L", desc:"Краткое описание товара", price:78000, images:["images/detergents-2.jpg"], sale:false },
+{ id:1003, category:"detergents", name:"Гель для стирки ENEAR 3L", desc:"Краткое описание товара", price:120000, images:["images/detergents-3.jpg"], sale:true },
+{ id:1004, category:"detergents", name:"Средство для мытья пола ENEAR", desc:"Краткое описание товара", price:39000, images:["images/detergents-4.jpg"], sale:false },
+{ id:1005, category:"detergents", name:"Средство для кухни ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-5.jpg"], sale:false },
+{ id:1006, category:"detergents", name:"Средство для ванной ENEAR", desc:"Краткое описание товара", price:37000, images:["images/detergents-6.jpg"], sale:false },
+{ id:1007, category:"detergents", name:"Антижир ENEAR", desc:"Краткое описание товара", price:41000, images:["images/detergents-7.jpg"], sale:false },
+{ id:1008, category:"detergents", name:"Отбеливатель ENEAR", desc:"Краткое описание товара", price:34000, images:["images/detergents-8.jpg"], sale:false },
+{ id:1009, category:"detergents", name:"Средство для стекол ENEAR", desc:"Краткое описание товара", price:29000, images:["images/detergents-9.jpg"], sale:false },
+{ id:1010, category:"detergents", name:"Жидкое мыло ENEAR", desc:"Краткое описание товара", price:25000, images:["images/detergents-10.jpg"], sale:false },
+
+{ id:1011, category:"detergents", name:"Гель для посуды ENEAR Лимон", desc:"Краткое описание товара", price:23000, images:["images/detergents-11.jpg"], sale:false },
+{ id:1012, category:"detergents", name:"Гель для посуды ENEAR Яблоко", desc:"Краткое описание товара", price:23000, images:["images/detergents-12.jpg"], sale:false },
+{ id:1013, category:"detergents", name:"Гель для посуды ENEAR Алоэ", desc:"Краткое описание товара", price:24000, images:["images/detergents-13.jpg"], sale:false },
+{ id:1014, category:"detergents", name:"Универсальное средство ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-14.jpg"], sale:false },
+{ id:1015, category:"detergents", name:"Средство для плитки ENEAR", desc:"Краткое описание товара", price:38000, images:["images/detergents-15.jpg"], sale:false },
+
+{ id:1016, category:"detergents", name:"Средство для паркета ENEAR", desc:"Краткое описание товара", price:43000, images:["images/detergents-16.jpg"], sale:false },
+{ id:1017, category:"detergents", name:"Средство для ламината ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-17.jpg"], sale:false },
+{ id:1018, category:"detergents", name:"Средство для ковров ENEAR", desc:"Краткое описание товара", price:46000, images:["images/detergents-18.jpg"], sale:false },
+{ id:1019, category:"detergents", name:"Пятновыводитель ENEAR", desc:"Краткое описание товара", price:49000, images:["images/detergents-19.jpg"], sale:true },
+{ id:1020, category:"detergents", name:"Средство для духовок ENEAR", desc:"Краткое описание товара", price:52000, images:["images/detergents-20.jpg"], sale:false },
+
+{ id:1021, category:"detergents", name:"Средство для холодильников ENEAR", desc:"Краткое описание товара", price:33000, images:["images/detergents-21.jpg"], sale:false },
+{ id:1022, category:"detergents", name:"Средство для микроволновок ENEAR", desc:"Краткое описание товара", price:32000, images:["images/detergents-22.jpg"], sale:false },
+{ id:1023, category:"detergents", name:"Средство для сантехники ENEAR", desc:"Краткое описание товара", price:44000, images:["images/detergents-23.jpg"], sale:false },
+{ id:1024, category:"detergents", name:"Средство против налета ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-24.jpg"], sale:false },
+{ id:1025, category:"detergents", name:"Средство для раковин ENEAR", desc:"Краткое описание товара", price:34000, images:["images/detergents-25.jpg"], sale:false },
+
+{ id:1026, category:"detergents", name:"Средство для кафеля ENEAR", desc:"Краткое описание товара", price:38000, images:["images/detergents-26.jpg"], sale:false },
+{ id:1027, category:"detergents", name:"Средство для унитазов ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-27.jpg"], sale:false },
+{ id:1028, category:"detergents", name:"Средство против плесени ENEAR", desc:"Краткое описание товара", price:47000, images:["images/detergents-28.jpg"], sale:false },
+{ id:1029, category:"detergents", name:"Средство для мебели ENEAR", desc:"Краткое описание товара", price:41000, images:["images/detergents-29.jpg"], sale:false },
+{ id:1030, category:"detergents", name:"Средство для кожи ENEAR", desc:"Краткое описание товара", price:45000, images:["images/detergents-30.jpg"], sale:false },
+
+{ id:1031, category:"detergents", name:"Средство для пластика ENEAR", desc:"Краткое описание товара", price:32000, images:["images/detergents-31.jpg"], sale:false },
+{ id:1032, category:"detergents", name:"Средство для дерева ENEAR", desc:"Краткое описание товара", price:43000, images:["images/detergents-32.jpg"], sale:false },
+{ id:1033, category:"detergents", name:"Средство для металла ENEAR", desc:"Краткое описание товара", price:39000, images:["images/detergents-33.jpg"], sale:false },
+{ id:1034, category:"detergents", name:"Средство для алюминия ENEAR", desc:"Краткое описание товара", price:40000, images:["images/detergents-34.jpg"], sale:false },
+{ id:1035, category:"detergents", name:"Средство для нержавейки ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-35.jpg"], sale:false },
+
+{ id:1036, category:"detergents", name:"Средство для ковриков ENEAR", desc:"Краткое описание товара", price:37000, images:["images/detergents-36.jpg"], sale:false },
+{ id:1037, category:"detergents", name:"Средство для текстиля ENEAR", desc:"Краткое описание товара", price:48000, images:["images/detergents-37.jpg"], sale:false },
+{ id:1038, category:"detergents", name:"Средство для штор ENEAR", desc:"Краткое описание товара", price:46000, images:["images/detergents-38.jpg"], sale:false },
+{ id:1039, category:"detergents", name:"Средство для обуви ENEAR", desc:"Краткое описание товара", price:35000, images:["images/detergents-39.jpg"], sale:false },
+{ id:1040, category:"detergents", name:"Средство для ковролина ENEAR", desc:"Краткое описание товара", price:49000, images:["images/detergents-40.jpg"], sale:false },
+
+{ id:1041, category:"detergents", name:"Средство для авто ENEAR", desc:"Краткое описание товара", price:52000, images:["images/detergents-41.jpg"], sale:false },
+{ id:1042, category:"detergents", name:"Автошампунь ENEAR", desc:"Краткое описание товара", price:55000, images:["images/detergents-42.jpg"], sale:false },
+{ id:1043, category:"detergents", name:"Средство для дисков ENEAR", desc:"Краткое описание товара", price:47000, images:["images/detergents-43.jpg"], sale:false },
+{ id:1044, category:"detergents", name:"Средство для салона авто ENEAR", desc:"Краткое описание товара", price:58000, images:["images/detergents-44.jpg"], sale:false },
+{ id:1045, category:"detergents", name:"Средство для стекол авто ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-45.jpg"], sale:false },
+
+{ id:1046, category:"detergents", name:"Средство для зеркал ENEAR", desc:"Краткое описание товара", price:31000, images:["images/detergents-46.jpg"], sale:false },
+{ id:1047, category:"detergents", name:"Средство для витрин ENEAR", desc:"Краткое описание товара", price:33000, images:["images/detergents-47.jpg"], sale:false },
+{ id:1048, category:"detergents", name:"Средство для офисов ENEAR", desc:"Краткое описание товара", price:44000, images:["images/detergents-48.jpg"], sale:false },
+{ id:1049, category:"detergents", name:"Средство для складов ENEAR", desc:"Краткое описание товара", price:62000, images:["images/detergents-49.jpg"], sale:false },
+{ id:1050, category:"detergents", name:"Средство универсальное ENEAR PRO", desc:"Краткое описание товара", price:69000, images:["images/detergents-50.jpg"], sale:true },
+
+{ id:1101, category:"plastic", name:"Ведро пластиковое 5л", desc:"Краткое описание товара", price:22000, images:["images/plastic-1.jpg"], sale:false },
+{ id:1102, category:"plastic", name:"Ведро пластиковое 10л", desc:"Краткое описание товара", price:28000, images:["images/plastic-2.jpg"], sale:false },
+{ id:1103, category:"plastic", name:"Ведро пластиковое 15л", desc:"Краткое описание товара", price:34000, images:["images/plastic-3.jpg"], sale:false },
+{ id:1104, category:"plastic", name:"Таз пластиковый 8л", desc:"Краткое описание товара", price:21000, images:["images/plastic-4.jpg"], sale:false },
+{ id:1105, category:"plastic", name:"Таз пластиковый 12л", desc:"Краткое описание товара", price:26000, images:["images/plastic-5.jpg"], sale:false },
+{ id:1106, category:"plastic", name:"Таз пластиковый 20л", desc:"Краткое описание товара", price:32000, images:["images/plastic-6.jpg"], sale:false },
+{ id:1107, category:"plastic", name:"Контейнер пластиковый 1л", desc:"Краткое описание товара", price:12000, images:["images/plastic-7.jpg"], sale:false },
+{ id:1108, category:"plastic", name:"Контейнер пластиковый 2л", desc:"Краткое описание товара", price:16000, images:["images/plastic-8.jpg"], sale:false },
+{ id:1109, category:"plastic", name:"Контейнер пластиковый 5л", desc:"Краткое описание товара", price:24000, images:["images/plastic-9.jpg"], sale:false },
+{ id:1110, category:"plastic", name:"Контейнер пластиковый 10л", desc:"Краткое описание товара", price:36000, images:["images/plastic-10.jpg"], sale:false },
+
+{ id:1111, category:"plastic", name:"Корзина пластиковая малая", desc:"Краткое описание товара", price:18000, images:["images/plastic-11.jpg"], sale:false },
+{ id:1112, category:"plastic", name:"Корзина пластиковая средняя", desc:"Краткое описание товара", price:24000, images:["images/plastic-12.jpg"], sale:false },
+{ id:1113, category:"plastic", name:"Корзина пластиковая большая", desc:"Краткое описание товара", price:32000, images:["images/plastic-13.jpg"], sale:false },
+{ id:1114, category:"plastic", name:"Ящик пластиковый 20л", desc:"Краткое описание товара", price:42000, images:["images/plastic-14.jpg"], sale:false },
+{ id:1115, category:"plastic", name:"Ящик пластиковый 40л", desc:"Краткое описание товара", price:56000, images:["images/plastic-15.jpg"], sale:false },
+
+{ id:1116, category:"plastic", name:"Канистра пластиковая 5л", desc:"Краткое описание товара", price:30000, images:["images/plastic-16.jpg"], sale:false },
+{ id:1117, category:"plastic", name:"Канистра пластиковая 10л", desc:"Краткое описание товара", price:42000, images:["images/plastic-17.jpg"], sale:false },
+{ id:1118, category:"plastic", name:"Канистра пластиковая 20л", desc:"Краткое описание товара", price:62000, images:["images/plastic-18.jpg"], sale:false },
+{ id:1119, category:"plastic", name:"Бочка пластиковая 30л", desc:"Краткое описание товара", price:85000, images:["images/plastic-19.jpg"], sale:false },
+{ id:1120, category:"plastic", name:"Бочка пластиковая 60л", desc:"Краткое описание товара", price:135000, images:["images/plastic-20.jpg"], sale:false },
+
+{ id:1121, category:"plastic", name:"Лоток пластиковый", desc:"Краткое описание товара", price:15000, images:["images/plastic-21.jpg"], sale:false },
+{ id:1122, category:"plastic", name:"Совок пластиковый", desc:"Краткое описание товара", price:9000, images:["images/plastic-22.jpg"], sale:false },
+{ id:1123, category:"plastic", name:"Щетка пластиковая", desc:"Краткое описание товара", price:14000, images:["images/plastic-23.jpg"], sale:false },
+{ id:1124, category:"plastic", name:"Коробка пластиковая с крышкой", desc:"Краткое описание товара", price:28000, images:["images/plastic-24.jpg"], sale:false },
+{ id:1125, category:"plastic", name:"Органайзер пластиковый", desc:"Краткое описание товара", price:36000, images:["images/plastic-25.jpg"], sale:false },
+
+{ id:1126, category:"plastic", name:"Поддон пластиковый", desc:"Краткое описание товара", price:42000, images:["images/plastic-26.jpg"], sale:false },
+{ id:1127, category:"plastic", name:"Стакан пластиковый", desc:"Краткое описание товара", price:8000, images:["images/plastic-27.jpg"], sale:false },
+{ id:1128, category:"plastic", name:"Ковш пластиковый", desc:"Краткое описание товара", price:12000, images:["images/plastic-28.jpg"], sale:false },
+{ id:1129, category:"plastic", name:"Емкость пластиковая 25л", desc:"Краткое описание товара", price:54000, images:["images/plastic-29.jpg"], sale:false },
+{ id:1130, category:"plastic", name:"Емкость пластиковая 50л", desc:"Краткое описание товара", price:98000, images:["images/plastic-30.jpg"], sale:false },
+
+{ id:1131, category:"plastic", name:"Ванночка пластиковая", desc:"Краткое описание товара", price:26000, images:["images/plastic-31.jpg"], sale:false },
+{ id:1132, category:"plastic", name:"Подставка пластиковая", desc:"Краткое описание товара", price:18000, images:["images/plastic-32.jpg"], sale:false },
+{ id:1133, category:"plastic", name:"Крышка пластиковая", desc:"Краткое описание товара", price:6000, images:["images/plastic-33.jpg"], sale:false },
+{ id:1134, category:"plastic", name:"Контейнер пищевой пластиковый", desc:"Краткое описание товара", price:20000, images:["images/plastic-34.jpg"], sale:false },
+{ id:1135, category:"plastic", name:"Ящик складской пластиковый", desc:"Краткое описание товара", price:75000, images:["images/plastic-35.jpg"], sale:false },
+
+{ id:1136, category:"plastic", name:"Корзина для мусора пластиковая", desc:"Краткое описание товара", price:38000, images:["images/plastic-36.jpg"], sale:false },
+{ id:1137, category:"plastic", name:"Мусорное ведро пластиковое", desc:"Краткое описание товара", price:42000, images:["images/plastic-37.jpg"], sale:false },
+{ id:1138, category:"plastic", name:"Мыльница пластиковая", desc:"Краткое описание товара", price:9000, images:["images/plastic-38.jpg"], sale:false },
+{ id:1139, category:"plastic", name:"Дозатор пластиковый", desc:"Краткое описание товара", price:19000, images:["images/plastic-39.jpg"], sale:false },
+{ id:1140, category:"plastic", name:"Флакон пластиковый 1л", desc:"Краткое описание товара", price:11000, images:["images/plastic-40.jpg"], sale:false },
+
+{ id:1141, category:"plastic", name:"Флакон пластиковый 5л", desc:"Краткое описание товара", price:24000, images:["images/plastic-41.jpg"], sale:false },
+{ id:1142, category:"plastic", name:"Флакон пластиковый 10л", desc:"Краткое описание товара", price:38000, images:["images/plastic-42.jpg"], sale:false },
+{ id:1143, category:"plastic", name:"Бутыль пластиковая 20л", desc:"Краткое описание товара", price:62000, images:["images/plastic-43.jpg"], sale:false },
+{ id:1144, category:"plastic", name:"Поднос пластиковый", desc:"Краткое описание товара", price:17000, images:["images/plastic-44.jpg"], sale:false },
+{ id:1145, category:"plastic", name:"Кейс пластиковый", desc:"Краткое описание товара", price:48000, images:["images/plastic-45.jpg"], sale:false },
+
+{ id:1146, category:"plastic", name:"Ящик для инструментов пластиковый", desc:"Краткое описание товара", price:69000, images:["images/plastic-46.jpg"], sale:false },
+{ id:1147, category:"plastic", name:"Контейнер промышленный пластиковый", desc:"Краткое описание товара", price:115000, images:["images/plastic-47.jpg"], sale:false },
+{ id:1148, category:"plastic", name:"Паллет пластиковый", desc:"Краткое описание товара", price:180000, images:["images/plastic-48.jpg"], sale:false },
+{ id:1149, category:"plastic", name:"Крышка для канистры пластиковая", desc:"Краткое описание товара", price:7000, images:["images/plastic-49.jpg"], sale:false },
+{ id:1150, category:"plastic", name:"Контейнер пластиковый универсальный", desc:"Краткое описание товара", price:42000, images:["images/plastic-50.jpg"], sale:false },
+
+{ id:1201, category:"chemicals", name:"Антизасор ENEAR", desc:"Краткое описание товара", price:35000, images:["images/chemicals-1.jpg"], sale:false },
+{ id:1202, category:"chemicals", name:"Средство от накипи ENEAR", desc:"Краткое описание товара", price:33000, images:["images/chemicals-2.jpg"], sale:false },
+{ id:1203, category:"chemicals", name:"Дезинфицирующее средство ENEAR", desc:"Краткое описание товара", price:48000, images:["images/chemicals-3.jpg"], sale:true },
+{ id:1204, category:"chemicals", name:"Средство против плесени ENEAR", desc:"Краткое описание товара", price:42000, images:["images/chemicals-4.jpg"], sale:false },
+{ id:1205, category:"chemicals", name:"Средство для удаления ржавчины ENEAR", desc:"Краткое описание товара", price:39000, images:["images/chemicals-5.jpg"], sale:false },
+
+{ id:1206, category:"chemicals", name:"Очиститель труб ENEAR", desc:"Краткое описание товара", price:36000, images:["images/chemicals-6.jpg"], sale:false },
+{ id:1207, category:"chemicals", name:"Очиститель духовок ENEAR", desc:"Краткое описание товара", price:52000, images:["images/chemicals-7.jpg"], sale:false },
+{ id:1208, category:"chemicals", name:"Очиститель грилей ENEAR", desc:"Краткое описание товара", price:54000, images:["images/chemicals-8.jpg"], sale:false },
+{ id:1209, category:"chemicals", name:"Очиститель плит ENEAR", desc:"Краткое описание товара", price:47000, images:["images/chemicals-9.jpg"], sale:false },
+{ id:1210, category:"chemicals", name:"Средство для удаления жира ENEAR", desc:"Краткое описание товара", price:41000, images:["images/chemicals-10.jpg"], sale:false },
+
+{ id:1211, category:"chemicals", name:"Средство для удаления извести ENEAR", desc:"Краткое описание товара", price:38000, images:["images/chemicals-11.jpg"], sale:false },
+{ id:1212, category:"chemicals", name:"Средство для дезинфекции поверхностей ENEAR", desc:"Краткое описание товара", price:46000, images:["images/chemicals-12.jpg"], sale:false },
+{ id:1213, category:"chemicals", name:"Средство для санитарной обработки ENEAR", desc:"Краткое описание товара", price:59000, images:["images/chemicals-13.jpg"], sale:true },
+{ id:1214, category:"chemicals", name:"Очиститель стекол промышленный ENEAR", desc:"Краткое описание товара", price:44000, images:["images/chemicals-14.jpg"], sale:false },
+{ id:1215, category:"chemicals", name:"Очиститель полов промышленный ENEAR", desc:"Краткое описание товара", price:62000, images:["images/chemicals-15.jpg"], sale:false },
+
+{ id:1216, category:"chemicals", name:"Очиститель ковров ENEAR", desc:"Краткое описание товара", price:57000, images:["images/chemicals-16.jpg"], sale:false },
+{ id:1217, category:"chemicals", name:"Очиститель текстиля ENEAR", desc:"Краткое описание товара", price:56000, images:["images/chemicals-17.jpg"], sale:false },
+{ id:1218, category:"chemicals", name:"Очиститель мебели ENEAR", desc:"Краткое описание товара", price:48000, images:["images/chemicals-18.jpg"], sale:false },
+{ id:1219, category:"chemicals", name:"Средство против запахов ENEAR", desc:"Краткое описание товара", price:35000, images:["images/chemicals-19.jpg"], sale:false },
+{ id:1220, category:"chemicals", name:"Нейтрализатор запахов ENEAR", desc:"Краткое описание товара", price:39000, images:["images/chemicals-20.jpg"], sale:false },
+
+{ id:1221, category:"chemicals", name:"Антибактериальный спрей ENEAR", desc:"Краткое описание товара", price:32000, images:["images/chemicals-21.jpg"], sale:false },
+{ id:1222, category:"chemicals", name:"Спрей для дезинфекции рук ENEAR", desc:"Краткое описание товара", price:28000, images:["images/chemicals-22.jpg"], sale:false },
+{ id:1223, category:"chemicals", name:"Концентрат моющий ENEAR", desc:"Краткое описание товара", price:74000, images:["images/chemicals-23.jpg"], sale:false },
+{ id:1224, category:"chemicals", name:"Концентрат дезинфицирующий ENEAR", desc:"Краткое описание товара", price:82000, images:["images/chemicals-24.jpg"], sale:true },
+{ id:1225, category:"chemicals", name:"Концентрат универсальный ENEAR", desc:"Краткое описание товара", price:69000, images:["images/chemicals-25.jpg"], sale:false },
+
+{ id:1226, category:"chemicals", name:"Средство для бассейнов ENEAR", desc:"Краткое описание товара", price:91000, images:["images/chemicals-26.jpg"], sale:false },
+{ id:1227, category:"chemicals", name:"Средство для саун ENEAR", desc:"Краткое описание товара", price:87000, images:["images/chemicals-27.jpg"], sale:false },
+{ id:1228, category:"chemicals", name:"Средство для хаммама ENEAR", desc:"Краткое описание товара", price:94000, images:["images/chemicals-28.jpg"], sale:false },
+{ id:1229, category:"chemicals", name:"Средство для удаления цемента ENEAR", desc:"Краткое описание товара", price:66000, images:["images/chemicals-29.jpg"], sale:false },
+{ id:1230, category:"chemicals", name:"Очиститель фасадов ENEAR", desc:"Краткое описание товара", price:72000, images:["images/chemicals-30.jpg"], sale:false },
+
+{ id:1231, category:"chemicals", name:"Очиститель промышленный ENEAR", desc:"Краткое описание товара", price:98000, images:["images/chemicals-31.jpg"], sale:false },
+{ id:1232, category:"chemicals", name:"Очиститель складской ENEAR", desc:"Краткое описание товара", price:105000, images:["images/chemicals-32.jpg"], sale:false },
+{ id:1233, category:"chemicals", name:"Очиститель пищевых производств ENEAR", desc:"Краткое описание товара", price:115000, images:["images/chemicals-33.jpg"], sale:false },
+{ id:1234, category:"chemicals", name:"Очиститель медицинский ENEAR", desc:"Краткое описание товара", price:128000, images:["images/chemicals-34.jpg"], sale:true },
+{ id:1235, category:"chemicals", name:"Очиститель гостиничный ENEAR", desc:"Краткое описание товара", price:89000, images:["images/chemicals-35.jpg"], sale:false },
+
+{ id:1236, category:"chemicals", name:"Очиститель ресторанный ENEAR", desc:"Краткое описание товара", price:86000, images:["images/chemicals-36.jpg"], sale:false },
+{ id:1237, category:"chemicals", name:"Очиститель офисный ENEAR", desc:"Краткое описание товара", price:64000, images:["images/chemicals-37.jpg"], sale:false },
+{ id:1238, category:"chemicals", name:"Очиститель торговых залов ENEAR", desc:"Краткое описание товара", price:79000, images:["images/chemicals-38.jpg"], sale:false },
+{ id:1239, category:"chemicals", name:"Очиститель складских полов ENEAR", desc:"Краткое описание товара", price:93000, images:["images/chemicals-39.jpg"], sale:false },
+{ id:1240, category:"chemicals", name:"Очиститель бетонных полов ENEAR", desc:"Краткое описание товара", price:99000, images:["images/chemicals-40.jpg"], sale:false },
+
+{ id:1241, category:"chemicals", name:"Очиститель кафеля ENEAR", desc:"Краткое описание товара", price:52000, images:["images/chemicals-41.jpg"], sale:false },
+{ id:1242, category:"chemicals", name:"Очиститель керамогранита ENEAR", desc:"Краткое описание товара", price:57000, images:["images/chemicals-42.jpg"], sale:false },
+{ id:1243, category:"chemicals", name:"Очиститель мрамора ENEAR", desc:"Краткое описание товара", price:68000, images:["images/chemicals-43.jpg"], sale:false },
+{ id:1244, category:"chemicals", name:"Очиститель гранита ENEAR", desc:"Краткое описание товара", price:72000, images:["images/chemicals-44.jpg"], sale:false },
+{ id:1245, category:"chemicals", name:"Очиститель камня ENEAR", desc:"Краткое описание товара", price:76000, images:["images/chemicals-45.jpg"], sale:false },
+
+{ id:1246, category:"chemicals", name:"Средство для ухода за поверхностями ENEAR", desc:"Краткое описание товара", price:49000, images:["images/chemicals-46.jpg"], sale:false },
+{ id:1247, category:"chemicals", name:"Защитное средство для поверхностей ENEAR", desc:"Краткое описание товара", price:58000, images:["images/chemicals-47.jpg"], sale:false },
+{ id:1248, category:"chemicals", name:"Пропитка защитная ENEAR", desc:"Краткое описание товара", price:88000, images:["images/chemicals-48.jpg"], sale:false },
+{ id:1249, category:"chemicals", name:"Антискользящее средство ENEAR", desc:"Краткое описание товара", price:67000, images:["images/chemicals-49.jpg"], sale:false },
+{ id:1250, category:"chemicals", name:"Профессиональное средство ENEAR PRO", desc:"Краткое описание товара", price:135000, images:["images/chemicals-50.jpg"], sale:true },
+
+{ id:1301, category:"fragrances", name:"Отдушка Лаванда", desc:"Краткое описание товара", price:18000, images:["images/fragrances-1.jpg"], sale:false },
+{ id:1302, category:"fragrances", name:"Отдушка Лимон", desc:"Краткое описание товара", price:17000, images:["images/fragrances-2.jpg"], sale:false },
+{ id:1303, category:"fragrances", name:"Отдушка Апельсин", desc:"Краткое описание товара", price:17000, images:["images/fragrances-3.jpg"], sale:false },
+{ id:1304, category:"fragrances", name:"Отдушка Яблоко", desc:"Краткое описание товара", price:18000, images:["images/fragrances-4.jpg"], sale:false },
+{ id:1305, category:"fragrances", name:"Отдушка Вишня", desc:"Краткое описание товара", price:19000, images:["images/fragrances-5.jpg"], sale:false },
+
+{ id:1306, category:"fragrances", name:"Отдушка Клубника", desc:"Краткое описание товара", price:19000, images:["images/fragrances-6.jpg"], sale:false },
+{ id:1307, category:"fragrances", name:"Отдушка Персик", desc:"Краткое описание товара", price:19000, images:["images/fragrances-7.jpg"], sale:false },
+{ id:1308, category:"fragrances", name:"Отдушка Ваниль", desc:"Краткое описание товара", price:21000, images:["images/fragrances-8.jpg"], sale:false },
+{ id:1309, category:"fragrances", name:"Отдушка Кокос", desc:"Краткое описание товара", price:21000, images:["images/fragrances-9.jpg"], sale:false },
+{ id:1310, category:"fragrances", name:"Отдушка Шоколад", desc:"Краткое описание товара", price:22000, images:["images/fragrances-10.jpg"], sale:false },
+
+{ id:1311, category:"fragrances", name:"Отдушка Кофе", desc:"Краткое описание товара", price:22000, images:["images/fragrances-11.jpg"], sale:false },
+{ id:1312, category:"fragrances", name:"Отдушка Корица", desc:"Краткое описание товара", price:23000, images:["images/fragrances-12.jpg"], sale:false },
+{ id:1313, category:"fragrances", name:"Отдушка Мята", desc:"Краткое описание товара", price:20000, images:["images/fragrances-13.jpg"], sale:false },
+{ id:1314, category:"fragrances", name:"Отдушка Эвкалипт", desc:"Краткое описание товара", price:21000, images:["images/fragrances-14.jpg"], sale:false },
+{ id:1315, category:"fragrances", name:"Отдушка Чайное дерево", desc:"Краткое описание товара", price:23000, images:["images/fragrances-15.jpg"], sale:false },
+
+{ id:1316, category:"fragrances", name:"Отдушка Роза", desc:"Краткое описание товара", price:22000, images:["images/fragrances-16.jpg"], sale:false },
+{ id:1317, category:"fragrances", name:"Отдушка Жасмин", desc:"Краткое описание товара", price:23000, images:["images/fragrances-17.jpg"], sale:false },
+{ id:1318, category:"fragrances", name:"Отдушка Ландыш", desc:"Краткое описание товара", price:21000, images:["images/fragrances-18.jpg"], sale:false },
+{ id:1319, category:"fragrances", name:"Отдушка Сирень", desc:"Краткое описание товара", price:22000, images:["images/fragrances-19.jpg"], sale:false },
+{ id:1320, category:"fragrances", name:"Отдушка Пион", desc:"Краткое описание товара", price:23000, images:["images/fragrances-20.jpg"], sale:false },
+
+{ id:1321, category:"fragrances", name:"Отдушка Морской бриз", desc:"Краткое описание товара", price:20000, images:["images/fragrances-21.jpg"], sale:false },
+{ id:1322, category:"fragrances", name:"Отдушка Свежесть океана", desc:"Краткое описание товара", price:21000, images:["images/fragrances-22.jpg"], sale:false },
+{ id:1323, category:"fragrances", name:"Отдушка Горный воздух", desc:"Краткое описание товара", price:22000, images:["images/fragrances-23.jpg"], sale:false },
+{ id:1324, category:"fragrances", name:"Отдушка Лесная свежесть", desc:"Краткое описание товара", price:22000, images:["images/fragrances-24.jpg"], sale:false },
+{ id:1325, category:"fragrances", name:"Отдушка Зеленый чай", desc:"Краткое описание товара", price:21000, images:["images/fragrances-25.jpg"], sale:false },
+
+{ id:1326, category:"fragrances", name:"Отдушка Белый чай", desc:"Краткое описание товара", price:22000, images:["images/fragrances-26.jpg"], sale:false },
+{ id:1327, category:"fragrances", name:"Отдушка Алое вера", desc:"Краткое описание товара", price:21000, images:["images/fragrances-27.jpg"], sale:false },
+{ id:1328, category:"fragrances", name:"Отдушка Хлопок", desc:"Краткое описание товара", price:20000, images:["images/fragrances-28.jpg"], sale:false },
+{ id:1329, category:"fragrances", name:"Отдушка Свежевыстиранное белье", desc:"Краткое описание товара", price:23000, images:["images/fragrances-29.jpg"], sale:false },
+{ id:1330, category:"fragrances", name:"Отдушка Утренняя свежесть", desc:"Краткое описание товара", price:21000, images:["images/fragrances-30.jpg"], sale:false },
+
+{ id:1331, category:"fragrances", name:"Отдушка Восточные специи", desc:"Краткое описание товара", price:25000, images:["images/fragrances-31.jpg"], sale:false },
+{ id:1332, category:"fragrances", name:"Отдушка Сандал", desc:"Краткое описание товара", price:26000, images:["images/fragrances-32.jpg"], sale:false },
+{ id:1333, category:"fragrances", name:"Отдушка Амбра", desc:"Краткое описание товара", price:27000, images:["images/fragrances-33.jpg"], sale:false },
+{ id:1334, category:"fragrances", name:"Отдушка Мускус", desc:"Краткое описание товара", price:27000, images:["images/fragrances-34.jpg"], sale:false },
+{ id:1335, category:"fragrances", name:"Отдушка Пачули", desc:"Краткое описание товара", price:26000, images:["images/fragrances-35.jpg"], sale:false },
+
+{ id:1336, category:"fragrances", name:"Отдушка Ветивер", desc:"Краткое описание товара", price:26000, images:["images/fragrances-36.jpg"], sale:false },
+{ id:1337, category:"fragrances", name:"Отдушка Кедр", desc:"Краткое описание товара", price:25000, images:["images/fragrances-37.jpg"], sale:false },
+{ id:1338, category:"fragrances", name:"Отдушка Табак ваниль", desc:"Краткое описание товара", price:29000, images:["images/fragrances-38.jpg"], sale:false },
+{ id:1339, category:"fragrances", name:"Отдушка Бергамот", desc:"Краткое описание товара", price:24000, images:["images/fragrances-39.jpg"], sale:false },
+{ id:1340, category:"fragrances", name:"Отдушка Грейпфрут", desc:"Краткое описание товара", price:23000, images:["images/fragrances-40.jpg"], sale:false },
+
+{ id:1341, category:"fragrances", name:"Отдушка Манго", desc:"Краткое описание товара", price:22000, images:["images/fragrances-41.jpg"], sale:false },
+{ id:1342, category:"fragrances", name:"Отдушка Ананас", desc:"Краткое описание товара", price:22000, images:["images/fragrances-42.jpg"], sale:false },
+{ id:1343, category:"fragrances", name:"Отдушка Арбуз", desc:"Краткое описание товара", price:21000, images:["images/fragrances-43.jpg"], sale:false },
+{ id:1344, category:"fragrances", name:"Отдушка Дыня", desc:"Краткое описание товара", price:21000, images:["images/fragrances-44.jpg"], sale:false },
+{ id:1345, category:"fragrances", name:"Отдушка Смородина", desc:"Краткое описание товара", price:22000, images:["images/fragrances-45.jpg"], sale:false },
+
+{ id:1346, category:"fragrances", name:"Отдушка Малина", desc:"Краткое описание товара", price:22000, images:["images/fragrances-46.jpg"], sale:false },
+{ id:1347, category:"fragrances", name:"Отдушка Черника", desc:"Краткое описание товара", price:23000, images:["images/fragrances-47.jpg"], sale:false },
+{ id:1348, category:"fragrances", name:"Отдушка Карамель", desc:"Краткое описание товара", price:24000, images:["images/fragrances-48.jpg"], sale:false },
+{ id:1349, category:"fragrances", name:"Отдушка Мед", desc:"Краткое описание товара", price:24000, images:["images/fragrances-49.jpg"], sale:false },
+{ id:1350, category:"fragrances", name:"Отдушка Premium Mix ENEAR", desc:"Краткое описание товара", price:32000, images:["images/fragrances-50.jpg"], sale:true }
+];
+
+
+
+
+
+
+
+
+
 
     const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
       '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#9ca3af">Нет изображения</text></svg>'

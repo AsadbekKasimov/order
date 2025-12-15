@@ -337,29 +337,34 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <script>
-    /*****************************************************************
- * ТОВАРЫ ИЗ GOOGLE SHEETS (через bot.py)
- *****************************************************************/
-const categories = ["detergents","plastic","chemicals","fragrances"];
-const categoryNames = {
-  detergents: "Моющие средства",
-  plastic: "Пластмасса",
-  chemicals: "Химикаты",
-  fragrances: "Отдушки"
-};
-
+let categories = [];
+let categoryNames = {};
 let items = [];
 
 async function loadProducts() {
   try {
     const response = await fetch("http://127.0.0.1:5000/api/products");
-    items = await response.json();
 
-    // стандартная инициализация интерфейса
-    renderCategoryChips();
-    loadFilterInputs();
-    renderGrid();
-    renderCartList();
+  items = await response.json();
+
+// === строим категории из API ===
+categories = [...new Set(items.map(i => i.category))];
+categories.forEach(c => {
+  categoryNames[c] = c;
+});
+
+// если категория не выбрана — ставим первую
+if (!state.category || !categories.includes(state.category)) {
+  state.category = categories[0] || null;
+}
+
+// стандартная инициализация интерфейса
+renderCategoryChips();
+loadFilterInputs();
+renderGrid();
+renderCartList();
+
+    
   } catch (error) {
     console.error("Ошибка загрузки товаров:", error);
     document.getElementById("empty").style.display = "block";
@@ -376,7 +381,7 @@ loadProducts();
 
     /*************** состояние и storage *****************/
     const STORAGE_KEY = "tg_shop_v3_kafolat";
-    let state = { cart:{}, category: categories[0], search:"", sort:"default", filters: { saleOnly:false, priceMin:null, priceMax:null } };
+    let state = { cart:{}, category: null, search:"", sort:"default", filters: { saleOnly:false, priceMin:null, priceMax:null } };
     try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }catch(e){ console.warn(e); }
 
     function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
@@ -753,5 +758,6 @@ window.addEventListener('pagehide', saveState);
   </script>
 </body>
 </html>
+
 
 

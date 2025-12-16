@@ -236,6 +236,8 @@ function filterProducts(query) {
 // Modal
 function openProductModal(product) {
     currentProduct = product;
+    document.getElementById('modal-image').src = product.image;
+    document.getElementById('modal-image').alt = product.name;
     document.getElementById('modal-title').textContent = product.name;
     document.getElementById('modal-description').textContent = product.description;
     document.getElementById('modal-price').textContent = formatPrice(product.price);

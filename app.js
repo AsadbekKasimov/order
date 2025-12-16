@@ -42,8 +42,8 @@ const productsData = {
         { id: 30, name: "AOS", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "AOS" }
     ],
     fragrances: [
-        { id: 31, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "/images/fs.png", description: "Натуральная отдушка лаванды" },
-        { id: 32, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "/images/fs.png", description: "Свежий цитрусовый аромат" },
+        { id: 31, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Натуральная отдушка лаванды" },
+        { id: 32, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий цитрусовый аромат" },
         { id: 33, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "/images/fs.png", description: "Нежный аромат розы" },
         { id: 34, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "/images/fs.png", description: "Свежий морской аромат" },
         { id: 35, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "/images/fs.png", description: "Сладкий ванильный аромат" },

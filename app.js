@@ -42,16 +42,16 @@ const productsData = {
         { id: 30, name: "AOS", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "AOS" }
     ],
     fragrances: [
-        { id: 31, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=400&h=400&fit=crop", description: "Натуральная отдушка лаванды" },
-        { id: 32, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=400&h=400&fit=crop", description: "Свежий цитрусовый аромат" },
-        { id: 33, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop", description: "Нежный аромат розы" },
-        { id: 34, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400&h=400&fit=crop", description: "Свежий морской аромат" },
-        { id: 35, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://images.unsplash.com/photo-1571506165871-ee72a35f2a2c?w=400&h=400&fit=crop", description: "Сладкий ванильный аромат" },
-        { id: 36, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://images.unsplash.com/photo-1569870499705-504209102861?w=400&h=400&fit=crop", description: "Свежий яблочный аромат" },
-        { id: 37, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&h=400&fit=crop", description: "Экзотический кокосовый аромат" },
-        { id: 38, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=400&h=400&fit=crop", description: "Изысканный аромат жасмина" },
-        { id: 39, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?w=400&h=400&fit=crop", description: "Освежающий мятный аромат" },
-        { id: 40, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop", description: "Древесный аромат сандала" }
+        { id: 31, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "/images/fs", description: "Натуральная отдушка лаванды" },
+        { id: 32, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "/images/fs", description: "Свежий цитрусовый аромат" },
+        { id: 33, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "/images/fs", description: "Нежный аромат розы" },
+        { id: 34, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "/images/fs", description: "Свежий морской аромат" },
+        { id: 35, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "/images/fs", description: "Сладкий ванильный аромат" },
+        { id: 36, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "/images/fs", description: "Свежий яблочный аромат" },
+        { id: 37, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "/images/fs", description: "Экзотический кокосовый аромат" },
+        { id: 38, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "/images/fs", description: "Изысканный аромат жасмина" },
+        { id: 39, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "/images/fs", description: "Освежающий мятный аромат" },
+        { id: 40, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "/images/fs", description: "Древесный аромат сандала" }
     ]
 };
 

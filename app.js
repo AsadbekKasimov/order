@@ -44,8 +44,8 @@ const productsData = {
     fragrances: [
         { id: 31, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Натуральная отдушка лаванды" },
         { id: 32, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий цитрусовый аромат" },
-        { id: 33, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Нежный аромат розы" },
-        { id: 34, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий морской аромат" },
+        { id: 33, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Нежный аромат розы" },
+        { id: 34, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий морской аромат" },
         { id: 35, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Сладкий ванильный аромат" },
         { id: 36, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий яблочный аромат" },
         { id: 37, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Экзотический кокосовый аромат" },

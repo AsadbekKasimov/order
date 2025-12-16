@@ -2,12 +2,7 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// Products Database - 4 категории по 10 товаров
-// ВАЖНО: Замените эти URL на ссылки к вашим реальным фотографиям товаров
-// Варианты:
-// 1. Загрузите фото на ваш хостинг: "https://ваш-сайт.com/images/product1.jpg"
-// 2. Положите в папку images: "images/product1.jpg"
-// 3. Используйте внешние ссылки (примеры ниже используют Unsplash)
+
 
 const productsData = {
     cleaning: [

@@ -1,970 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <title>Каталог — Telegram Order Automation (EVOS-style, Kafolat Red)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root{
-      --bg:#f4f5f7;
-      --card:#fff;
-      --muted:#6b7280;
-      --accent:#111827;
-      --brand:#d32f2f; /* primary brand red */
-      --radius:14px;
-      --soft:#fafafa;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      padding:16px 16px 110px; /* оставить место для нижней навигации */
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--bg);
-      color:#111;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    /* верхняя панель */
-    .topbar{
-      background:linear-gradient(90deg, rgba(211,47,47,0.08), rgba(211,47,47,0.03));
-      border-radius:18px;
-      padding:12px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      box-shadow:0 6px 18px rgba(12,15,20,0.03);
-      margin-bottom:12px;
-    }
-    .logo-img{width:110px; height:auto; object-fit:contain}
-    .search-box{flex:1; display:flex; gap:8px; align-items:center}
-    .search{width:100%; background:#fff; border-radius:999px; padding:10px 14px; border:1px solid #eee; font-size:15px}
-    .address{font-size:12px; color:var(--muted)}
-
-    /* chips - исправленные стили */
-    .chips {
-      display:flex;
-      gap:10px;
-      overflow:auto;
-      padding:10px 4px;
-      margin-bottom:8px;
-      align-items:center;
-    }
-
-    .chip {
-      min-width:84px;
-      flex:0 0 auto;
-      background:#fff;
-      border-radius:12px;
-      padding:10px;
-      text-align:center;
-      box-shadow:0 6px 18px rgba(12,15,20,0.03);
-      cursor:pointer;
-
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-
-      /* фиксированная высота, предотвращающая прыжки */
-      min-height:64px;
-      height:64px;
-
-      /* Плавный переход фона и трансформации */
-      transition: background-color .18s ease, transform .18s ease, color .18s ease;
-      will-change: background-color, transform;
-    }
-
-    .chip img {
-      height:36px;
-      width:36px;
-      object-fit:contain;
-      display:block;
-      margin-bottom:6px;
-      flex:0 0 auto;
-    }
-
-    .chip .chip-label {
-      font-weight:600;
-      font-size:13px;
-      line-height:1;
-      white-space:nowrap;
-      color:inherit;
-    }
-
-    .chip.active {
-      background:var(--brand);
-      color:#fff;
-      transform:translateY(-4px);
-    }
-
-    .chip.active .chip-label {
-      color:#fff;
-      /* не меняем font-weight чтобы не вызвать изменение размера */
-    }
-
-    /* banner */
-    .banner{display:flex; gap:12px; align-items:center; padding:14px; border-radius:14px; background:linear-gradient(90deg,var(--brand),#ff7b7b); color:#fff; margin-bottom:14px}
-    .banner img{height:84px; border-radius:10px}
-    .banner h2{margin:0;font-size:18px}
-    .banner p{margin:4px 0 0; opacity:0.95}
-
-    /* controls row: filters, sort */
-    .controls{
-      display:none !important;
-      gap:10px;
-      align-items:center;
-      margin-bottom:12px;
-      flex-wrap:wrap;
-    }
-    .filters{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .filter-chip{padding:6px 10px; background:#fff; border:1px solid #e6e7eb; border-radius:999px; font-size:13px; cursor:pointer}
-    .filter-chip.active{background:var(--brand); color:#fff;}
-
-    .sort{padding:8px; border-radius:10px; border:1px solid #e6e7eb; background:#fff}
-
-    /* grid */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-      gap:12px;
-    }
-
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:12px;
-      box-shadow:0 6px 18px rgba(12,15,20,0.04);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      cursor:default;
-    }
-    .thumb{
-      width:100%;
-      height:140px;
-      border-radius:12px;
-      object-fit:cover;
-      background:#f0f0f0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--muted);
-      font-size:13px;
-      overflow:hidden;
-      position:relative;
-    }
-    .title{font-weight:700; font-size:14px}
-    .desc{font-size:12px; color:var(--muted); min-height:36px}
-    .price-row{display:flex; justify-content:space-between; align-items:center; gap:10px}
-    .price{font-weight:800; color:var(--brand)}
-    .controls-row{display:flex; justify-content:space-between; align-items:center; gap:8px}
-
-    /* qty */
-    .qty-box{display:flex; align-items:center; gap:8px}
-    .qty-btn{
-      width:36px; height:36px; border-radius:10px; border:none; background:#f2f3f5; cursor:pointer;
-      display:inline-flex; align-items:center; justify-content:center; font-size:18px;
-    }
-    .qty-value{min-width:28px; text-align:center; font-weight:700;}
-
-    .btn-primary{
-      background:var(--brand);
-      color:#fff;
-      border:none;
-      padding:8px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:700;
-    }
-
-    /* bottom nav */
-    .bottom-nav{
-      position:fixed; left:12px; right:12px; bottom:12px; height:64px; background:#fff; border-radius:20px; display:flex; justify-content:space-around; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.08);
-      padding:8px 18px; gap:12px; z-index:80
-    }
-    .nav-item{display:flex; flex-direction:column; align-items:center; gap:6px; font-size:12px; color:var(--muted); cursor:pointer}
-    .nav-item.active{color:var(--brand)}
-
-    .cart-float{position:fixed; right:28px; bottom:92px; background:var(--brand); color:#fff; padding:10px 14px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,0.2); font-weight:700; z-index:90; display:none}
-
-    /* modals */
-    .modal-backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none; align-items:center; justify-content:center; z-index:200;
-    }
-    .modal{width:95%; max-width:840px; background:#fff; border-radius:14px; padding:16px; box-shadow:0 8px 30px rgba(0,0,0,0.2); max-height:90vh; overflow:auto}
-
-    /* helpers */
-    .empty{padding:24px; text-align:center; color:var(--muted); border-radius:10px; background:#fff}
-    @media (max-width:520px){
-      .thumb{height:120px}
-      .banner img{height:68px}
-      body{padding-bottom:140px}
-      .logo-img{width:96px}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-
-  <!-- topbar -->
-  <div class="topbar">
-    <img src="images/logo.png" alt="Kafolat logo" class="logo-img" />
-    <div style="flex:1">
-      <div style="display:flex; gap:8px; align-items:center;">
-        <div class="search-box">
-          <input id="searchInput" class="search" placeholder="Быстрый поиск по товарам..." />
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1 class="header-title">Каталог</h1>
         </div>
-        <button id="openCartQuick" class="btn-primary" title="Открыть корзину">Корзина</button>
-      </div>
-      <div style="display:flex; gap:12px; align-items:center; margin-top:8px">
-        <div class="address">Telegram Order Automation — kafolatplast.uz</div>
-        <div style="flex:1"></div>
-        <!-- Sort select -->
-        <select id="sortSelect" class="sort" title="Сортировка">
-          <option value="default">Сортировка</option>
-          <option value="price_asc">Цена: по возрастанию</option>
-          <option value="price_desc">Цена: по убыванию</option>
-          <option value="name_asc">Название: A→Z</option>
-          <option value="name_desc">Название: Z→A</option>
-        </select>
-      </div>
-    </div>
-  </div>
+    </header>
 
-  <!-- categories (chips) -->
-  <div class="chips" id="categoryTabs"></div>
-
-  <!-- banner -->
-  <div class="banner">
-    <div style="flex:1">
-      <h2>Новая линейка Kafolat — сильная формула</h2>
-      <p>Акция: первые 100 заказов — скидка. Удобный каталог, простая корзина.</p>
-    </div>
-    <img src="images/banner-product.png" alt="banner" />
-  </div>
-
-  <!-- controls (filters) -->
-  <div class="controls">
-    <div class="filters" id="extraFilters">
-      <button id="filterSale" class="filter-chip">Только акционные</button>
-      <label style="display:flex;gap:6px;align-items:center;font-size:13px">
-        Цена:
-        <input id="priceMin" type="number" placeholder="от" style="width:80px;padding:6px;border-radius:8px;border:1px solid #eee;margin-left:6px">
-        <input id="priceMax" type="number" placeholder="до" style="width:80px;padding:6px;border-radius:8px;border:1px solid #eee;margin-left:6px">
-      </label>
-      <button id="applyFilters" class="filter-chip">Применить</button>
-      <button id="clearFilters" class="filter-chip">Сброс</button>
-    </div>
-    <div style="flex:1"></div>
-    <div style="font-size:13px;color:var(--muted)">Нажмите на карточку — для подробной информации</div>
-  </div>
-
-  <!-- grid -->
-  <div id="grid" class="grid"></div>
-  <div id="empty" style="display:none" class="empty">Товаров не найдено.</div>
-
-  <!-- floating cart info -->
-  <div id="cartFloat" class="cart-float">Корзина: <span id="cartCount">0</span> • <span id="cartTotal">0 so'm</span></div>
-
-  <!-- product modal -->
-  <div id="modalBackdrop" class="modal-backdrop">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px">
-        <div>
-          <div id="modalTitle" style="font-weight:800; font-size:18px"></div>
-          <div id="modalPrice" style="color:var(--brand); font-weight:800; margin-top:6px"></div>
-        </div>
-        <div>
-          <button id="closeModal" class="qty-btn">✕</button>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:12px; margin-top:12px; flex-wrap:wrap;">
-        <img id="modalBig" class="big-img" src="" alt="image" style="width:320px;height:260px;object-fit:cover;border-radius:12px;background:#f6f6f6" />
-
-        <div style="flex:1; min-width:220px;">
-          <div id="modalDesc" class="specs" style="color:var(--muted)"></div>
-
-          <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
-            <div class="qty-box">
-              <button id="modalMinus" class="qty-btn">−</button>
-              <div id="modalQty" class="qty-value">0</div>
-              <button id="modalPlus" class="qty-btn">+</button>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Catalog Page -->
+        <div id="catalog-page" class="page active">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="Поиск товаров...">
             </div>
-            <button id="modalAdd" class="btn-primary">Добавить в корзину</button>
-          </div>
 
-          <div id="modalGallery" class="gallery" style="margin-top:12px;display:flex;gap:8px;"></div>
+            <!-- Categories -->
+            <div class="categories">
+                <button class="category-btn active" data-category="all">Все</button>
+                <button class="category-btn" data-category="cleaning">Моющие средства</button>
+                <button class="category-btn" data-category="plastic">Пластмасса</button>
+                <button class="category-btn" data-category="chemicals">Химикаты</button>
+                <button class="category-btn" data-category="fragrances">Отдушки</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- cart modal (полная корзина) -->
-  <div id="cartBackdrop" class="modal-backdrop">
-    <div class="modal" style="max-width:760px">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:700">Корзина</div>
-        <div><button id="closeCart" class="qty-btn">✕</button></div>
-      </div>
-
-      <div id="cartItems" style="margin-top:10px"></div>
-
-      <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:700" id="cartSummaryText">Итого: 0 so'm</div>
-        <div style="display:flex; gap:8px;">
-          <button id="cartCancel" class="btn-primary" style="background:#fff;color:var(--accent);border:1px solid #e6e7eb">Продолжить покупки</button>
-          <button id="clearCartBtn" class="btn-primary" style="background:#f3f4f6;color:var(--accent);border:1px solid #e6e7eb">Очистить</button>
-          <button id="cartSend" class="btn-primary">Отправить заказ</button>
+        <!-- Favorites Page -->
+        <div id="favorites-page" class="page">
+            <h2 class="page-title">Избранные товары</h2>
+            <div class="products-grid" id="favorites-grid">
+                <div class="empty-state">
+                    <p>У вас пока нет избранных товаров</p>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Cart Page -->
+        <div id="cart-page" class="page">
+            <h2 class="page-title">Корзина</h2>
+            <div id="cart-items" class="cart-items">
+                <div class="empty-state">
+                    <p>Ваша корзина пуста</p>
+                </div>
+            </div>
+            <div id="cart-summary" class="cart-summary hidden">
+                <div class="cart-total">
+                    <span>Итого:</span>
+                    <span id="cart-total-amount">0 сум</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn">Оформить заказ</button>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page">
+            <h2 class="page-title">Профиль</h2>
+            <div class="profile-content">
+                <div class="profile-info">
+                    <div class="profile-item">
+                        <span class="profile-label">Имя:</span>
+                        <span class="profile-value" id="user-name">Загрузка...</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Телефон:</span>
+                        <span class="profile-value" id="user-phone">Загрузка...</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Город:</span>
+                        <span class="profile-value" id="user-city">Загрузка...</span>
+                    </div>
+                </div>
+                <div class="profile-orders">
+                    <h3>Последние заказы</h3>
+                    <div id="orders-list" class="orders-list">
+                        <p class="empty-state">У вас пока нет заказов</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" data-page="catalog">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Каталог</span>
+        </button>
+        <button class="nav-btn" data-page="favorites">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>Избранные</span>
+        </button>
+        <button class="nav-btn" data-page="cart">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>Корзина</span>
+            <span class="cart-badge hidden" id="cart-badge">0</span>
+        </button>
+        <button class="nav-btn" data-page="profile">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Профиль</span>
+        </button>
+    </nav>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-body">
+                <h3 id="modal-title"></h3>
+                <p id="modal-description"></p>
+                <div class="modal-price" id="modal-price"></div>
+                <div class="modal-quantity">
+                    <button class="qty-btn" id="qty-minus">-</button>
+                    <input type="number" id="qty-input" value="1" min="1">
+                    <button class="qty-btn" id="qty-plus">+</button>
+                </div>
+                <button class="add-to-cart-btn" id="modal-add-to-cart">Добавить в корзину</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- bottom navigation -->
-  <div class="bottom-nav">
-      <div style="flex:0 0 120px; display:flex; align-items:center; justify-content:center;">
-      <button id="checkoutBtn" class="btn-primary" style="padding:8px 12px">Оформить заказ</button>
-    </div>
-  </div>
-
-  <!-- Telegram WebApp script -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <script>
-    /*****************************************************************
-     * Данные: авто-генерируем минимум 50 товаров на категорию.
-     * Замените itemsData на реальный каталог (CSV/JSON) когда будет готов.
-     *****************************************************************/
-    const categories = ["detergents","plastic","chemicals","fragrances"];
-    const categoryNames = { detergents:"Моющие средства", plastic:"Пластмасса", chemicals:"Химикаты", fragrances:"Отдушки" };
-
-
- const items = [
-{ id:1001, category:"detergents", name:"Гель для стирки ENEAR 1L", desc:"Краткое описание товара", price:45000, images:["images/detergents-1.jpg"], sale:false },
-{ id:1002, category:"detergents", name:"Гель для стирки ENEAR 2L", desc:"Краткое описание товара", price:78000, images:["images/detergents-2.jpg"], sale:false },
-{ id:1003, category:"detergents", name:"Гель для стирки ENEAR 3L", desc:"Краткое описание товара", price:120000, images:["images/detergents-3.jpg"], sale:true },
-{ id:1004, category:"detergents", name:"Средство для мытья пола ENEAR", desc:"Краткое описание товара", price:39000, images:["images/detergents-4.jpg"], sale:false },
-{ id:1005, category:"detergents", name:"Средство для кухни ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-5.jpg"], sale:false },
-{ id:1006, category:"detergents", name:"Средство для ванной ENEAR", desc:"Краткое описание товара", price:37000, images:["images/detergents-6.jpg"], sale:false },
-{ id:1007, category:"detergents", name:"Антижир ENEAR", desc:"Краткое описание товара", price:41000, images:["images/detergents-7.jpg"], sale:false },
-{ id:1008, category:"detergents", name:"Отбеливатель ENEAR", desc:"Краткое описание товара", price:34000, images:["images/detergents-8.jpg"], sale:false },
-{ id:1009, category:"detergents", name:"Средство для стекол ENEAR", desc:"Краткое описание товара", price:29000, images:["images/detergents-9.jpg"], sale:false },
-{ id:1010, category:"detergents", name:"Жидкое мыло ENEAR", desc:"Краткое описание товара", price:25000, images:["images/detergents-10.jpg"], sale:false },
-
-{ id:1011, category:"detergents", name:"Гель для посуды ENEAR Лимон", desc:"Краткое описание товара", price:23000, images:["images/detergents-11.jpg"], sale:false },
-{ id:1012, category:"detergents", name:"Гель для посуды ENEAR Яблоко", desc:"Краткое описание товара", price:23000, images:["images/detergents-12.jpg"], sale:false },
-{ id:1013, category:"detergents", name:"Гель для посуды ENEAR Алоэ", desc:"Краткое описание товара", price:24000, images:["images/detergents-13.jpg"], sale:false },
-{ id:1014, category:"detergents", name:"Универсальное средство ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-14.jpg"], sale:false },
-{ id:1015, category:"detergents", name:"Средство для плитки ENEAR", desc:"Краткое описание товара", price:38000, images:["images/detergents-15.jpg"], sale:false },
-
-{ id:1016, category:"detergents", name:"Средство для паркета ENEAR", desc:"Краткое описание товара", price:43000, images:["images/detergents-16.jpg"], sale:false },
-{ id:1017, category:"detergents", name:"Средство для ламината ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-17.jpg"], sale:false },
-{ id:1018, category:"detergents", name:"Средство для ковров ENEAR", desc:"Краткое описание товара", price:46000, images:["images/detergents-18.jpg"], sale:false },
-{ id:1019, category:"detergents", name:"Пятновыводитель ENEAR", desc:"Краткое описание товара", price:49000, images:["images/detergents-19.jpg"], sale:true },
-{ id:1020, category:"detergents", name:"Средство для духовок ENEAR", desc:"Краткое описание товара", price:52000, images:["images/detergents-20.jpg"], sale:false },
-
-{ id:1021, category:"detergents", name:"Средство для холодильников ENEAR", desc:"Краткое описание товара", price:33000, images:["images/detergents-21.jpg"], sale:false },
-{ id:1022, category:"detergents", name:"Средство для микроволновок ENEAR", desc:"Краткое описание товара", price:32000, images:["images/detergents-22.jpg"], sale:false },
-{ id:1023, category:"detergents", name:"Средство для сантехники ENEAR", desc:"Краткое описание товара", price:44000, images:["images/detergents-23.jpg"], sale:false },
-{ id:1024, category:"detergents", name:"Средство против налета ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-24.jpg"], sale:false },
-{ id:1025, category:"detergents", name:"Средство для раковин ENEAR", desc:"Краткое описание товара", price:34000, images:["images/detergents-25.jpg"], sale:false },
-
-{ id:1026, category:"detergents", name:"Средство для кафеля ENEAR", desc:"Краткое описание товара", price:38000, images:["images/detergents-26.jpg"], sale:false },
-{ id:1027, category:"detergents", name:"Средство для унитазов ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-27.jpg"], sale:false },
-{ id:1028, category:"detergents", name:"Средство против плесени ENEAR", desc:"Краткое описание товара", price:47000, images:["images/detergents-28.jpg"], sale:false },
-{ id:1029, category:"detergents", name:"Средство для мебели ENEAR", desc:"Краткое описание товара", price:41000, images:["images/detergents-29.jpg"], sale:false },
-{ id:1030, category:"detergents", name:"Средство для кожи ENEAR", desc:"Краткое описание товара", price:45000, images:["images/detergents-30.jpg"], sale:false },
-
-{ id:1031, category:"detergents", name:"Средство для пластика ENEAR", desc:"Краткое описание товара", price:32000, images:["images/detergents-31.jpg"], sale:false },
-{ id:1032, category:"detergents", name:"Средство для дерева ENEAR", desc:"Краткое описание товара", price:43000, images:["images/detergents-32.jpg"], sale:false },
-{ id:1033, category:"detergents", name:"Средство для металла ENEAR", desc:"Краткое описание товара", price:39000, images:["images/detergents-33.jpg"], sale:false },
-{ id:1034, category:"detergents", name:"Средство для алюминия ENEAR", desc:"Краткое описание товара", price:40000, images:["images/detergents-34.jpg"], sale:false },
-{ id:1035, category:"detergents", name:"Средство для нержавейки ENEAR", desc:"Краткое описание товара", price:42000, images:["images/detergents-35.jpg"], sale:false },
-
-{ id:1036, category:"detergents", name:"Средство для ковриков ENEAR", desc:"Краткое описание товара", price:37000, images:["images/detergents-36.jpg"], sale:false },
-{ id:1037, category:"detergents", name:"Средство для текстиля ENEAR", desc:"Краткое описание товара", price:48000, images:["images/detergents-37.jpg"], sale:false },
-{ id:1038, category:"detergents", name:"Средство для штор ENEAR", desc:"Краткое описание товара", price:46000, images:["images/detergents-38.jpg"], sale:false },
-{ id:1039, category:"detergents", name:"Средство для обуви ENEAR", desc:"Краткое описание товара", price:35000, images:["images/detergents-39.jpg"], sale:false },
-{ id:1040, category:"detergents", name:"Средство для ковролина ENEAR", desc:"Краткое описание товара", price:49000, images:["images/detergents-40.jpg"], sale:false },
-
-{ id:1041, category:"detergents", name:"Средство для авто ENEAR", desc:"Краткое описание товара", price:52000, images:["images/detergents-41.jpg"], sale:false },
-{ id:1042, category:"detergents", name:"Автошампунь ENEAR", desc:"Краткое описание товара", price:55000, images:["images/detergents-42.jpg"], sale:false },
-{ id:1043, category:"detergents", name:"Средство для дисков ENEAR", desc:"Краткое описание товара", price:47000, images:["images/detergents-43.jpg"], sale:false },
-{ id:1044, category:"detergents", name:"Средство для салона авто ENEAR", desc:"Краткое описание товара", price:58000, images:["images/detergents-44.jpg"], sale:false },
-{ id:1045, category:"detergents", name:"Средство для стекол авто ENEAR", desc:"Краткое описание товара", price:36000, images:["images/detergents-45.jpg"], sale:false },
-
-{ id:1046, category:"detergents", name:"Средство для зеркал ENEAR", desc:"Краткое описание товара", price:31000, images:["images/detergents-46.jpg"], sale:false },
-{ id:1047, category:"detergents", name:"Средство для витрин ENEAR", desc:"Краткое описание товара", price:33000, images:["images/detergents-47.jpg"], sale:false },
-{ id:1048, category:"detergents", name:"Средство для офисов ENEAR", desc:"Краткое описание товара", price:44000, images:["images/detergents-48.jpg"], sale:false },
-{ id:1049, category:"detergents", name:"Средство для складов ENEAR", desc:"Краткое описание товара", price:62000, images:["images/detergents-49.jpg"], sale:false },
-{ id:1050, category:"detergents", name:"Средство универсальное ENEAR PRO", desc:"Краткое описание товара", price:69000, images:["images/detergents-50.jpg"], sale:true },
-
-{ id:1101, category:"plastic", name:"Ведро пластиковое 5л", desc:"Краткое описание товара", price:22000, images:["images/plastic-1.jpg"], sale:false },
-{ id:1102, category:"plastic", name:"Ведро пластиковое 10л", desc:"Краткое описание товара", price:28000, images:["images/plastic-2.jpg"], sale:false },
-{ id:1103, category:"plastic", name:"Ведро пластиковое 15л", desc:"Краткое описание товара", price:34000, images:["images/plastic-3.jpg"], sale:false },
-{ id:1104, category:"plastic", name:"Таз пластиковый 8л", desc:"Краткое описание товара", price:21000, images:["images/plastic-4.jpg"], sale:false },
-{ id:1105, category:"plastic", name:"Таз пластиковый 12л", desc:"Краткое описание товара", price:26000, images:["images/plastic-5.jpg"], sale:false },
-{ id:1106, category:"plastic", name:"Таз пластиковый 20л", desc:"Краткое описание товара", price:32000, images:["images/plastic-6.jpg"], sale:false },
-{ id:1107, category:"plastic", name:"Контейнер пластиковый 1л", desc:"Краткое описание товара", price:12000, images:["images/plastic-7.jpg"], sale:false },
-{ id:1108, category:"plastic", name:"Контейнер пластиковый 2л", desc:"Краткое описание товара", price:16000, images:["images/plastic-8.jpg"], sale:false },
-{ id:1109, category:"plastic", name:"Контейнер пластиковый 5л", desc:"Краткое описание товара", price:24000, images:["images/plastic-9.jpg"], sale:false },
-{ id:1110, category:"plastic", name:"Контейнер пластиковый 10л", desc:"Краткое описание товара", price:36000, images:["images/plastic-10.jpg"], sale:false },
-
-{ id:1111, category:"plastic", name:"Корзина пластиковая малая", desc:"Краткое описание товара", price:18000, images:["images/plastic-11.jpg"], sale:false },
-{ id:1112, category:"plastic", name:"Корзина пластиковая средняя", desc:"Краткое описание товара", price:24000, images:["images/plastic-12.jpg"], sale:false },
-{ id:1113, category:"plastic", name:"Корзина пластиковая большая", desc:"Краткое описание товара", price:32000, images:["images/plastic-13.jpg"], sale:false },
-{ id:1114, category:"plastic", name:"Ящик пластиковый 20л", desc:"Краткое описание товара", price:42000, images:["images/plastic-14.jpg"], sale:false },
-{ id:1115, category:"plastic", name:"Ящик пластиковый 40л", desc:"Краткое описание товара", price:56000, images:["images/plastic-15.jpg"], sale:false },
-
-{ id:1116, category:"plastic", name:"Канистра пластиковая 5л", desc:"Краткое описание товара", price:30000, images:["images/plastic-16.jpg"], sale:false },
-{ id:1117, category:"plastic", name:"Канистра пластиковая 10л", desc:"Краткое описание товара", price:42000, images:["images/plastic-17.jpg"], sale:false },
-{ id:1118, category:"plastic", name:"Канистра пластиковая 20л", desc:"Краткое описание товара", price:62000, images:["images/plastic-18.jpg"], sale:false },
-{ id:1119, category:"plastic", name:"Бочка пластиковая 30л", desc:"Краткое описание товара", price:85000, images:["images/plastic-19.jpg"], sale:false },
-{ id:1120, category:"plastic", name:"Бочка пластиковая 60л", desc:"Краткое описание товара", price:135000, images:["images/plastic-20.jpg"], sale:false },
-
-{ id:1121, category:"plastic", name:"Лоток пластиковый", desc:"Краткое описание товара", price:15000, images:["images/plastic-21.jpg"], sale:false },
-{ id:1122, category:"plastic", name:"Совок пластиковый", desc:"Краткое описание товара", price:9000, images:["images/plastic-22.jpg"], sale:false },
-{ id:1123, category:"plastic", name:"Щетка пластиковая", desc:"Краткое описание товара", price:14000, images:["images/plastic-23.jpg"], sale:false },
-{ id:1124, category:"plastic", name:"Коробка пластиковая с крышкой", desc:"Краткое описание товара", price:28000, images:["images/plastic-24.jpg"], sale:false },
-{ id:1125, category:"plastic", name:"Органайзер пластиковый", desc:"Краткое описание товара", price:36000, images:["images/plastic-25.jpg"], sale:false },
-
-{ id:1126, category:"plastic", name:"Поддон пластиковый", desc:"Краткое описание товара", price:42000, images:["images/plastic-26.jpg"], sale:false },
-{ id:1127, category:"plastic", name:"Стакан пластиковый", desc:"Краткое описание товара", price:8000, images:["images/plastic-27.jpg"], sale:false },
-{ id:1128, category:"plastic", name:"Ковш пластиковый", desc:"Краткое описание товара", price:12000, images:["images/plastic-28.jpg"], sale:false },
-{ id:1129, category:"plastic", name:"Емкость пластиковая 25л", desc:"Краткое описание товара", price:54000, images:["images/plastic-29.jpg"], sale:false },
-{ id:1130, category:"plastic", name:"Емкость пластиковая 50л", desc:"Краткое описание товара", price:98000, images:["images/plastic-30.jpg"], sale:false },
-
-{ id:1131, category:"plastic", name:"Ванночка пластиковая", desc:"Краткое описание товара", price:26000, images:["images/plastic-31.jpg"], sale:false },
-{ id:1132, category:"plastic", name:"Подставка пластиковая", desc:"Краткое описание товара", price:18000, images:["images/plastic-32.jpg"], sale:false },
-{ id:1133, category:"plastic", name:"Крышка пластиковая", desc:"Краткое описание товара", price:6000, images:["images/plastic-33.jpg"], sale:false },
-{ id:1134, category:"plastic", name:"Контейнер пищевой пластиковый", desc:"Краткое описание товара", price:20000, images:["images/plastic-34.jpg"], sale:false },
-{ id:1135, category:"plastic", name:"Ящик складской пластиковый", desc:"Краткое описание товара", price:75000, images:["images/plastic-35.jpg"], sale:false },
-
-{ id:1136, category:"plastic", name:"Корзина для мусора пластиковая", desc:"Краткое описание товара", price:38000, images:["images/plastic-36.jpg"], sale:false },
-{ id:1137, category:"plastic", name:"Мусорное ведро пластиковое", desc:"Краткое описание товара", price:42000, images:["images/plastic-37.jpg"], sale:false },
-{ id:1138, category:"plastic", name:"Мыльница пластиковая", desc:"Краткое описание товара", price:9000, images:["images/plastic-38.jpg"], sale:false },
-{ id:1139, category:"plastic", name:"Дозатор пластиковый", desc:"Краткое описание товара", price:19000, images:["images/plastic-39.jpg"], sale:false },
-{ id:1140, category:"plastic", name:"Флакон пластиковый 1л", desc:"Краткое описание товара", price:11000, images:["images/plastic-40.jpg"], sale:false },
-
-{ id:1141, category:"plastic", name:"Флакон пластиковый 5л", desc:"Краткое описание товара", price:24000, images:["images/plastic-41.jpg"], sale:false },
-{ id:1142, category:"plastic", name:"Флакон пластиковый 10л", desc:"Краткое описание товара", price:38000, images:["images/plastic-42.jpg"], sale:false },
-{ id:1143, category:"plastic", name:"Бутыль пластиковая 20л", desc:"Краткое описание товара", price:62000, images:["images/plastic-43.jpg"], sale:false },
-{ id:1144, category:"plastic", name:"Поднос пластиковый", desc:"Краткое описание товара", price:17000, images:["images/plastic-44.jpg"], sale:false },
-{ id:1145, category:"plastic", name:"Кейс пластиковый", desc:"Краткое описание товара", price:48000, images:["images/plastic-45.jpg"], sale:false },
-
-{ id:1146, category:"plastic", name:"Ящик для инструментов пластиковый", desc:"Краткое описание товара", price:69000, images:["images/plastic-46.jpg"], sale:false },
-{ id:1147, category:"plastic", name:"Контейнер промышленный пластиковый", desc:"Краткое описание товара", price:115000, images:["images/plastic-47.jpg"], sale:false },
-{ id:1148, category:"plastic", name:"Паллет пластиковый", desc:"Краткое описание товара", price:180000, images:["images/plastic-48.jpg"], sale:false },
-{ id:1149, category:"plastic", name:"Крышка для канистры пластиковая", desc:"Краткое описание товара", price:7000, images:["images/plastic-49.jpg"], sale:false },
-{ id:1150, category:"plastic", name:"Контейнер пластиковый универсальный", desc:"Краткое описание товара", price:42000, images:["images/plastic-50.jpg"], sale:false },
-
-{ id:1201, category:"chemicals", name:"Антизасор ENEAR", desc:"Краткое описание товара", price:35000, images:["images/chemicals-1.jpg"], sale:false },
-{ id:1202, category:"chemicals", name:"Средство от накипи ENEAR", desc:"Краткое описание товара", price:33000, images:["images/chemicals-2.jpg"], sale:false },
-{ id:1203, category:"chemicals", name:"Дезинфицирующее средство ENEAR", desc:"Краткое описание товара", price:48000, images:["images/chemicals-3.jpg"], sale:true },
-{ id:1204, category:"chemicals", name:"Средство против плесени ENEAR", desc:"Краткое описание товара", price:42000, images:["images/chemicals-4.jpg"], sale:false },
-{ id:1205, category:"chemicals", name:"Средство для удаления ржавчины ENEAR", desc:"Краткое описание товара", price:39000, images:["images/chemicals-5.jpg"], sale:false },
-
-{ id:1206, category:"chemicals", name:"Очиститель труб ENEAR", desc:"Краткое описание товара", price:36000, images:["images/chemicals-6.jpg"], sale:false },
-{ id:1207, category:"chemicals", name:"Очиститель духовок ENEAR", desc:"Краткое описание товара", price:52000, images:["images/chemicals-7.jpg"], sale:false },
-{ id:1208, category:"chemicals", name:"Очиститель грилей ENEAR", desc:"Краткое описание товара", price:54000, images:["images/chemicals-8.jpg"], sale:false },
-{ id:1209, category:"chemicals", name:"Очиститель плит ENEAR", desc:"Краткое описание товара", price:47000, images:["images/chemicals-9.jpg"], sale:false },
-{ id:1210, category:"chemicals", name:"Средство для удаления жира ENEAR", desc:"Краткое описание товара", price:41000, images:["images/chemicals-10.jpg"], sale:false },
-
-{ id:1211, category:"chemicals", name:"Средство для удаления извести ENEAR", desc:"Краткое описание товара", price:38000, images:["images/chemicals-11.jpg"], sale:false },
-{ id:1212, category:"chemicals", name:"Средство для дезинфекции поверхностей ENEAR", desc:"Краткое описание товара", price:46000, images:["images/chemicals-12.jpg"], sale:false },
-{ id:1213, category:"chemicals", name:"Средство для санитарной обработки ENEAR", desc:"Краткое описание товара", price:59000, images:["images/chemicals-13.jpg"], sale:true },
-{ id:1214, category:"chemicals", name:"Очиститель стекол промышленный ENEAR", desc:"Краткое описание товара", price:44000, images:["images/chemicals-14.jpg"], sale:false },
-{ id:1215, category:"chemicals", name:"Очиститель полов промышленный ENEAR", desc:"Краткое описание товара", price:62000, images:["images/chemicals-15.jpg"], sale:false },
-
-{ id:1216, category:"chemicals", name:"Очиститель ковров ENEAR", desc:"Краткое описание товара", price:57000, images:["images/chemicals-16.jpg"], sale:false },
-{ id:1217, category:"chemicals", name:"Очиститель текстиля ENEAR", desc:"Краткое описание товара", price:56000, images:["images/chemicals-17.jpg"], sale:false },
-{ id:1218, category:"chemicals", name:"Очиститель мебели ENEAR", desc:"Краткое описание товара", price:48000, images:["images/chemicals-18.jpg"], sale:false },
-{ id:1219, category:"chemicals", name:"Средство против запахов ENEAR", desc:"Краткое описание товара", price:35000, images:["images/chemicals-19.jpg"], sale:false },
-{ id:1220, category:"chemicals", name:"Нейтрализатор запахов ENEAR", desc:"Краткое описание товара", price:39000, images:["images/chemicals-20.jpg"], sale:false },
-
-{ id:1221, category:"chemicals", name:"Антибактериальный спрей ENEAR", desc:"Краткое описание товара", price:32000, images:["images/chemicals-21.jpg"], sale:false },
-{ id:1222, category:"chemicals", name:"Спрей для дезинфекции рук ENEAR", desc:"Краткое описание товара", price:28000, images:["images/chemicals-22.jpg"], sale:false },
-{ id:1223, category:"chemicals", name:"Концентрат моющий ENEAR", desc:"Краткое описание товара", price:74000, images:["images/chemicals-23.jpg"], sale:false },
-{ id:1224, category:"chemicals", name:"Концентрат дезинфицирующий ENEAR", desc:"Краткое описание товара", price:82000, images:["images/chemicals-24.jpg"], sale:true },
-{ id:1225, category:"chemicals", name:"Концентрат универсальный ENEAR", desc:"Краткое описание товара", price:69000, images:["images/chemicals-25.jpg"], sale:false },
-
-{ id:1226, category:"chemicals", name:"Средство для бассейнов ENEAR", desc:"Краткое описание товара", price:91000, images:["images/chemicals-26.jpg"], sale:false },
-{ id:1227, category:"chemicals", name:"Средство для саун ENEAR", desc:"Краткое описание товара", price:87000, images:["images/chemicals-27.jpg"], sale:false },
-{ id:1228, category:"chemicals", name:"Средство для хаммама ENEAR", desc:"Краткое описание товара", price:94000, images:["images/chemicals-28.jpg"], sale:false },
-{ id:1229, category:"chemicals", name:"Средство для удаления цемента ENEAR", desc:"Краткое описание товара", price:66000, images:["images/chemicals-29.jpg"], sale:false },
-{ id:1230, category:"chemicals", name:"Очиститель фасадов ENEAR", desc:"Краткое описание товара", price:72000, images:["images/chemicals-30.jpg"], sale:false },
-
-{ id:1231, category:"chemicals", name:"Очиститель промышленный ENEAR", desc:"Краткое описание товара", price:98000, images:["images/chemicals-31.jpg"], sale:false },
-{ id:1232, category:"chemicals", name:"Очиститель складской ENEAR", desc:"Краткое описание товара", price:105000, images:["images/chemicals-32.jpg"], sale:false },
-{ id:1233, category:"chemicals", name:"Очиститель пищевых производств ENEAR", desc:"Краткое описание товара", price:115000, images:["images/chemicals-33.jpg"], sale:false },
-{ id:1234, category:"chemicals", name:"Очиститель медицинский ENEAR", desc:"Краткое описание товара", price:128000, images:["images/chemicals-34.jpg"], sale:true },
-{ id:1235, category:"chemicals", name:"Очиститель гостиничный ENEAR", desc:"Краткое описание товара", price:89000, images:["images/chemicals-35.jpg"], sale:false },
-
-{ id:1236, category:"chemicals", name:"Очиститель ресторанный ENEAR", desc:"Краткое описание товара", price:86000, images:["images/chemicals-36.jpg"], sale:false },
-{ id:1237, category:"chemicals", name:"Очиститель офисный ENEAR", desc:"Краткое описание товара", price:64000, images:["images/chemicals-37.jpg"], sale:false },
-{ id:1238, category:"chemicals", name:"Очиститель торговых залов ENEAR", desc:"Краткое описание товара", price:79000, images:["images/chemicals-38.jpg"], sale:false },
-{ id:1239, category:"chemicals", name:"Очиститель складских полов ENEAR", desc:"Краткое описание товара", price:93000, images:["images/chemicals-39.jpg"], sale:false },
-{ id:1240, category:"chemicals", name:"Очиститель бетонных полов ENEAR", desc:"Краткое описание товара", price:99000, images:["images/chemicals-40.jpg"], sale:false },
-
-{ id:1241, category:"chemicals", name:"Очиститель кафеля ENEAR", desc:"Краткое описание товара", price:52000, images:["images/chemicals-41.jpg"], sale:false },
-{ id:1242, category:"chemicals", name:"Очиститель керамогранита ENEAR", desc:"Краткое описание товара", price:57000, images:["images/chemicals-42.jpg"], sale:false },
-{ id:1243, category:"chemicals", name:"Очиститель мрамора ENEAR", desc:"Краткое описание товара", price:68000, images:["images/chemicals-43.jpg"], sale:false },
-{ id:1244, category:"chemicals", name:"Очиститель гранита ENEAR", desc:"Краткое описание товара", price:72000, images:["images/chemicals-44.jpg"], sale:false },
-{ id:1245, category:"chemicals", name:"Очиститель камня ENEAR", desc:"Краткое описание товара", price:76000, images:["images/chemicals-45.jpg"], sale:false },
-
-{ id:1246, category:"chemicals", name:"Средство для ухода за поверхностями ENEAR", desc:"Краткое описание товара", price:49000, images:["images/chemicals-46.jpg"], sale:false },
-{ id:1247, category:"chemicals", name:"Защитное средство для поверхностей ENEAR", desc:"Краткое описание товара", price:58000, images:["images/chemicals-47.jpg"], sale:false },
-{ id:1248, category:"chemicals", name:"Пропитка защитная ENEAR", desc:"Краткое описание товара", price:88000, images:["images/chemicals-48.jpg"], sale:false },
-{ id:1249, category:"chemicals", name:"Антискользящее средство ENEAR", desc:"Краткое описание товара", price:67000, images:["images/chemicals-49.jpg"], sale:false },
-{ id:1250, category:"chemicals", name:"Профессиональное средство ENEAR PRO", desc:"Краткое описание товара", price:135000, images:["images/chemicals-50.jpg"], sale:true },
-
-{ id:1301, category:"fragrances", name:"Отдушка Лаванда", desc:"Краткое описание товара", price:18000, images:["images/fragrances-1.jpg"], sale:false },
-{ id:1302, category:"fragrances", name:"Отдушка Лимон", desc:"Краткое описание товара", price:17000, images:["images/fragrances-2.jpg"], sale:false },
-{ id:1303, category:"fragrances", name:"Отдушка Апельсин", desc:"Краткое описание товара", price:17000, images:["images/fragrances-3.jpg"], sale:false },
-{ id:1304, category:"fragrances", name:"Отдушка Яблоко", desc:"Краткое описание товара", price:18000, images:["images/fragrances-4.jpg"], sale:false },
-{ id:1305, category:"fragrances", name:"Отдушка Вишня", desc:"Краткое описание товара", price:19000, images:["images/fragrances-5.jpg"], sale:false },
-
-{ id:1306, category:"fragrances", name:"Отдушка Клубника", desc:"Краткое описание товара", price:19000, images:["images/fragrances-6.jpg"], sale:false },
-{ id:1307, category:"fragrances", name:"Отдушка Персик", desc:"Краткое описание товара", price:19000, images:["images/fragrances-7.jpg"], sale:false },
-{ id:1308, category:"fragrances", name:"Отдушка Ваниль", desc:"Краткое описание товара", price:21000, images:["images/fragrances-8.jpg"], sale:false },
-{ id:1309, category:"fragrances", name:"Отдушка Кокос", desc:"Краткое описание товара", price:21000, images:["images/fragrances-9.jpg"], sale:false },
-{ id:1310, category:"fragrances", name:"Отдушка Шоколад", desc:"Краткое описание товара", price:22000, images:["images/fragrances-10.jpg"], sale:false },
-
-{ id:1311, category:"fragrances", name:"Отдушка Кофе", desc:"Краткое описание товара", price:22000, images:["images/fragrances-11.jpg"], sale:false },
-{ id:1312, category:"fragrances", name:"Отдушка Корица", desc:"Краткое описание товара", price:23000, images:["images/fragrances-12.jpg"], sale:false },
-{ id:1313, category:"fragrances", name:"Отдушка Мята", desc:"Краткое описание товара", price:20000, images:["images/fragrances-13.jpg"], sale:false },
-{ id:1314, category:"fragrances", name:"Отдушка Эвкалипт", desc:"Краткое описание товара", price:21000, images:["images/fragrances-14.jpg"], sale:false },
-{ id:1315, category:"fragrances", name:"Отдушка Чайное дерево", desc:"Краткое описание товара", price:23000, images:["images/fragrances-15.jpg"], sale:false },
-
-{ id:1316, category:"fragrances", name:"Отдушка Роза", desc:"Краткое описание товара", price:22000, images:["images/fragrances-16.jpg"], sale:false },
-{ id:1317, category:"fragrances", name:"Отдушка Жасмин", desc:"Краткое описание товара", price:23000, images:["images/fragrances-17.jpg"], sale:false },
-{ id:1318, category:"fragrances", name:"Отдушка Ландыш", desc:"Краткое описание товара", price:21000, images:["images/fragrances-18.jpg"], sale:false },
-{ id:1319, category:"fragrances", name:"Отдушка Сирень", desc:"Краткое описание товара", price:22000, images:["images/fragrances-19.jpg"], sale:false },
-{ id:1320, category:"fragrances", name:"Отдушка Пион", desc:"Краткое описание товара", price:23000, images:["images/fragrances-20.jpg"], sale:false },
-
-{ id:1321, category:"fragrances", name:"Отдушка Морской бриз", desc:"Краткое описание товара", price:20000, images:["images/fragrances-21.jpg"], sale:false },
-{ id:1322, category:"fragrances", name:"Отдушка Свежесть океана", desc:"Краткое описание товара", price:21000, images:["images/fragrances-22.jpg"], sale:false },
-{ id:1323, category:"fragrances", name:"Отдушка Горный воздух", desc:"Краткое описание товара", price:22000, images:["images/fragrances-23.jpg"], sale:false },
-{ id:1324, category:"fragrances", name:"Отдушка Лесная свежесть", desc:"Краткое описание товара", price:22000, images:["images/fragrances-24.jpg"], sale:false },
-{ id:1325, category:"fragrances", name:"Отдушка Зеленый чай", desc:"Краткое описание товара", price:21000, images:["images/fragrances-25.jpg"], sale:false },
-
-{ id:1326, category:"fragrances", name:"Отдушка Белый чай", desc:"Краткое описание товара", price:22000, images:["images/fragrances-26.jpg"], sale:false },
-{ id:1327, category:"fragrances", name:"Отдушка Алое вера", desc:"Краткое описание товара", price:21000, images:["images/fragrances-27.jpg"], sale:false },
-{ id:1328, category:"fragrances", name:"Отдушка Хлопок", desc:"Краткое описание товара", price:20000, images:["images/fragrances-28.jpg"], sale:false },
-{ id:1329, category:"fragrances", name:"Отдушка Свежевыстиранное белье", desc:"Краткое описание товара", price:23000, images:["images/fragrances-29.jpg"], sale:false },
-{ id:1330, category:"fragrances", name:"Отдушка Утренняя свежесть", desc:"Краткое описание товара", price:21000, images:["images/fragrances-30.jpg"], sale:false },
-
-{ id:1331, category:"fragrances", name:"Отдушка Восточные специи", desc:"Краткое описание товара", price:25000, images:["images/fragrances-31.jpg"], sale:false },
-{ id:1332, category:"fragrances", name:"Отдушка Сандал", desc:"Краткое описание товара", price:26000, images:["images/fragrances-32.jpg"], sale:false },
-{ id:1333, category:"fragrances", name:"Отдушка Амбра", desc:"Краткое описание товара", price:27000, images:["images/fragrances-33.jpg"], sale:false },
-{ id:1334, category:"fragrances", name:"Отдушка Мускус", desc:"Краткое описание товара", price:27000, images:["images/fragrances-34.jpg"], sale:false },
-{ id:1335, category:"fragrances", name:"Отдушка Пачули", desc:"Краткое описание товара", price:26000, images:["images/fragrances-35.jpg"], sale:false },
-
-{ id:1336, category:"fragrances", name:"Отдушка Ветивер", desc:"Краткое описание товара", price:26000, images:["images/fragrances-36.jpg"], sale:false },
-{ id:1337, category:"fragrances", name:"Отдушка Кедр", desc:"Краткое описание товара", price:25000, images:["images/fragrances-37.jpg"], sale:false },
-{ id:1338, category:"fragrances", name:"Отдушка Табак ваниль", desc:"Краткое описание товара", price:29000, images:["images/fragrances-38.jpg"], sale:false },
-{ id:1339, category:"fragrances", name:"Отдушка Бергамот", desc:"Краткое описание товара", price:24000, images:["images/fragrances-39.jpg"], sale:false },
-{ id:1340, category:"fragrances", name:"Отдушка Грейпфрут", desc:"Краткое описание товара", price:23000, images:["images/fragrances-40.jpg"], sale:false },
-
-{ id:1341, category:"fragrances", name:"Отдушка Манго", desc:"Краткое описание товара", price:22000, images:["images/fragrances-41.jpg"], sale:false },
-{ id:1342, category:"fragrances", name:"Отдушка Ананас", desc:"Краткое описание товара", price:22000, images:["images/fragrances-42.jpg"], sale:false },
-{ id:1343, category:"fragrances", name:"Отдушка Арбуз", desc:"Краткое описание товара", price:21000, images:["images/fragrances-43.jpg"], sale:false },
-{ id:1344, category:"fragrances", name:"Отдушка Дыня", desc:"Краткое описание товара", price:21000, images:["images/fragrances-44.jpg"], sale:false },
-{ id:1345, category:"fragrances", name:"Отдушка Смородина", desc:"Краткое описание товара", price:22000, images:["images/fragrances-45.jpg"], sale:false },
-
-{ id:1346, category:"fragrances", name:"Отдушка Малина", desc:"Краткое описание товара", price:22000, images:["images/fragrances-46.jpg"], sale:false },
-{ id:1347, category:"fragrances", name:"Отдушка Черника", desc:"Краткое описание товара", price:23000, images:["images/fragrances-47.jpg"], sale:false },
-{ id:1348, category:"fragrances", name:"Отдушка Карамель", desc:"Краткое описание товара", price:24000, images:["images/fragrances-48.jpg"], sale:false },
-{ id:1349, category:"fragrances", name:"Отдушка Мед", desc:"Краткое описание товара", price:24000, images:["images/fragrances-49.jpg"], sale:false },
-{ id:1350, category:"fragrances", name:"Отдушка Premium Mix ENEAR", desc:"Краткое описание товара", price:32000, images:["images/fragrances-50.jpg"], sale:true }
-];
-
-
-
-
-
-
-
-
-
-
-    const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#9ca3af">Нет изображения</text></svg>'
-    );
-
-    /*************** состояние и storage *****************/
-    const STORAGE_KEY = "tg_shop_v3_kafolat";
-    let state = { cart:{}, category: categories[0], search:"", sort:"default", filters: { saleOnly:false, priceMin:null, priceMax:null } };
-    try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }catch(e){ console.warn(e); }
-
-    function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    function formatPrice(n){ return n.toLocaleString('ru-RU') + " so'm"; }
-    function calcCart(){ let total=0,count=0; for(const idStr in state.cart){ const id = Number(idStr); const qty = state.cart[idStr]; const it = items.find(x=>x.id===id); if(it){ total += it.price * qty; count += qty; } } return { total, count }; }
-
-    /**************** refs *****************/
-    const categoryTabs = document.getElementById('categoryTabs');
-    const grid = document.getElementById('grid');
-    const searchInput = document.getElementById('searchInput');
-    const sortSelect = document.getElementById('sortSelect');
-    const cartFloat = document.getElementById('cartFloat');
-    const cartCountEl = document.getElementById('cartCount');
-    const cartTotalEl = document.getElementById('cartTotal');
-
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalBig = document.getElementById('modalBig');
-    const modalQty = document.getElementById('modalQty');
-    const modalMinus = document.getElementById('modalMinus');
-    const modalPlus = document.getElementById('modalPlus');
-    const modalAdd = document.getElementById('modalAdd');
-    const modalGallery = document.getElementById('modalGallery');
-    const closeModalBtn = document.getElementById('closeModal');
-
-    const cartBackdrop = document.getElementById('cartBackdrop');
-    const cartItemsEl = document.getElementById('cartItems');
-    const closeCart = document.getElementById('closeCart');
-    const cartCancel = document.getElementById('cartCancel');
-    const cartSend = document.getElementById('cartSend');
-    const cartSummaryText = document.getElementById('cartSummaryText');
-    const clearCartBtn = document.getElementById('clearCartBtn');
-
-    const filterSaleBtn = document.getElementById('filterSale');
-    const priceMinEl = document.getElementById('priceMin');
-    const priceMaxEl = document.getElementById('priceMax');
-    const applyFiltersBtn = document.getElementById('applyFilters');
-    const clearFiltersBtn = document.getElementById('clearFilters');
-
-    const openCartQuick = document.getElementById('openCartQuick');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-
-    /**************** UI: категории ****************/
-    function renderCategoryChips(){
-      categoryTabs.innerHTML = '';
-      categories.forEach(cat=>{
-        const el = document.createElement('div');
-        el.className = 'chip' + (state.category === cat ? ' active' : '');
-        // используем chip-label внутри
-        el.innerHTML = `<img src="images/chip-${cat}.png" alt="${cat}" onerror="this.style.display='none'"><div class="chip-label">${categoryNames[cat]}</div>`;
-        el.addEventListener('click', ()=>{ state.category = cat; saveState(); renderCategoryChips(); renderGrid(); });
-        categoryTabs.appendChild(el);
-      });
-    }
-
-    /**************** фильтры ****************/
-    function loadFilterInputs(){
-      filterSaleBtn.classList.toggle('active', !!state.filters.saleOnly);
-      priceMinEl.value = state.filters.priceMin || '';
-      priceMaxEl.value = state.filters.priceMax || '';
-    }
-
-    filterSaleBtn.addEventListener('click', ()=>{
-      state.filters.saleOnly = !state.filters.saleOnly;
-      filterSaleBtn.classList.toggle('active', state.filters.saleOnly);
-      saveState(); renderGrid();
-    });
-
-    applyFiltersBtn.addEventListener('click', ()=>{
-      const min = Number(priceMinEl.value) || null;
-      const max = Number(priceMaxEl.value) || null;
-      state.filters.priceMin = min;
-      state.filters.priceMax = max;
-      saveState();
-      renderGrid();
-    });
-
-    clearFiltersBtn.addEventListener('click', ()=>{
-      state.filters = { saleOnly:false, priceMin:null, priceMax:null };
-      loadFilterInputs();
-      saveState();
-      renderGrid();
-    });
-
-    /**************** grid rendering ****************/
-    function renderGrid(){
-      grid.innerHTML = '';
-      let list = items.filter(i => i.category === state.category);
-
-      // search
-      const q = (state.search || '').trim().toLowerCase();
-      if(q) list = list.filter(i => i.name.toLowerCase().includes(q) || (i.desc || '').toLowerCase().includes(q));
-
-      // filters
-      if(state.filters.saleOnly) list = list.filter(i => i.sale);
-      if(state.filters.priceMin) list = list.filter(i => i.price >= state.filters.priceMin);
-      if(state.filters.priceMax) list = list.filter(i => i.price <= state.filters.priceMax);
-
-      // sorting
-      if(state.sort === 'price_asc') list.sort((a,b)=>a.price-b.price);
-      else if(state.sort === 'price_desc') list.sort((a,b)=>b.price-a.price);
-      else if(state.sort === 'name_asc') list.sort((a,b)=>a.name.localeCompare(b.name));
-      else if(state.sort === 'name_desc') list.sort((a,b)=>b.name.localeCompare(a.name));
-
-      if(list.length === 0){
-        document.getElementById('empty').style.display = 'block';
-        return;
-      } else {
-        document.getElementById('empty').style.display = 'none';
-      }
-
-      list.forEach(it=>{
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.addEventListener('click', (e)=>{ if(e.target.closest('.qty-btn') || e.target.closest('.btn-primary')) return; openProductModal(it.id); });
-
-        const thumb = document.createElement('div'); thumb.className='thumb';
-        const img = document.createElement('img'); img.src = (it.images && it.images.length)? it.images[0] : placeholder; img.alt = it.name;
-        img.onerror = function(){ this.src = placeholder; };
-        thumb.appendChild(img);
-
-        if(it.sale){
-          const saleTag = document.createElement('div');
-          saleTag.style.position='absolute'; saleTag.style.left='12px'; saleTag.style.top='12px';
-          saleTag.style.background = 'var(--brand)'; saleTag.style.color='#fff'; saleTag.style.padding='6px 8px'; saleTag.style.borderRadius='999px';
-          saleTag.style.fontWeight='700'; saleTag.style.fontSize='12px'; saleTag.textContent = 'АКЦИЯ';
-          thumb.appendChild(saleTag);
-        }
-
-        const title = document.createElement('div'); title.className='title'; title.textContent = it.name;
-        const desc = document.createElement('div'); desc.className='desc'; desc.textContent = it.desc;
-        const priceRow = document.createElement('div'); priceRow.className='price-row';
-        const price = document.createElement('div'); price.className='price'; price.textContent = formatPrice(it.price);
-        priceRow.appendChild(price);
-
-        const controlsRow = document.createElement('div'); controlsRow.className='controls-row';
-        const qtyBox = document.createElement('div'); qtyBox.className='qty-box';
-        const minus = document.createElement('button'); minus.className='qty-btn'; minus.textContent='−';
-        const qval = document.createElement('div'); qval.className='qty-value'; qval.textContent = state.cart[it.id] || 0;
-        const plus = document.createElement('button'); plus.className='qty-btn'; plus.textContent='+';
-        minus.addEventListener('click', (ev)=>{ ev.stopPropagation(); changeQty(it.id, -1); qval.textContent = state.cart[it.id] || 0; renderCartList(); });
-        plus.addEventListener('click', (ev)=>{ ev.stopPropagation(); changeQty(it.id, 1); qval.textContent = state.cart[it.id] || 0; renderCartList(); });
-        qtyBox.appendChild(minus); qtyBox.appendChild(qval); qtyBox.appendChild(plus);
-
-        const addBtn = document.createElement('button'); addBtn.className='btn-primary'; addBtn.textContent='В корзину';
-        addBtn.addEventListener('click', (ev)=>{ ev.stopPropagation(); changeQty(it.id, 1); qval.textContent = state.cart[it.id] || 0; renderCartList(); });
-
-        controlsRow.appendChild(qtyBox); controlsRow.appendChild(addBtn);
-
-        card.appendChild(thumb); card.appendChild(title); card.appendChild(desc); card.appendChild(priceRow); card.appendChild(controlsRow);
-        grid.appendChild(card);
-      });
-
-      refreshCartUI();
-    }
-
-    /**************** cart functionality ****************/
-    function changeQty(id, delta){
-      const cur = state.cart[id] || 0;
-      const next = Math.max(0, cur + delta);
-      if(next === 0) delete state.cart[id]; else state.cart[id] = next;
-      saveState();
-      renderGrid();
-      renderCartList();
-    }
-
-    function refreshCartUI(){
-      const { total, count } = calcCart();
-      cartCountEl.textContent = count;
-      cartTotalEl.textContent = total.toLocaleString('ru-RU') + " so'm";
-      cartFloat.style.display = count > 0 ? 'inline-block' : 'none';
-      checkoutBtn.disabled = count === 0;
-    }
-
-    /* render cart modal list */
-    function renderCartList(){
-      cartItemsEl.innerHTML = '';
-      const ids = Object.keys(state.cart).map(x=>Number(x));
-      if(ids.length === 0){
-        cartItemsEl.innerHTML = "<div class='empty'>Корзина пуста</div>";
-        cartSummaryText.textContent = "Итого: 0 so'm";
-        refreshCartUI();
-        return;
-      }
-
-      ids.forEach(id=>{
-        const it = items.find(x=>x.id === id);
-        const qty = state.cart[id];
-        const row = document.createElement('div');
-        row.style.display="flex"; row.style.alignItems="center"; row.style.justifyContent="space-between"; row.style.gap="8px";
-        row.style.padding="8px 0"; row.style.borderBottom="1px dashed #eee";
-
-        const left = document.createElement('div'); left.style.display="flex"; left.style.gap="8px"; left.style.alignItems="center";
-        const img = document.createElement('img'); img.src = (it.images && it.images.length) ? it.images[0] : placeholder;
-        img.style.width="68px"; img.style.height="48px"; img.style.objectFit="cover"; img.style.borderRadius="8px";
-        const info = document.createElement('div');
-        const name = document.createElement('div'); name.textContent = it.name; name.style.fontWeight="600"; name.style.fontSize="13px";
-        const pr = document.createElement('div'); pr.textContent = formatPrice(it.price) + " × " + qty; pr.style.color="var(--muted)"; pr.style.fontSize="12px";
-        info.appendChild(name); info.appendChild(pr);
-        left.appendChild(img); left.appendChild(info);
-
-        const right = document.createElement('div'); right.style.display="flex"; right.style.flexDirection="column"; right.style.alignItems="flex-end";
-        const qtyBox = document.createElement('div'); qtyBox.className="qty-box";
-        const minus = document.createElement('button'); minus.className='qty-btn'; minus.textContent='−';
-        const val = document.createElement('div'); val.className='qty-value'; val.textContent = qty;
-        const plus = document.createElement('button'); plus.className='qty-btn'; plus.textContent='+';
-        minus.onclick = ()=>{ changeQty(id, -1); renderCartList(); };
-        plus.onclick = ()=>{ changeQty(id, 1); renderCartList(); };
-        qtyBox.appendChild(minus); qtyBox.appendChild(val); qtyBox.appendChild(plus);
-
-        const sub = document.createElement('div'); sub.textContent = formatPrice(it.price * qty); sub.style.fontWeight="700"; sub.style.marginTop="8px";
-        right.appendChild(qtyBox); right.appendChild(sub);
-
-        row.appendChild(left); row.appendChild(right);
-        cartItemsEl.appendChild(row);
-      });
-
-      const { total } = calcCart();
-      cartSummaryText.textContent = "Итого: " + total.toLocaleString('ru-RU') + " so'm";
-      refreshCartUI();
-    }
-
-    /**************** product modal ****************/
-    let currentModalProduct = null;
-    function openProductModal(id){
-      const it = items.find(x=>x.id===id); if(!it) return;
-      currentModalProduct = it;
-      modalTitle.textContent = it.name;
-      modalDesc.textContent = it.desc;
-      modalBig.src = (it.images && it.images.length)? it.images[0] : placeholder;
-      modalQty.textContent = state.cart[it.id] || 0;
-
-      // gallery
-      modalGallery.innerHTML = '';
-      const imgs = (it.images && it.images.length) ? it.images : [placeholder];
-      imgs.forEach(src => { const im = document.createElement('img'); im.src = src; im.style.height='80px'; im.style.width='80px'; im.style.objectFit='cover'; im.style.borderRadius='8px'; im.style.cursor='pointer'; im.onerror = ()=> im.src = placeholder; im.onclick = ()=> modalBig.src = src; modalGallery.appendChild(im); });
-
-      modalBackdrop.style.display = 'flex';
-    }
-
-    closeModalBtn.addEventListener('click', ()=>{ modalBackdrop.style.display = 'none'; });
-    modalBackdrop.addEventListener('click', (e)=>{ if(e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
-    modalPlus.addEventListener('click', ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, 1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
-    modalMinus.addEventListener('click', ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, -1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
-    modalAdd.addEventListener('click', ()=>{ if(!currentModalProduct) return; changeQty(currentModalProduct.id, 1); modalQty.textContent = state.cart[currentModalProduct.id] || 0; });
-
-    /**************** cart modal events ****************/
-    openCartQuick.addEventListener('click', ()=>{
-      renderCartList();
-      cartBackdrop.style.display = 'flex';
-    });
-    closeCart.addEventListener('click', ()=>{ cartBackdrop.style.display = 'none'; });
-    cartBackdrop.addEventListener('click', (e)=>{ if(e.target === cartBackdrop) cartBackdrop.style.display = 'none'; });
-    cartCancel.addEventListener('click', ()=>{ cartBackdrop.style.display = 'none'; });
-
-    clearCartBtn.addEventListener('click', ()=>{
-      if(!confirm('Очистить корзину?')) return;
-      state.cart = {}; saveState(); renderGrid(); renderCartList();
-    });
-
-    checkoutBtn.addEventListener('click', ()=>{ openCartQuick.click(); });
-
-    /**************** search & sort ****************/
-    function debounce(fn, t){ let to; return (...a)=>{ clearTimeout(to); to=setTimeout(()=>fn(...a), t); }; }
-    searchInput.addEventListener('input', debounce((e)=>{ state.search = e.target.value; saveState(); renderGrid(); }, 250));
-    sortSelect.value = state.sort || 'default';
-    sortSelect.addEventListener('change', ()=>{ state.sort = sortSelect.value; saveState(); renderGrid(); });
-
-    /**************** Telegram WebApp helpers & sendOrder ****************/
-    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-    try{ if(tg && typeof tg.ready === 'function') tg.ready(); } catch(e){ console.warn('tg.ready failed', e); }
-
-    let _sendingOrder = false;
-
-    function _buildPayload(){
-      const chosen = items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: state.cart[i.id] || 0, category: i.category }))
-                         .filter(x => x.qty > 0);
-      const { total } = calcCart();
-      return {
-        items: chosen,
-        total,
-        createdAt: new Date().toISOString(),
-        source: "webapp",
-        webappVersion: "v3"
-      };
-    }
-
-    function sendOrder(){
-      if(_sendingOrder){
-        console.warn("Order already sending");
-        return;
-      }
-
-      const payload = _buildPayload();
-
-      // валидация
-      if(!Array.isArray(payload.items) || payload.items.length === 0){
-        alert('Корзина пуста');
-        return;
-      }
-      if(!payload.total || payload.total <= 0){
-        alert('Некорректная сумма заказа');
-        return;
-      }
-
-      console.info('[WebApp] payload to send:', payload);
-
-      // блокируем кнопку
-      _sendingOrder = true;
-      cartSend.disabled = true;
-      const oldText = cartSend.textContent;
-      cartSend.textContent = "Отправляем...";
-
-      try {
-        if (tg && typeof tg.sendData === "function") {
-          tg.sendData(JSON.stringify(payload));
-          console.info('[WebApp] tg.sendData called.');
-
-          // Даем Telegram обработать отправку, затем закрываем вебап
-          setTimeout(()=>{
-            try{ if(tg.close) tg.close(); } catch(e){ console.warn('tg.close failed', e); }
-          }, 700);
-
-          // визуальная финализация
-          cartSend.textContent = "Отправлено";
-        } else {
-          // fallback: сохранить локально как json (для теста вне Telegram)
-          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url; a.download = 'order.json'; document.body.appendChild(a); a.click(); a.remove();
-          URL.revokeObjectURL(url);
-          alert('Заказ сохранён локально (order.json). Откройте WebApp в Telegram для отправки боту.');
-          console.warn('[WebApp] tg.sendData not available (not in Telegram).');
-          // разблокируем кнопку, чтобы можно было повторить
-          _sendingOrder = false;
-          cartSend.disabled = false;
-          cartSend.textContent = oldText;
-        }
-      } catch (err) {
-        console.error('[WebApp] sendData error:', err);
-        alert('Ошибка при отправке заказа. Проверьте подключение и попробуйте ещё раз.');
-        _sendingOrder = false;
-        cartSend.disabled = false;
-        cartSend.textContent = oldText;
-      }
-    }
-
-    // повесим обработчик на кнопку (вдобавок к существующему)
-    cartSend.addEventListener('click', sendOrder);
-
-    /**************** init ****************/
-    function restoreUI(){
-      renderCategoryChips();
-      loadFilterInputs();
-      renderGrid();
-      renderCartList();
-
-      // safety: обновляем состояние кнопки
-      const { count } = calcCart();
-      cartSend.disabled = count === 0;
-    }
-    restoreUI();
-    window.addEventListener('beforeunload', saveState);
-    window.addEventListener('pagehide', saveState);
-  </script>
+    <script src="app.js"></script>
 </body>
 </html>
-
-

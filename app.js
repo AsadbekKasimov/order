@@ -18,16 +18,16 @@ const productsData = {
         { id: 10, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" }
     ],
     plastic: [
-        { id: 11, name: "Пластиковый контейнер 1L", category: "plastic", price: 8000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Контейнер для хранения продуктов" },
-        { id: 12, name: "Набор пластиковых бутылок", category: "plastic", price: 15000, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop", description: "Набор бутылок различного объема" },
-        { id: 13, name: "Пластиковая тара 5L", category: "plastic", price: 18000, image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&h=400&fit=crop", description: "Большая пластиковая тара" },
-        { id: 14, name: "Пластиковые крышки набор", category: "plastic", price: 5000, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop", description: "Набор крышек для бутылок" },
-        { id: 15, name: "Пластиковый стакан 500ml", category: "plastic", price: 3000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Многоразовый пластиковый стакан" },
-        { id: 16, name: "Пластиковая канистра 10L", category: "plastic", price: 25000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Канистра для жидкостей" },
-        { id: 17, name: "Пластиковая ложка набор", category: "plastic", price: 4000, image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&h=400&fit=crop", description: "Набор одноразовых ложек" },
-        { id: 18, name: "Пластиковая тарелка набор", category: "plastic", price: 6000, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop", description: "Набор одноразовых тарелок" },
-        { id: 19, name: "Пластиковый ящик", category: "plastic", price: 35000, image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&h=400&fit=crop", description: "Большой пластиковый ящик для хранения" },
-        { id: 20, name: "Пластиковая бутылка с распылителем", category: "plastic", price: 7000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Бутылка с распылителем 500ml" }
+        { id: 11, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "/images/p1.png", description: "ПЭТ 750 ml" },
+        { id: 12, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "/images/p2.png", description: "ПЭ Флакон 2 l" },
+        { id: 13, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "/images/p3.png", description: "ПЭ Флакон 2 l" },
+        { id: 14, name: "ПЭ Флакон 3 l", category: "plastic", price: 10000, image: "/images/p4.png", description: "ПЭ Флакон 3 l" },
+        { id: 15, name: "ПЭ Флакон 1.5 l", category: "plastic", price: 10000, image: "/images/p5.png", description: "ПЭ Флакон 1.5 l" },
+        { id: 16, name: "Дозатор 32 gold", category: "plastic", price: 10000, image: "/images/p6.png", description: "Дозатор 32 утка" },
+        { id: 17, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "/images/p7.png", description: "Дозатор 32 " },
+        { id: 18, name: "Дозатор 32", category: "plastic", price: 10000, image: "/images/p8.png", description: "Дозатор 32" },
+        { id: 19, name: "Триггер желтый", category: "plastic", price: 10000, image: "/images/p9.png", description: "Триггер желтый" },
+        { id: 20, name: "Дозатор красный", category: "plastic", price: 10000, image: "/images/p10.png", description: "Дозатор красный" }
     ],
     chemicals: [
         { id: 21, name: "SLES 70%", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Sodium Laureth Sulfate 70% Китай" },

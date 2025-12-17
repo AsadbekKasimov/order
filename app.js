@@ -258,6 +258,8 @@ function addToCart(product, quantity = 1) {
     const btn = event.target;
     const originalText = btn.textContent;
     btn.textContent = '✓ Добавлено';
+    btn.style.background = '#ff0000';
+    btn.style.color = 'white';
     setTimeout(() => {
         btn.textContent = originalText;
     }, 1000);

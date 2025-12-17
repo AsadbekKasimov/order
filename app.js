@@ -6,8 +6,8 @@ tg.expand();
 
 const productsData = {
     cleaning: [
-        { id: 1, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"images/c1.png", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
-        { id: 2, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "images/c2.png", description: "Кондиционер для белья 1440 ml * 8 шт " },
+        { id: 1, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"images/c1.jpg", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
+        { id: 2, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "images/c2.jpg", description: "Кондиционер для белья 1440 ml * 8 шт " },
         { id: 3, name: "Стиральный порошок", category: "cleaning", price: 35000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Порошок для стирки белья" },
         { id: 4, name: "Жидкое мыло", category: "cleaning", price: 12000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Мягкое жидкое мыло для рук" },
         { id: 5, name: "Средство для стекол", category: "cleaning", price: 18000, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop", description: "Средство для очистки стекол и зеркал" },

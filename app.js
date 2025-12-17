@@ -18,16 +18,16 @@ const productsData = {
         { id: 10, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" }
     ],
     plastic: [
-        { id: 11, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "images/p1.png", description: "ПЭТ 750 ml" },
-        { id: 12, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "images/p2.png", description: "ПЭ Флакон 2 l" },
-        { id: 13, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "images/p3.png", description: "ПЭ Флакон 2 l" },
-        { id: 14, name: "ПЭ Флакон 3 l", category: "plastic", price: 10000, image: "images/p4.png", description: "ПЭ Флакон 3 l" },
-        { id: 15, name: "ПЭ Флакон 1.5 l", category: "plastic", price: 10000, image: "images/p5.png", description: "ПЭ Флакон 1.5 l" },
-        { id: 16, name: "Дозатор 32 gold", category: "plastic", price: 10000, image: "images/p6.png", description: "Дозатор 32 утка" },
-        { id: 17, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "images/p7.png", description: "Дозатор 32 " },
-        { id: 18, name: "Дозатор 32", category: "plastic", price: 10000, image: "images/p8.png", description: "Дозатор 32" },
-        { id: 19, name: "Триггер желтый", category: "plastic", price: 10000, image: "images/p9.png", description: "Триггер желтый" },
-        { id: 20, name: "Дозатор красный", category: "plastic", price: 10000, image: "images/p10.png", description: "Дозатор красный" }
+        { id: 11, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p1.png", description: "ПЭТ 750 ml" },
+        { id: 12, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p2.png", description: "ПЭ Флакон 2 l" },
+        { id: 13, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p3.png", description: "ПЭ Флакон 2 l" },
+        { id: 14, name: "ПЭ Флакон 3 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p4.png", description: "ПЭ Флакон 3 l" },
+        { id: 15, name: "ПЭ Флакон 1.5 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p5.png", description: "ПЭ Флакон 1.5 l" },
+        { id: 16, name: "Дозатор 32 gold", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p6.png", description: "Дозатор 32 утка" },
+        { id: 17, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p7.png", description: "Дозатор 32 " },
+        { id: 18, name: "Дозатор 32", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p8.png", description: "Дозатор 32" },
+        { id: 19, name: "Триггер желтый", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p9.png", description: "Триггер желтый" },
+        { id: 20, name: "Дозатор красный", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.png", description: "Дозатор красный" }
     ],
     chemicals: [
         { id: 21, name: "SLES 70%", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Sodium Laureth Sulfate 70% Китай" },

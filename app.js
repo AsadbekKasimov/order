@@ -6,7 +6,7 @@ tg.expand();
 
 const productsData = {
     cleaning: [
-        { id: 1, name: "Средство для мытья посуды", category: "cleaning", price: 15000, image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&h=400&fit=crop", description: "Эффективное средство для мытья посуды" },
+        { id: 1, name: "Жидкое средство для стирки Aroma 3.15l * 4 шт", category: "cleaning", price: 180000, image:"images/c1.png", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
         { id: 2, name: "Универсальный очиститель", category: "cleaning", price: 25000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Универсальное средство для уборки" },
         { id: 3, name: "Стиральный порошок", category: "cleaning", price: 35000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Порошок для стирки белья" },
         { id: 4, name: "Жидкое мыло", category: "cleaning", price: 12000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Мягкое жидкое мыло для рук" },

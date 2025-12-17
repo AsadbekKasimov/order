@@ -6,16 +6,16 @@ tg.expand();
 
 const productsData = {
     cleaning: [
-        { id: 1, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"images/c1.jpg", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
-        { id: 2, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "images/c2.jpg", description: "Кондиционер для белья 1440 ml * 8 шт " },
-        { id: 3, name: "Гель густой 1 kg * 12 шт", category: "cleaning", price: 150000, image: "images/c3.jpg", description: "Гель густой 1 kg * 12 шт" },
-        { id: 4, name: "Жидкое средство для стирки Kafolat 1 l * 6 шт", category: "cleaning", price: 105600, image: "images/c4.jpg", description: "Жидкое средство для стирки Kafolat 1 l * 6 шт" },
-        { id: 5, name: "Антижир Kafolat 500 ml * 12 шт", category: "cleaning", price: 112200, image: "images/c5.jpg", description: "Антижир Kafolat 500 ml * 12 шт" },
-        { id: 6, name: "Шампунь Nalan 400 ml * 16 шт", category: "cleaning", price: 105600, image: "images/c6.jpg", description: "Шампунь Nalan 400 ml * 16 шт" },
-        { id: 7, name: "Освежитель воздуха 400 mk * 18 шт", category: "cleaning", price: 135000, image: "images/c7.jpg", description: "Освежитель воздуха 400 мл * 18 шт" },
-        { id: 8, name: "Средство для мыть стекол 575 ml * 16 шт", category: "cleaning", price: 70400, image: "images/c8.jpg", description: "Средство для мыть стекол 575 ml * 16 шт" },
-        { id: 9, name: "Жидкое мыло 500 мл * 8 шт", category: "cleaning", price: 40000, image: "images/c9.jpg", description: "Жидкое мыло 500 мл * 8 шт" },
-        { id: 10, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" }
+        { id: 1, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"https://asadbekkasimov.github.io/order/images/c1.jpg", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
+        { id: 2, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "https://asadbekkasimov.github.io/order/images/c2.jpg", description: "Кондиционер для белья 1440 ml * 8 шт " },
+        { id: 3, name: "Гель густой 1 kg * 12 шт", category: "cleaning", price: 150000, image: "https://asadbekkasimov.github.io/order/images/c3.jpg", description: "Гель густой 1 kg * 12 шт" },
+        { id: 4, name: "Жидкое средство для стирки Kafolat 1 l * 6 шт", category: "cleaning", price: 105600, image: "https://asadbekkasimov.github.io/order/images/c4.jpg", description: "Жидкое средство для стирки Kafolat 1 l * 6 шт" },
+        { id: 5, name: "Антижир Kafolat 500 ml * 12 шт", category: "cleaning", price: 112200, image: "https://asadbekkasimov.github.io/order/images/c5.jpg", description: "Антижир Kafolat 500 ml * 12 шт" },
+        { id: 6, name: "Шампунь Nalan 400 ml * 16 шт", category: "cleaning", price: 105600, image: "https://asadbekkasimov.github.io/order/images/c6.jpg", description: "Шампунь Nalan 400 ml * 16 шт" },
+        { id: 7, name: "Освежитель воздуха 400 mk * 18 шт", category: "cleaning", price: 135000, image: "https://asadbekkasimov.github.io/order/images/c7.jpg", description: "Освежитель воздуха 400 мл * 18 шт" },
+        { id: 8, name: "Средство для мыть стекол 575 ml * 16 шт", category: "cleaning", price: 70400, image: "https://asadbekkasimov.github.io/order/images/c8.jpg", description: "Средство для мыть стекол 575 ml * 16 шт" },
+        { id: 9, name: "Жидкое мыло 500 мл * 8 шт", category: "cleaning", price: 40000, image: "https://asadbekkasimov.github.io/order/images/c9.jpg", description: "Жидкое мыло 500 мл * 8 шт" },
+        { id: 10, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "https://asadbekkasimov.github.io/order/images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" }
     ],
     plastic: [
         { id: 11, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p1.png", description: "ПЭТ 750 ml" },

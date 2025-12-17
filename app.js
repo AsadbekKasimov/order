@@ -27,7 +27,7 @@ const productsData = {
         { id: 17, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p7.png", description: "Дозатор 32 " },
         { id: 18, name: "Дозатор 32", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p8.png", description: "Дозатор 32" },
         { id: 19, name: "Триггер желтый", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p9.png", description: "Триггер желтый" },
-        { id: 20, name: "Дозатор красный", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.png", description: "Дозатор красный" }
+        { id: 20, name: "Дозатор красный", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.jpg", description: "Дозатор красный" }
     ],
     chemicals: [
         { id: 21, name: "SLES 70%", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Sodium Laureth Sulfate 70% Китай" },

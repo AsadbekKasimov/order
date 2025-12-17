@@ -8,14 +8,14 @@ const productsData = {
     cleaning: [
         { id: 1, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"images/c1.jpg", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
         { id: 2, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "images/c2.jpg", description: "Кондиционер для белья 1440 ml * 8 шт " },
-        { id: 3, name: "Стиральный порошок", category: "cleaning", price: 35000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Порошок для стирки белья" },
-        { id: 4, name: "Жидкое мыло", category: "cleaning", price: 12000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Мягкое жидкое мыло для рук" },
-        { id: 5, name: "Средство для стекол", category: "cleaning", price: 18000, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop", description: "Средство для очистки стекол и зеркал" },
-        { id: 6, name: "Гель для стирки", category: "cleaning", price: 42000, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop", description: "Концентрированный гель для стирки" },
-        { id: 7, name: "Чистящий крем", category: "cleaning", price: 22000, image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&h=400&fit=crop", description: "Абразивный чистящий крем" },
-        { id: 8, name: "Кондиционер для белья", category: "cleaning", price: 28000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Кондиционер с приятным ароматом" },
-        { id: 9, name: "Средство для ванной", category: "cleaning", price: 20000, image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop", description: "Специальное средство для ванной комнаты" },
-        { id: 10, name: "Освежитель воздуха", category: "cleaning", price: 16000, image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&h=400&fit=crop", description: "Освежитель воздуха с натуральным ароматом" }
+        { id: 3, name: "Гель густой 1 kg * 12 шт", category: "cleaning", price: 150000, image: "images/c3.jpg", description: "Гель густой 1 kg * 12 шт" },
+        { id: 4, name: "Жидкое средство для стирки Kafolat 1 l * 6 шт", category: "cleaning", price: 105600, image: "images/c4.jpg", description: "Жидкое средство для стирки Kafolat 1 l * 6 шт" },
+        { id: 5, name: "Антижир Kafolat 500 ml * 12 шт", category: "cleaning", price: 112200, image: "images/c5.jpg", description: "Антижир Kafolat 500 ml * 12 шт" },
+        { id: 6, name: "Шампунь Nalan 400 ml * 16 шт", category: "cleaning", price: 105600, image: "images/c6.jpg", description: "Шампунь Nalan 400 ml * 16 шт" },
+        { id: 7, name: "Освежитель воздуха 400 mk * 18 шт", category: "cleaning", price: 135000, image: "images/c7.jpg", description: "Освежитель воздуха 400 мл * 18 шт" },
+        { id: 8, name: "Средство для мыть стекол 575 ml * 16 шт", category: "cleaning", price: 70400, image: "images/c8.jpg", description: "Средство для мыть стекол 575 ml * 16 шт" },
+        { id: 9, name: "Жидкое мыло 500 мл * 8 шт", category: "cleaning", price: 40000, image: "images/c9.jpg", description: "Жидкое мыло 500 мл * 8 шт" },
+        { id: 10, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" }
     ],
     plastic: [
         { id: 11, name: "Пластиковый контейнер 1L", category: "plastic", price: 8000, image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", description: "Контейнер для хранения продуктов" },

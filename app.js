@@ -262,7 +262,7 @@ function addToCart(product, quantity = 1) {
     btn.style.color = 'white';
     setTimeout(() => {
         btn.textContent = originalText;
-    }, 1000);
+    }, 3);
 }
 
 function removeFromCart(productId) {

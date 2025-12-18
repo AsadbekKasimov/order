@@ -6,7 +6,12 @@ tg.expand();
 
 const productsData = {
     cleaning: [
-        { id: 10001, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, image:"https://asadbekkasimov.github.io/order/images/c1.jpg", description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
+        { id: 10001, name: "Жидкое средство для стирки Aroma 3.15 l * 4 шт", category: "cleaning", price: 180000, 
+	images:["https://asadbekkasimov.github.io/order/images/c1.jpg",
+		"https://asadbekkasimov.github.io/order/images/c1_2.jpg",
+		"https://asadbekkasimov.github.io/order/images/c1_3.jpg"], 
+	description: "Жидкое средство для стирки Aroma 3.15l * 4 шт" },
+
         { id: 10002, name: "Кондиционер для белья 1440 ml * 8 шт", category: "cleaning", price: 211000, image: "https://asadbekkasimov.github.io/order/images/c2.jpg", description: "Кондиционер для белья 1440 ml * 8 шт " },
         { id: 10003, name: "Гель густой 1 kg * 12 шт", category: "cleaning", price: 150000, image: "https://asadbekkasimov.github.io/order/images/c3.jpg", description: "Гель густой 1 kg * 12 шт" },
         { id: 10004, name: "Жидкое средство для стирки Kafolat 1 l * 6 шт", category: "cleaning", price: 105600, image: "https://asadbekkasimov.github.io/order/images/c4.jpg", description: "Жидкое средство для стирки Kafolat 1 l * 6 шт" },
@@ -161,13 +166,28 @@ function createProductCard(product) {
     
     const isFavorite = favorites.includes(product.id);
     
+const images = product.images || [product.image];
+
     card.innerHTML = `
         <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}">
             <svg viewBox="0 0 24 24" fill="${isFavorite ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
         </button>
-        <img src="${product.image}" alt="${product.name}" class="product-image">
+
+    <div class="slider" data-index="0">
+    <div class="slides">
+        ${images.map(img => `
+            <img src="${img}" class="slide">
+        `).join('')}
+    </div>
+    <div class="dots">
+        ${images.map((_, i) => `
+            <span class="dot ${i === 0 ? 'active' : ''}"></span>
+        `).join('')}
+    </div>
+</div>
+
         <div class="product-name">${product.name}</div>
         <div class="product-price">${formatPrice(product.price)}</div>
         <button class="product-add-btn">Добавить</button>
@@ -213,7 +233,22 @@ function filterProducts(query) {
 function openModal(product) {
     currentProduct = product;
     
-    document.getElementById('modal-image').src = product.image;
+const images = product.images || [product.image];
+
+const slides = document.getElementById('modal-slides');
+const dots = document.getElementById('modal-dots');
+
+slides.innerHTML = images.map(img => `
+    <img src="${img}" class="slide zoomable">
+`).join('');
+
+dots.innerHTML = images.map((_, i) => `
+    <span class="dot ${i === 0 ? 'active' : ''}"></span>
+`).join('');
+
+document.getElementById('modal-slider').dataset.index = 0;
+slides.style.transform = 'translateX(0)';
+
     document.getElementById('modal-title').textContent = product.name;
     document.getElementById('modal-description').textContent = product.description;
     document.getElementById('modal-price').textContent = formatPrice(product.price);
@@ -254,7 +289,7 @@ function addToCart(product, quantity = 1) {
     saveCart();
     updateCartBadge();
     
-// Show feedback
+    // Show feedback
     const btn = event.target;
     const originalText = btn.textContent;
     btn.textContent = '✓ Добавлено';
@@ -266,6 +301,7 @@ function addToCart(product, quantity = 1) {
 	btn.style.color = '';;
     }, 1000);
 }
+
 
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
@@ -481,3 +517,35 @@ function checkout() {
 function formatPrice(price) {
     return new Intl.NumberFormat('uz-UZ').format(price) + ' сум';
 }
+/* ===== SLIDER SWIPE ===== */
+document.addEventListener('touchstart', e => {
+    const slider = e.target.closest('.slider');
+    if (!slider) return;
+    slider.startX = e.touches[0].clientX;
+});
+
+document.addEventListener('touchend', e => {
+    const slider = e.target.closest('.slider');
+    if (!slider) return;
+
+    const slides = slider.querySelector('.slides');
+    const dots = slider.querySelectorAll('.dot');
+    const count = slides.children.length;
+
+    let index = +slider.dataset.index;
+    const diff = e.changedTouches[0].clientX - slider.startX;
+
+    if (diff < -50 && index < count - 1) index++;
+    if (diff > 50 && index > 0) index--;
+
+    slider.dataset.index = index;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+});
+// zoom on tap
+document.addEventListener('click', e => {
+    const img = e.target.closest('.zoomable');
+    if (!img) return;
+    img.classList.toggle('zoomed');
+});

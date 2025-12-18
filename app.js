@@ -282,7 +282,7 @@ function addToCart(product, quantity = 1) {
             name: product.name,
             price: product.price,
             quantity: quantity,
-            image: product.image  // ДОБАВЛЕНО: Сохраняем URL изображения в корзине
+            image: (product.images && product.images[0]) || product.image
         });
     }
     

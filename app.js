@@ -254,17 +254,18 @@ function addToCart(product, quantity = 1) {
     saveCart();
     updateCartBadge();
     
-    // Show feedback
+// Show feedback
     const btn = event.target;
     const originalText = btn.textContent;
     btn.textContent = '✓ Добавлено';
     btn.style.background = '#ff0000';
     btn.style.color = 'white';
     setTimeout(() => {
-    btn.textContent = originalText
+        btn.textContent = originalText
 	btn.style.background = '';
 	btn.style.color = '';;
     }, 1000);
+}
 
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);

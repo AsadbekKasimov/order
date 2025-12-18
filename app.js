@@ -112,20 +112,26 @@ function setupEventListeners() {
 
     // Quantity Controls
     document.getElementById('qty-minus').addEventListener('click', () => {
-        const input = document.getElementById('qty-input');
-        if (input.value > 1) input.value = parseInt(input.value) - 1;
-    });
+    const input = document.getElementById('qty-input');
+    let val = parseInt(input.value, 10) || 1;
+    if (val > 1) input.value = val - 1;
+});
 
-    document.getElementById('qty-plus').addEventListener('click', () => {
-        const input = document.getElementById('qty-input');
-        input.value = parseInt(input.value) + 1;
-    });
+document.getElementById('qty-plus').addEventListener('click', () => {
+    const input = document.getElementById('qty-input');
+    let val = parseInt(input.value, 10) || 1;
+    input.value = val + 1;
+});
+
 
     // Add to Cart from Modal
     document.getElementById('modal-add-to-cart').addEventListener('click', addToCartFromModal);
 
     // Checkout
     document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+
+
 }
 
 // Page Switching
@@ -253,8 +259,20 @@ slides.style.transform = 'translateX(0)';
     document.getElementById('modal-description').textContent = product.description;
     document.getElementById('modal-price').textContent = formatPrice(product.price);
     document.getElementById('qty-input').value = 1;
-    
-    document.getElementById('product-modal').classList.remove('hidden');
+
+	const qtyInput = document.getElementById('qty-input');
+
+// защита от букв, 0, -, e
+qtyInput.oninput = () => {
+    let val = parseInt(qtyInput.value, 10);
+    if (isNaN(val) || val < 1) qtyInput.value = 1;
+    else qtyInput.value = val;
+};
+
+	
+	document.getElementById('product-modal').classList.remove('hidden');
+
+
 }
 
 function closeModal() {
@@ -265,7 +283,9 @@ function closeModal() {
 function addToCartFromModal() {
     if (!currentProduct) return;
     
-    const quantity = parseInt(document.getElementById('qty-input').value);
+    let quantity = parseInt(document.getElementById('qty-input').value, 10);
+	if (isNaN(quantity) || quantity < 1) quantity = 1;
+
     addToCart(currentProduct, quantity);
     closeModal();
 }

@@ -48,16 +48,16 @@ const productsData = {
         { id: 30010, name: "AOS", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "AOS" }
     ],
     fragrances: [
-        { id: 40001, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Натуральная отдушка лаванды" },
-        { id: 40002, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий цитрусовый аромат" },
-        { id: 40003, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Нежный аромат розы" },
-        { id: 40004, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий морской аромат" },
-        { id: 40005, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Сладкий ванильный аромат" },
-        { id: 40006, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Свежий яблочный аромат" },
-        { id: 40007, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Экзотический кокосовый аромат" },
-        { id: 40008, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Изысканный аромат жасмина" },
-        { id: 40009, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Освежающий мятный аромат" },
-        { id: 40010, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "https://raw.githubusercontent.com/AsadbekKasimov/order/main/images/fs.png", description: "Древесный аромат сандала" }
+        { id: 40001, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Натуральная отдушка лаванды" },
+        { id: 40002, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий цитрусовый аромат" },
+        { id: 40003, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Нежный аромат розы" },
+        { id: 40004, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий морской аромат" },
+        { id: 40005, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Сладкий ванильный аромат" },
+        { id: 40006, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий яблочный аромат" },
+        { id: 40007, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Экзотический кокосовый аромат" },
+        { id: 40008, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Изысканный аромат жасмина" },
+        { id: 40009, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Освежающий мятный аромат" },
+        { id: 40010, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Древесный аромат сандала" }
     ]
 };
 

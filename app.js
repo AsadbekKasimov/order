@@ -497,6 +497,21 @@ function loadUserOrders() {
 function checkout() {
     if (cart.length === 0) return;
     
+    // Show confirmation dialog
+    showConfirmationDialog();
+}
+
+function showConfirmationDialog() {
+    const modal = document.getElementById('confirmation-modal');
+    modal.classList.remove('hidden');
+}
+
+function closeConfirmationDialog() {
+    const modal = document.getElementById('confirmation-modal');
+    modal.classList.add('hidden');
+}
+
+function confirmCheckout() {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
     // Prepare order data - ИЗМЕНЕНО: Теперь включаем URL изображения
@@ -529,6 +544,9 @@ function checkout() {
     cart = [];
     saveCart();
     updateCartBadge();
+    
+    // Close confirmation dialog
+    closeConfirmationDialog();
     
     tg.close();
 }

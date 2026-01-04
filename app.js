@@ -23,7 +23,7 @@ const productsData = {
         { id: 10010, name: "Кислородный очиститель 300 g * 12 шт", category: "cleaning", price: 144000, image: "https://asadbekkasimov.github.io/order/images/c10.jpg", description: "Кислородный очиститель 300 g * 12 шт" },
         { id: 10011, name: "Средство для ручной стирки Хоз.мыло 5кг * 1 шт", category: "cleaning", price: 30000, image: "https://asadbekkasimov.github.io/order/images/c11.jpg", description: "Средство для ручной стирки Хоз.мыло" }
     ],
-    plastic: [
+    plasticpe: [
         { id: 20001, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p1.png", description: "ПЭТ 750 ml" },
         { id: 20002, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p2.png", description: "ПЭ Флакон 2 l" },
         { id: 20003, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p3.png", description: "ПЭ Флакон 2 l" },
@@ -35,29 +35,65 @@ const productsData = {
         { id: 20009, name: "Триггер желтый", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p9.png", description: "Триггер желтый" },
         { id: 20010, name: "Дозатор красный", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.jpg", description: "Дозатор красный" }
     ],
+	 plasticpet: [
+        { id: 30001, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p1.png", description: "ПЭТ 750 ml" },
+        { id: 30002, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p2.png", description: "ПЭ Флакон 2 l" },
+        { id: 30003, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p3.png", description: "ПЭ Флакон 2 l" },
+        { id: 30004, name: "ПЭ Флакон 3 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p4.png", description: "ПЭ Флакон 3 l" },
+        { id: 30005, name: "ПЭ Флакон 1.5 l", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p5.png", description: "ПЭ Флакон 1.5 l" },
+        { id: 30006, name: "Дозатор 32 gold", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p6.png", description: "Дозатор 32 утка" },
+        { id: 30007, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p7.png", description: "Дозатор 32 " },
+        { id: 30008, name: "Дозатор 32", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p8.png", description: "Дозатор 32" },
+        { id: 30009, name: "Триггер желтый", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p9.png", description: "Триггер желтый" },
+        { id: 30010, name: "Дозатор красный", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.jpg", description: "Дозатор красный" }
+    ],
+	 plasticpp: [
+        { id: 40001, name: "Ведро 1000 мл", category: "plastic", price: 10000, image: "", description: "ПЭТ 750 ml" },
+        { id: 40002, name: "Ведро 700 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p2.png", description: "" },
+        { id: 40003, name: "Ведро 450 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p3.png", description: "" },
+        { id: 40004, name: "Ведро 350 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p4.png", description: "" },
+        { id: 40005, name: "Ведро 300 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p5.png", description: "" },
+        { id: 40006, name: "Ведро 250 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p6.png", description: "Дозатор 32 утка" },
+        { id: 40007, name: "Ведро 200 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p7.png", description: "Дозатор 32 " },
+        { id: 40008, name: "Ведро 150 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p8.png", description: "Дозатор 32" },
+        { id: 40009, name: "Ведро 100 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p9.png", description: "Триггер желтый" },
+        { id: 40010, name: "Ведро 50 мл", category: "plastic", price: 10000, image: "https://asadbekkasimov.github.io/order/images/p10.jpg", description: "Дозатор красный" }
+    ],
+	 plastictd: [
+        { id: 50001, name: "ПЭТ 750 ml", category: "plastic", price: 10000, image: "", description: "ПЭТ 750 ml" },
+        { id: 50002, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "", description: "ПЭ Флакон 2 l" },
+        { id: 50003, name: "ПЭ Флакон 2 l", category: "plastic", price: 10000, image: "", description: "ПЭ Флакон 2 l" },
+        { id: 50004, name: "ПЭ Флакон 3 l", category: "plastic", price: 10000, image: "", description: "ПЭ Флакон 3 l" },
+        { id: 50005, name: "ПЭ Флакон 1.5 l", category: "plastic", price: 10000, image: "", description: "ПЭ Флакон 1.5 l" },
+        { id: 50006, name: "Дозатор 32 gold", category: "plastic", price: 10000, image: "", description: "Дозатор 32 утка" },
+        { id: 50007, name: "Дозатор 32 утка", category: "plastic", price: 10000, image: "", description: "Дозатор 32 " },
+        { id: 50008, name: "Дозатор 32", category: "plastic", price: 10000, image: "", description: "Дозатор 32" },
+        { id: 50009, name: "Триггер желтый", category: "plastic", price: 10000, image: "", description: "Триггер желтый" },
+        { id: 50010, name: "Дозатор красный", category: "plastic", price: 10000, image: "", description: "Дозатор красный" }
+    ],
     chemicals: [
-        { id: 30001, name: "SLES 70%", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Sodium Laureth Sulfate 70% Китай" },
-        { id: 30002, name: "APG 8-10", category: "chemicals", price: 18000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "APG 8-10 Китай" },
-        { id: 30003, name: "Cetyl alcohol", category: "chemicals", price: 30000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Cetyl alcohol Малайзия" },
-        { id: 30004, name: "Methyl Ester Sulfonate (MES)", category: "chemicals", price: 25000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Methyl Ester Sulfonate (MES)" },
-        { id: 30005, name: "Cocamidopropyl aminoxide", category: "chemicals", price: 22000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Cocamidopropyl aminoxide" },
-        { id: 30006, name: "LABSA (Линейная алкилбензолсульфокислота)", category: "chemicals", price: 15000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "LABSA (Линейная алкилбензолсульфокислота)" },
-        { id: 30007, name: "Изопропиловый спирт", category: "chemicals", price: 28000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Технический спирт" },
-        { id: 30008, name: "Неонол", category: "chemicals", price: 12000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Неонол" },
-        { id: 30009, name: "CMEA", category: "chemicals", price: 18000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "CMEA" },
-        { id: 30010, name: "AOS", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "AOS" }
+        { id: 60001, name: "SLES 70%", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Sodium Laureth Sulfate 70% Китай" },
+        { id: 60002, name: "APG 8-10", category: "chemicals", price: 18000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "APG 8-10 Китай" },
+        { id: 60003, name: "Cetyl alcohol", category: "chemicals", price: 30000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Cetyl alcohol Малайзия" },
+        { id: 60004, name: "Methyl Ester Sulfonate (MES)", category: "chemicals", price: 25000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Methyl Ester Sulfonate (MES)" },
+        { id: 60005, name: "Cocamidopropyl aminoxide", category: "chemicals", price: 22000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Cocamidopropyl aminoxide" },
+        { id: 60006, name: "LABSA (Линейная алкилбензолсульфокислота)", category: "chemicals", price: 15000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "LABSA (Линейная алкилбензолсульфокислота)" },
+        { id: 60007, name: "Изопропиловый спирт", category: "chemicals", price: 28000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Технический спирт" },
+        { id: 60008, name: "Неонол", category: "chemicals", price: 12000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "Неонол" },
+        { id: 60009, name: "CMEA", category: "chemicals", price: 18000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "CMEA" },
+        { id: 60010, name: "AOS", category: "chemicals", price: 20000, image: "https://sc04.alicdn.com/kf/U41de75a3a33d4cae8535c12e9b1799a7u/200L-Plastic-Drum-Blue-HDPE-Chemical-sealed-Oil-Barrel-200-Litre/KG-Blow-Molding-Bucket-Double-Lid-55-Gallon-Plastic-Drum.jpg", description: "AOS" }
     ],
     fragrances: [
-        { id: 40001, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Натуральная отдушка лаванды" },
-        { id: 40002, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий цитрусовый аромат" },
-        { id: 40003, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Нежный аромат розы" },
-        { id: 40004, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий морской аромат" },
-        { id: 40005, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Сладкий ванильный аромат" },
-        { id: 40006, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий яблочный аромат" },
-        { id: 40007, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Экзотический кокосовый аромат" },
-        { id: 40008, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Изысканный аромат жасмина" },
-        { id: 40009, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Освежающий мятный аромат" },
-        { id: 40010, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Древесный аромат сандала" }
+        { id: 70001, name: "Отдушка Лаванда", category: "fragrances", price: 35000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Натуральная отдушка лаванды" },
+        { id: 70002, name: "Отдушка Цитрус", category: "fragrances", price: 32000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий цитрусовый аромат" },
+        { id: 70003, name: "Отдушка Роза", category: "fragrances", price: 38000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Нежный аромат розы" },
+        { id: 70004, name: "Отдушка Морской бриз", category: "fragrances", price: 34000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий морской аромат" },
+        { id: 70005, name: "Отдушка Ваниль", category: "fragrances", price: 36000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Сладкий ванильный аромат" },
+        { id: 70006, name: "Отдушка Яблоко", category: "fragrances", price: 30000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Свежий яблочный аромат" },
+        { id: 70007, name: "Отдушка Кокос", category: "fragrances", price: 37000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Экзотический кокосовый аромат" },
+        { id: 70008, name: "Отдушка Жасмин", category: "fragrances", price: 39000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Изысканный аромат жасмина" },
+        { id: 70009, name: "Отдушка Мята", category: "fragrances", price: 31000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Освежающий мятный аромат" },
+        { id: 70010, name: "Отдушка Сандал", category: "fragrances", price: 40000, image: "https://asadbekkasimov.github.io/order/images/fs.png", description: "Древесный аромат сандала" }
     ]
 };
 

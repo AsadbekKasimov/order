@@ -330,6 +330,42 @@ function addToCartFromModal() {
 
 // Cart
 function addToCart(product, quantity = 1) {
+    // Определяем категорию товара по ID
+    function getProductCategory(productId) {
+        if (productId >= 10000 && productId < 20000) return 'cleaning';
+        if (productId >= 20000 && productId < 30000) return 'plasticpe';
+        if (productId >= 30000 && productId < 40000) return 'plasticpet';
+        if (productId >= 40000 && productId < 50000) return 'plasticpp';
+        if (productId >= 50000 && productId < 60000) return 'plastictd';
+        if (productId >= 60000 && productId < 70000) return 'chemicals';
+        if (productId >= 70000 && productId < 80000) return 'fragrances';
+        return 'unknown';
+    }
+    
+    // Получаем категорию добавляемого товара
+    const newProductCategory = getProductCategory(product.id);
+    
+    // Если корзина не пустая, проверяем категорию
+    if (cart.length > 0) {
+        const existingCategory = getProductCategory(cart[0].id);
+        
+        if (newProductCategory !== existingCategory) {
+            // Показываем предупреждение
+            const categoryNames = {
+                'cleaning': 'Моющие средства',
+                'plasticpe': 'Вдувные ПЭ',
+                'plasticpet': 'ПЭТ',
+                'plasticpp': 'ПП',
+                'plastictd': 'Распылители & Дозаторы',
+                'chemicals': 'Химикаты',
+                'fragrances': 'Отдушки'
+            };
+            
+            alert(`❌ Нельзя смешивать товары из разных категорий!\n\nВ корзине: ${categoryNames[existingCategory]}\nДобавляете: ${categoryNames[newProductCategory]}\n\nОчистите корзину или выберите товар из категории "${categoryNames[existingCategory]}"`);
+            return;
+        }
+    }
+    
     const existingItem = cart.find(item => item.id === product.id);
     
     if (existingItem) {
@@ -340,7 +376,8 @@ function addToCart(product, quantity = 1) {
             name: product.name,
             price: product.price,
             quantity: quantity,
-            image: (product.images && product.images[0]) || product.image
+            image: (product.images && product.images[0]) || product.image,
+            category: newProductCategory
         });
     }
     

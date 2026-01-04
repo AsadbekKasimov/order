@@ -98,7 +98,8 @@ const productsData = {
 };
 
 // Flatten all products for easier access
-const allProducts = [...productsData.cleaning, ...productsData.plasticpe,...productsData.plasticpet,...productsData.plasticpp,...productsData.plastictd, ...productsData.chemicals, ...productsData.fragrances];
+const allProducts = Object.values(productsData).flat();
+
 
 // State Management
 let currentCategory = 'all';
@@ -192,15 +193,16 @@ function loadProducts() {
     const grid = document.getElementById('products-grid');
     grid.innerHTML = '';
     
-    let products = currentCategory === 'all' 
-        ? allProducts 
-        : productsData[currentCategory];
-    
+    let products =
+        currentCategory === 'all'
+            ? allProducts
+            : productsData[currentCategory] || [];
+
     products.forEach(product => {
-        const card = createProductCard(product);
-        grid.appendChild(card);
+        grid.appendChild(createProductCard(product));
     });
 }
+
 
 function createProductCard(product) {
     const card = document.createElement('div');

@@ -98,7 +98,7 @@ const productsData = {
 };
 
 // Flatten all products for easier access
-const allProducts = [...productsData.cleaning, ...productsData.plastic, ...productsData.chemicals, ...productsData.fragrances];
+const allProducts = [...productsData.cleaning, ...productsData.plasticpe,...productsData.plasticpet,...productsData.plasticpp,...productsData.plastictd, ...productsData.chemicals, ...productsData.fragrances];
 
 // State Management
 let currentCategory = 'all';

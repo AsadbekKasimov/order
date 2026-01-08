@@ -345,26 +345,7 @@ function addToCart(product, quantity = 1) {
     // Получаем категорию добавляемого товара
     const newProductCategory = getProductCategory(product.id);
     
-    // Если корзина не пустая, проверяем категорию
-    if (cart.length > 0) {
-        const existingCategory = getProductCategory(cart[0].id);
-        
-        if (newProductCategory !== existingCategory) {
-            // Показываем предупреждение
-            const categoryNames = {
-                'cleaning': 'Моющие средства',
-                'plasticpe': 'Вдувные ПЭ',
-                'plasticpet': 'ПЭТ',
-                'plasticpp': 'ПП',
-                'plastictd': 'Распылители & Дозаторы',
-                'chemicals': 'Химикаты',
-                'fragrances': 'Отдушки'
-            };
-            
-            alert(`❌ Нельзя смешивать товары из разных категорий!\n\nВ корзине: ${categoryNames[existingCategory]}\nДобавляете: ${categoryNames[newProductCategory]}\n\nОчистите корзину или выберите товар из категории "${categoryNames[existingCategory]}"`);
-            return;
-        }
-    }
+    // ПРОВЕРКА НА СМЕШИВАНИЕ КАТЕГОРИЙ УБРАНА - теперь можно добавлять товары из любых категорий
     
     const existingItem = cart.find(item => item.id === product.id);
     

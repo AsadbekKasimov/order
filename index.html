@@ -30,9 +30,9 @@
                 <button class="category-btn active" data-category="all">Все</button>
                 <button class="category-btn" data-category="cleaning">Моющие средства</button>
                 <button class="category-btn" data-category="plasticpe">Вдувные ПЭ </button>
-		<button class="category-btn" data-category="plasticpet">ПЭТ</button>
-		<button class="category-btn" data-category="plasticpp">ПП</button>
-		<button class="category-btn" data-category="plastictd">Распылители & Дозаторы</button>
+                <button class="category-btn" data-category="plasticpet">ПЭТ</button>
+                <button class="category-btn" data-category="plasticpp">ПП</button>
+                <button class="category-btn" data-category="plastictd">Распылители & Дозаторы</button>
                 <button class="category-btn" data-category="chemicals">Химикаты</button>
                 <button class="category-btn" data-category="fragrances">Отдушки</button>
             </div>
@@ -70,28 +70,13 @@
             </div>
         </div>
 
-        <!-- Profile Page -->
-        <div id="profile-page" class="page">
-            <h2 class="page-title">Профиль</h2>
-            <div class="profile-content">
-                <div class="profile-info">
-                    <div class="profile-item">
-                        <span class="profile-label">Имя:</span>
-                        <span class="profile-value" id="user-name">Загрузка...</span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Телефон:</span>
-                        <span class="profile-value" id="user-phone">Загрузка...</span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Город:</span>
-                        <span class="profile-value" id="user-city">Загрузка...</span>
-                    </div>
-                </div>
-                <div class="profile-orders">
-                    <h3>Последние заказы</h3>
-                    <div id="orders-list" class="orders-list">
-                        <p class="empty-state">У вас пока нет заказов</p>
+        <!-- Orders Page (Previously Profile) -->
+        <div id="orders-page" class="page">
+            <h2 class="page-title">Заказы</h2>
+            <div class="orders-content">
+                <div id="orders-list" class="orders-list-new">
+                    <div class="empty-state">
+                        <p>У вас пока нет заказов</p>
                     </div>
                 </div>
             </div>
@@ -124,12 +109,15 @@
             <span>Корзина</span>
             <span class="cart-badge hidden" id="cart-badge">0</span>
         </button>
-        <button class="nav-btn" data-page="profile">
+        <button class="nav-btn" data-page="orders">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span>Профиль</span>
+            <span>Заказы</span>
         </button>
     </nav>
 
@@ -138,34 +126,24 @@
         <div class="modal-content">
             <button class="modal-close" id="modal-close">&times;</button>
             <div class="modal-body">
-               
- 	<div class="slider modal-slider" id="modal-slider" data-index="0">
-  	  <div class="slides" id="modal-slides"></div>
-  	  <div class="dots" id="modal-dots"></div>
-		</div>
+                <div class="slider modal-slider" id="modal-slider" data-index="0">
+                    <div class="slides" id="modal-slides"></div>
+                    <div class="dots" id="modal-dots"></div>
+                </div>
 
                 <h3 id="modal-title"></h3>
                 <p id="modal-description"></p>
                 <div class="modal-price" id="modal-price"></div>
                 <div class="modal-quantity">
                     <button class="qty-btn" id="qty-minus">-</button>
-                  
-					<input
- 					 type="number"
-	  				 id="qty-input"
- 					 value="1"
- 					 min="1"
-  					 step="1"
-  					 inputmode="numeric"
-					   
-					/>
-
+                    <input type="number" id="qty-input" value="1" min="1" step="1" inputmode="numeric"/>
                     <button class="qty-btn" id="qty-plus">+</button>
                 </div>
                 <button class="add-to-cart-btn" id="modal-add-to-cart">Добавить в корзину</button>
             </div>
         </div>
     </div>
+
     <!-- Confirmation Modal -->
     <div id="confirmation-modal" class="modal hidden">
         <div class="modal-content confirmation-modal-content">
@@ -188,4 +166,3 @@
     <script src="app.js"></script>
 </body>
 </html>
-
